@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Cyclone">
+      <UniqueIdentifier>{ed8c3032-6171-4c25-a5bc-0b17f7184b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Courseworx">
+      <UniqueIdentifier>{c06a3c47-4611-4631-96a7-3b278c785f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Courseworx">
+      <UniqueIdentifier>{5bd8ed03-1cbb-46c0-a6b4-653a18146c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{4374691e-712a-488a-a0fa-1df6554dbe70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{3466347c-e4c4-4e14-b440-2cb90666133c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sea Wars">
+      <UniqueIdentifier>{de3c7613-50b2-4858-b5bf-eab8d80c9025}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\include\cyclone\body.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\collide_coarse.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\collide_fine.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\contacts.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\core.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\fgen.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\joints.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\particle.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\pcontacts.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\pfgen.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\plinks.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\pworld.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\random.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\cyclone\world.cpp">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\Courseworx\Vertex.cpp">
+      <Filter>Source Files\Courseworx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\Courseworx\Vector.cpp">
+      <Filter>Source Files\Courseworx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\Courseworx\Polygon.cpp">
+      <Filter>Source Files\Courseworx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\Courseworx\GLPolygon.cpp">
+      <Filter>Source Files\Courseworx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\Courseworx\Globals.cpp">
+      <Filter>Source Files\Courseworx</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Present.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Isle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boulder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Button.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.ButtonArray.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Console.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Credits.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.FontSystem.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Globals.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Layout.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.List.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Menu.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Screens.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.Slider.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUI.TextEffect.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Boulder.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Box.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Entity.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Globals.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Island.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_main.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_MovingEntity.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Player.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Projectile.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Snipershot.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_UI.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Sea Wars\SW_Universe.cpp">
+      <Filter>Sea Wars</Filter>
+    </ClCompile>
+    <ClCompile Include="Physixmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\SoundManager.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Courseworx\Globals.h">
+      <Filter>Header Files\Courseworx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Courseworx\GLPolygon.h">
+      <Filter>Header Files\Courseworx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Courseworx\Polygon.h">
+      <Filter>Header Files\Courseworx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Courseworx\Vector.h">
+      <Filter>Header Files\Courseworx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Courseworx\Vertex.h">
+      <Filter>Header Files\Courseworx</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing.h">
+      <Filter>Source Files\Cyclone</Filter>
+    </ClInclude>
+    <ClInclude Include="Present.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Isle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boulder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Button.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.ButtonArray.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Console.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Credits.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.FontSystem.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Globals.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Layout.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.List.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Menu.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Screens.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.Slider.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUI.TextEffect.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Boulder.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Box.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Entity.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Globals.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Island.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_MovingEntity.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Player.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Projectile.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Snipershot.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_UI.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_Universe.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\SoundManager.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Psysixmain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sea Wars\SW_main.h">
+      <Filter>Sea Wars</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
