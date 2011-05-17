@@ -1,0 +1,14 @@
+MAIN		..\Resources\NotAsItSeems.wav
+BGM		..\Resources\DanseMacabre.wav
+END		..\Resources\FuneralMarch.wav
+OCEAN		..\Resources\ocean.wav
+BLDR_FIRE	..\Resources\boulderfire.wav
+BLDR_SINK	..\Resources\bouldersink.wav
+GIFT_YES	..\Resources\gifthealth.wav
+GIFT_NO		..\Resources\giftplague.wav
+GIFT_TPT	..\Resources\gifttpt.wav
+GIFT_ULTIMATE	..\Resources\giftultimate.wav
+IMPACT		..\Resources\impact.wav
+RCKT_FIRE	..\Resources\rocketfire.wav
+RCKT_SINK	..\Resources\rocketsink.wav
+ANNIHILATE	..\Resources\annihilate.wav
