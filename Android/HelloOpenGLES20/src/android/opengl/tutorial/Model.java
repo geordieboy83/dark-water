@@ -12,36 +12,40 @@ public class Model {
 	protected static final int COORDINATES_PER_VERTEX=3;
 	protected static final int COLOUR_COMPONENTS_PER_VERTEX=4;
 	protected static final int TEXTURE_COORDINATES_PER_VERTEX=2;
+	protected static final int COORDINATES_PER_NORMAL=3;
 	protected static final int BYTES_PER_FLOAT=4;
 
 	protected FloatBuffer myVertices=null;
 	
 	protected boolean hasColours=false;
-	protected boolean hasTextures=false;	
+	protected boolean hasTextures=false;
+	protected boolean hasNormals=false;
 	
 	public Model(){}
 	
-	public Model(float xyz[], float rgba[], float st[]){
-		make(xyz,rgba,st);		
+	public Model(float xyz[], float rgba[], float st[], float vn[]){
+		make(xyz,rgba,st,vn);		
 	}
 	
 	
 	protected int stride() { 
 		return COORDINATES_PER_VERTEX+
 				(hasColours?COLOUR_COMPONENTS_PER_VERTEX:0)+
-				(hasTextures?TEXTURE_COORDINATES_PER_VERTEX:0);
+				(hasTextures?TEXTURE_COORDINATES_PER_VERTEX:0)+
+				(hasNormals?COORDINATES_PER_NORMAL:0);
 	}
 	
-	public void make(float xyz[], float rgba[], float st[]){
+	public void make(float xyz[], float rgba[], float st[], float vn[]){
 		if(xyz==null||xyz.length==0) return;
 		
 		hasColours=(rgba!=null&&rgba.length>0);
 		hasTextures=(st!=null&&st.length>0);
+		hasNormals=(vn!=null&&vn.length>0);
 				
 		int xyzs=xyz.length/COORDINATES_PER_VERTEX;
 		
 		float data[]=new float[xyzs*stride()];
-		int j=0,k=0,l=0;
+		int j=0,k=0,l=0,m=0;
 		for(int i=0; i<data.length;){
 			
 			for(int jj=0; jj<COORDINATES_PER_VERTEX; jj++) data[i++]=xyz[j+jj];  j+=COORDINATES_PER_VERTEX;
@@ -51,8 +55,12 @@ public class Model {
 			}catch(Throwable t){System.out.println(t);}
 			
 			if(hasTextures) try{
-				for(int ll=0; ll<COLOUR_COMPONENTS_PER_VERTEX; ll++) data[i++]=st[l+ll]; l+=TEXTURE_COORDINATES_PER_VERTEX;
-			}catch(Throwable t){System.out.println(t);}		
+				for(int ll=0; ll<TEXTURE_COORDINATES_PER_VERTEX; ll++) data[i++]=st[l+ll]; l+=TEXTURE_COORDINATES_PER_VERTEX;
+			}catch(Throwable t){System.out.println(t);}
+			
+			if(hasNormals) try{
+				for(int mm=0; mm<COORDINATES_PER_NORMAL; mm++) data[i++]=st[m+mm]; m+=COORDINATES_PER_NORMAL;
+			}catch(Throwable t){System.out.println(t);}
 		}
 		
 		// initialize vertex Buffer for triangle  
@@ -69,7 +77,7 @@ public class Model {
 	public void draw(float[] ModelView, Program shaders)
 	{	
 		
-		System.out.println("Draw");
+		System.out.println("Draw. Stride is "+stride());
 		
 		shaders.use();
 		
@@ -89,6 +97,15 @@ public class Model {
         	GLES20.glEnableVertexAttribArray(shaders.getColour());
         
         }
+        
+        if(hasTextures){
+        	
+        }        
+        
+        if(hasNormals){
+        	
+        }
+        
 /*		// This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
         // (which currently contains model * view).
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
@@ -98,7 +115,7 @@ public class Model {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);*/
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/(stride()));
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
 	}
 	
 		

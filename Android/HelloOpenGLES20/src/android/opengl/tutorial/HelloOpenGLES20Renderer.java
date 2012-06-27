@@ -128,7 +128,21 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
 
         
-        myModel=new Model(triangleCoords,colourCoords,null);
+        float texCoords[]={
+        		0,0,
+        		1,0,
+        		0.5f,1,
+        		0,0,
+        		1,0,
+        		0.5f,1,
+        		0,0,
+        		1,0,
+        		0.5f,1,
+        };
+        
+        myModel=new Model(triangleCoords,colourCoords,texCoords,null);
+//        myModel=new Model(triangleCoords,colourCoords,null,null);
+//        myModel=new Model(triangleCoords,null,texCoords,null);
     
     }    
     
