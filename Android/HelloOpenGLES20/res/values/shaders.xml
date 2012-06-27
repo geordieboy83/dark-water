@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="vertex_shader">
+        <item >// This matrix member variable provides a hook to manipulate</item>
+        <item >// the coordinates of the objects that use this vertex shader</item>
+        
+        <item >uniform mat4 uMVPMatrix;</item>
+        <item >attribute vec4 a_Position;</item>
+        <item >attribute vec4 a_Colour;</item>
+        
+        <item >varying vec4 v_Colour;</item>
+        
+        <item >void main(){				</item>
+        
+        <item >v_Colour = a_Colour;</item>
+        
+        <item >// the matrix must be included as a modifier of gl_Position		</item>
+        <item > gl_Position = uMVPMatrix * a_Position;</item>
+        
+        <item >}		</item>
+    </string-array>
+    <string-array name="fragment_shader">
+        
+        <item >precision mediump float;		</item>
+        
+        <item >varying vec4 v_Colour;</item>
+        
+        <item >void main(){		</item>
+        
+        <item > gl_FragColor = v_Colour;		</item>
+        
+        <item >}		</item>
+    </string-array>
+    
+</resources>
