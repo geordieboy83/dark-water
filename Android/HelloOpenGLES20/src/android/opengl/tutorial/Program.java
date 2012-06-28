@@ -19,6 +19,7 @@ public class Program {
 	protected String myTexture="";
 	protected String myNormal="";
 	protected String myModelView="";
+	protected String myTexture2D="";
 	
 	public int getProgram() { return myHandle; }
 	
@@ -40,6 +41,7 @@ public class Program {
 	public int getNormal() { return getAttribute(myNormal); }
 	
 	public int getModelView() { return getUniform(myModelView); }
+	public int getTexture2D() { return getUniform(myTexture2D); }
 	
 	public Program(String vertexShaderCode, String fragmentShaderCode, String[] attributes, String[] uniforms){
 		
@@ -51,7 +53,8 @@ public class Program {
 		}catch(Throwable t){}
 		
 		try{
-			myModelView=uniforms[0];		
+			myModelView=uniforms[0];
+			myTexture2D=uniforms[1];
 		}catch(Throwable t){}		
 		
 		myHandle=Shaders.makeProgram(vertexShaderCode, fragmentShaderCode, attributes);
@@ -74,7 +77,13 @@ public class Program {
 	}
 	
 	
-	public void use() { GLES20.glUseProgram(myHandle); }
+	public void use() { 
+		if(Shaders.currentShader!=this) {
+			Shaders.currentShader=this;
+			GLES20.glUseProgram(myHandle); 
+		}
+//		else { System.out.println("Shader already in use"); }
+	}
 	
 	public static String[] makeAttributes(String position, String colour, String texture, String normal, String ...other){		
 		String[] basics= new String[]{position, colour, texture,normal};
@@ -82,8 +91,8 @@ public class Program {
 		else return ArrayUtils.addAll(basics, other);
 	}
 	
-	public static String[] makeUniforms(String ModelView, String ...other){		
-		String[] basics= new String[]{ModelView};
+	public static String[] makeUniforms(String ModelView, String Texture2D, String ...other){		
+		String[] basics= new String[]{ModelView,Texture2D};
 		if(other==null||other.length==0) return basics;
 		else return ArrayUtils.addAll(basics, other);
 	}

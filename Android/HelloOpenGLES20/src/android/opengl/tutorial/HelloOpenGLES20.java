@@ -17,8 +17,8 @@ public class HelloOpenGLES20 extends Activity {
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
         
-        Shaders.vertexShaderCode=Shaders.fromArray(this,R.array.vertex_shader);
-        Shaders.fragmentShaderCode=Shaders.fromArray(this,R.array.fragment_shader);
+//        Shaders.vertexShaderCode=Shaders.fromArray(this,R.array.vertex_shader);
+//        Shaders.fragmentShaderCode=Shaders.fromArray(this,R.array.fragment_shader);
         
         
         mGLView = new HelloOpenGLES20SurfaceView(this);
@@ -58,7 +58,7 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	        setEGLContextClientVersion(2);
 	            
 	        // set the mRenderer member
-	        mRenderer = new HelloOpenGLES20Renderer();
+	        mRenderer = new HelloOpenGLES20Renderer(context);
 	        setRenderer(mRenderer);
 	        
 	        // Render the view only when there is a change

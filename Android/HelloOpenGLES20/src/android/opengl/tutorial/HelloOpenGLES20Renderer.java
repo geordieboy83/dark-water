@@ -7,6 +7,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -26,22 +27,33 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 
 	public float mAngle;  
 	
-	public Model myModel;
-	    
-	    
+	protected Model myModel;
+	 
+	protected Context myContext;
+	  
+	public HelloOpenGLES20Renderer(Context context){
+		myContext=context;
+		
+	}
 	
 	 public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		    
 	        // Set the background frame color
 	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
 	        
+	        // Enable texture mapping
+			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+	        
 	        // initialize the triangle vertex array
 	        initShapes();	        
 
 	        myProgram=new Program(
-	        		Shaders.vertexShaderCode, Shaders.fragmentShaderCode,
-	        		Program.makeAttributes("a_Position", "a_Colour", "",""),
-	        		Program.makeUniforms("uMVPMatrix"));
+	        		myContext, R.array.vertex_shader, R.array.fragment_shader,
+	        		Program.makeAttributes("a_Position", "a_Colour", "a_Texture",""),
+	        		Program.makeUniforms("uMVPMatrix", "u_Texture"));
+	        
+	        Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain);
+	        
 	    }
     
     public void onDrawFrame(GL10 unused) {
@@ -61,6 +73,10 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        
+        myProgram.use();
+        
+        Textures.useTexture(0,Textures.getTexture(R.drawable.bumpy_bricks_public_domain), myProgram);
         
         myModel.draw(mMVPMatrix, myProgram);
         

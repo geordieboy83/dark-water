@@ -77,7 +77,7 @@ public class Model {
 	public void draw(float[] ModelView, Program shaders)
 	{	
 		
-		System.out.println("Draw. Stride is "+stride());
+//		System.out.println("Draw. Stride is "+stride());
 		
 		shaders.use();
 		
@@ -99,7 +99,12 @@ public class Model {
         }
         
         if(hasTextures){
-        	
+        	// Pass in the texture coordinate information
+            myVertices.position(COORDINATES_PER_VERTEX+COLOUR_COMPONENTS_PER_VERTEX);
+            GLES20.glVertexAttribPointer(shaders.getTexture(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
+            		stride()*BYTES_PER_FLOAT, myVertices);
+            
+            GLES20.glEnableVertexAttribArray(shaders.getTexture());
         }        
         
         if(hasNormals){
@@ -116,6 +121,8 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+//        for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+
 	}
 	
 		
