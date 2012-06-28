@@ -10,17 +10,13 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	    private HelloOpenGLES20Renderer mRenderer;
 	    private float mPreviousX;
 	    private float mPreviousY;
-	
-	 public void setRenderMode(int mode){
-		 mRenderer.setRenderMode(mode);
-		 requestRender();
-	 }
 	 
-	 public void setModelMode(int mode){
-		 mRenderer.setModelMode(mode);
+	 public void setMode(int mode){
+		 mRenderer.setMode(mode);
 		 requestRender();
 	 }
 	    
+	 public int getMode() { return mRenderer.getMode(); }
 	    
 	 public HelloOpenGLES20SurfaceView(Context context){
 	        super(context);

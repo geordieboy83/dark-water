@@ -44,39 +44,50 @@ public class HelloOpenGLES20 extends Activity {
     protected View makeTestButtons(){
     	RelativeLayout l=(RelativeLayout) this.getLayoutInflater().inflate(R.layout.test_buttons, null);
     	
+    	Button none=(Button) l.findViewById(R.id.btn_none);
+    	none.setTypeface(myFont);
+    	none.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.setMode((mGLView.getMode()&Models.WIREFRAME)|Models.NONE);
+			}});    	
+    	
     	Button colours_only=(Button) l.findViewById(R.id.btn_colours_only);
     	colours_only.setTypeface(myFont);
     	colours_only.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setModelMode(HelloOpenGLES20Renderer.COLOURS_ONLY);				
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS));
 			}});
     	
     	Button texture_only=(Button) l.findViewById(R.id.btn_texture_only);
     	texture_only.setTypeface(myFont);
     	texture_only.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setModelMode(HelloOpenGLES20Renderer.TEXTURE_ONLY);				
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.TEXTURE));
 			}});
     	
     	Button texture_and_colours=(Button) l.findViewById(R.id.btn_colours_and_texture);
     	texture_and_colours.setTypeface(myFont);
     	texture_and_colours.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				mGLView.setModelMode(HelloOpenGLES20Renderer.COLOURS_AND_TEXTURE);				
+			public void onClick(View v) {				
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE));
 			}});
     	
     	Button wireframe=(Button) l.findViewById(R.id.btn_wireframe);
     	wireframe.setTypeface(myFont);
     	wireframe.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				mGLView.setRenderMode(HelloOpenGLES20Renderer.WIREFRAME);				
+			public void onClick(View v) {				
+				mGLView.setMode((byte) (mGLView.getMode()|Models.WIREFRAME));
 			}});
     	
     	Button filled=(Button) l.findViewById(R.id.btn_filled);
     	filled.setTypeface(myFont);
     	filled.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setRenderMode(HelloOpenGLES20Renderer.FILLED);				
+				int oldMode=mGLView.getMode();
+				int newMode=Models.NONE;
+				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS)|(oldMode&Models.WIREFRAME));
+				
+				mGLView.setMode(newMode);
 			}});    	
     	
     	

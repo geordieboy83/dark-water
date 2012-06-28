@@ -1,8 +1,5 @@
 package android.opengl.tutorial;
 
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -17,7 +14,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 
 	public static final int WIREFRAME=-1;
     public static final int FILLED=-2;
-    
+    public static final int NONE=0;
     public static final int COLOURS_ONLY=1;
     public static final int TEXTURE_ONLY=2;
     public static final int COLOURS_AND_TEXTURE=3;
@@ -39,31 +36,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	protected Context myContext;
 	
 	
-	public void setRenderMode(int mode) {
-		if(mode==WIREFRAME) myRenderMode=WIREFRAME;
-		else myRenderMode=FILLED;
-	}
-	
-	public void setModelMode(int mode){
-		switch(mode){
-			case COLOURS_ONLY:
-				myModel.usesColours(true);
-				myModel.usesTextures(false);
-				myModel.usesNormals(false);
-				break;
-			case TEXTURE_ONLY:
-				myModel.usesColours(false);
-				myModel.usesTextures(true);
-				myModel.usesNormals(false);
-				break;
-			default:	
-				myModel.usesColours(true);
-				myModel.usesTextures(true);
-				myModel.usesNormals(false);
-				break;
-		}
-	}
-	
+	public void setMode(int mode) { myModel.setMode(mode); }
+	public int getMode() { return myModel.getMode(); }	
 	  
 	public HelloOpenGLES20Renderer(Context context){
 		myContext=context;
@@ -112,7 +86,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
         Textures.useTexture(0,Textures.getTexture(R.drawable.bumpy_bricks_public_domain), myProgram);
         
-        myModel.draw(mMVPMatrix, myProgram, myRenderMode);
+        myModel.draw(mMVPMatrix, myProgram);
         
  /*    // Add program to OpenGL environment
         myProgram.use();
@@ -191,10 +165,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         };
         
         myModel=new Model(triangleCoords,colourCoords,texCoords,null);
-        setModelMode(COLOURS_AND_TEXTURE);
-        
-//        myModel=new Model(triangleCoords,colourCoords,null,null);
-//        myModel=new Model(triangleCoords,null,texCoords,null);
+        setMode((Models.COLOURS|Models.TEXTURE));
 
     
     }    
