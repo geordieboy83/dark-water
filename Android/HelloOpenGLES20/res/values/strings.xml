@@ -3,5 +3,10 @@
 
     <string name="hello">Hello World, HelloOpenGLES20Activity!</string>
     <string name="app_name">HelloOpenGLES20</string>
+    <string name="test_colours_only">Colours Only</string>
+    <string name="test_texture_only">Texture Only</string>
+    <string name="test_colours_and_texture">Colours and Texture</string>
+    <string name="test_wireframe">Wireframe</string>
+    <string name="test_filled">Filled</string>
 
 </resources>
