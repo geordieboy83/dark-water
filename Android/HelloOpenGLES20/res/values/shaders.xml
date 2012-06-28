@@ -26,10 +26,13 @@
         
         <item >precision mediump float;		</item>
         
-        <item >const int use_Textures=0;</item>
-        <item >const int use_Colours=0;</item>
+        <item >const int YES=1;</item>
         
+        <item >uniform int uses_Colours;</item>
+        <item >uniform int uses_Textures;</item>
+        <item >uniform int uses_Normals;</item>
         <item >uniform sampler2D u_Texture;</item>
+        
         
         <item >varying vec4 v_Colour;</item>
         <item >varying vec2 v_Texture;   // Interpolated texture coordinate per fragment.</item>
@@ -37,10 +40,9 @@
         
         <item >void main(){		</item>
         
-        <item >//gl_FragColor = v_Colour;		</item>
-        <item >//gl_FragColor = texture2D(u_Texture, v_Texture);		</item>
-        <item >gl_FragColor = (v_Colour * texture2D(u_Texture, v_Texture));</item>
         
+        <item >gl_FragColor = ((uses_Colours==YES?v_Colour:vec4(1,1,1,1))*</item>
+        <item>		(uses_Textures==YES?texture2D(u_Texture, v_Texture):vec4(1,1,1,1)));</item>        
         <item >}		</item>
     </string-array>
     

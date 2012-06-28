@@ -50,7 +50,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	        myProgram=new Program(
 	        		myContext, R.array.vertex_shader, R.array.fragment_shader,
 	        		Program.makeAttributes("a_Position", "a_Colour", "a_Texture",""),
-	        		Program.makeUniforms("uMVPMatrix", "u_Texture"));
+	        		Program.makeUniforms("uMVPMatrix", "u_Texture", "uses_Colours", "uses_Textures", "uses_Normals"));
 	        
 	        Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain);
 	        
@@ -157,8 +157,10 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         };
         
         myModel=new Model(triangleCoords,colourCoords,texCoords,null);
+        
 //        myModel=new Model(triangleCoords,colourCoords,null,null);
 //        myModel=new Model(triangleCoords,null,texCoords,null);
+
     
     }    
     
