@@ -2,32 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
+     <Button
+         android:id="@+id/btn_colours_and_texture"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="48dp"
+         android:text="@string/test_colours_and_texture"
+         android:textSize="30sp" />
 
     <Button
         android:id="@+id/btn_colours_only"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="48dp"
         android:layout_marginLeft="62dp"
+        android:layout_above="@+id/btn_colours_and_texture"
         android:text="@string/test_colours_only"
         android:textSize="30sp" />
-
+
     <Button
-        android:id="@+id/btn_colours_and_texture"
+        android:id="@+id/btn_none"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn_colours_only"
+        android:layout_above="@+id/btn_colours_only"
         android:layout_centerHorizontal="true"
-        android:text="@string/test_colours_and_texture"
+        android:text="@string/test_none"
         android:textSize="30sp" />
 
     <Button
         android:id="@+id/btn_texture_only"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn_colours_and_texture"
+        android:layout_alignBottom="@+id/btn_colours_only"
         android:layout_alignParentRight="true"
         android:layout_marginRight="62dp"
         android:text="@string/test_texture_only"
@@ -52,5 +61,7 @@
         android:layout_alignRight="@+id/btn_texture_only"
         android:text="@string/test_filled"
         android:textSize="30sp" />
+
+   
 
 </RelativeLayout>

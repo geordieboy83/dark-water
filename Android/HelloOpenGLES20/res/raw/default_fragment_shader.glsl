@@ -14,9 +14,16 @@
         
 	void main(){        
         
-		gl_FragColor =(
+        vec4 interpolatedColour=(
 			(uses_Colours==YES?v_Colour:vec4(1,1,1,1))*
         	(uses_Textures==YES?texture2D(u_Texture, v_Texture):vec4(1,1,1,1))
-        	);        
+        	);       
+        
+		//gl_FragColor =(
+		//	(uses_Colours==YES?v_Colour:vec4(1,1,1,1))*
+        //	(uses_Textures==YES?texture2D(u_Texture, v_Texture):vec4(1,1,1,1))
+        //	);
+        
+        gl_FragColor = interpolatedColour;        
         	
 	}

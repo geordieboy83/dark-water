@@ -32,6 +32,8 @@ public class Model {
 	protected boolean usesTextures=false;
 	protected boolean usesNormals=false;
 	
+	protected boolean isFilled=true;
+	
 	public Model(){}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[]){
@@ -60,6 +62,26 @@ public class Model {
 				(hasTextures?TEXTURE_COORDINATES_PER_VERTEX:0)+
 				(hasNormals?COORDINATES_PER_NORMAL:0);
 	}
+	
+	
+	public void setMode(int Mode){
+		if(Mode==0){
+			isFilled=true;
+			usesColours=false;
+			usesTextures=false;
+			usesNormals=false;
+			return;
+		}		
+		isFilled=(Mode&Models.WIREFRAME)==0;
+		usesColours((Mode&Models.COLOURS)!=0);
+		usesTextures((Mode&Models.TEXTURE)!=0);
+		usesNormals((Mode&Models.NORMALS)!=0);
+	}
+	
+	public int getMode(){
+		return ((usesColours?Models.COLOURS:0)|(usesTextures?Models.TEXTURE:0)|(usesNormals?Models.NORMALS:0)|(!isFilled?Models.WIREFRAME:0));
+	}
+	
 	
 	public void make(float xyz[], float rgba[], float st[], float vn[]){
 		if(xyz==null||xyz.length==0) return;
@@ -100,7 +122,7 @@ public class Model {
 	}
 	
 	
-	public void draw(float[] ModelView, Program shaders, int RenderMode)
+	public void draw(float[] ModelView, Program shaders)//, int RenderMode)
 	{	
 		
 //		System.out.println("Draw. Stride is "+stride());
@@ -157,8 +179,7 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
-        if(RenderMode==HelloOpenGLES20Renderer.WIREFRAME)
-        	for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
         else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
 
 	}

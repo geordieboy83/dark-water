@@ -8,5 +8,6 @@
     <string name="test_colours_and_texture">Colours and Texture</string>
     <string name="test_wireframe">Wireframe</string>
     <string name="test_filled">Filled</string>
+    <string name="test_none">Neither</string>
 
 </resources>
