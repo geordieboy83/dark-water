@@ -6,6 +6,9 @@ import android.util.Log;
 
 public class Shaders {
 	
+	public static final int YES=1;
+	
+	
 	public static Program currentShader=null;
 
 	public static String vertexShaderCode="";

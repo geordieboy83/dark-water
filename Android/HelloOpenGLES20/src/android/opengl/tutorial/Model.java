@@ -14,6 +14,13 @@ public class Model {
 	protected static final int TEXTURE_COORDINATES_PER_VERTEX=2;
 	protected static final int COORDINATES_PER_NORMAL=3;
 	protected static final int BYTES_PER_FLOAT=4;
+	
+	protected static final int POS_VERTEX=1;
+	protected static final int POS_COLOUR=2;
+	protected static final int POS_TEXTURE=3;
+	protected static final int POS_NORMALS=4;
+	
+	
 
 	protected FloatBuffer myVertices=null;
 	
@@ -21,10 +28,29 @@ public class Model {
 	protected boolean hasTextures=false;
 	protected boolean hasNormals=false;
 	
+	protected boolean usesColours=false;
+	protected boolean usesTextures=false;
+	protected boolean usesNormals=false;
+	
 	public Model(){}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[]){
 		make(xyz,rgba,st,vn);		
+	}
+	
+	
+	protected int position(int ofwhat){
+		switch(ofwhat){
+			case POS_COLOUR: return COORDINATES_PER_VERTEX;
+			case POS_TEXTURE: 
+				return COORDINATES_PER_VERTEX+
+					(hasColours?COLOUR_COMPONENTS_PER_VERTEX:0);
+			case POS_NORMALS: 
+				return COORDINATES_PER_VERTEX+
+						(hasColours?COLOUR_COMPONENTS_PER_VERTEX:0)+
+						(hasTextures?TEXTURE_COORDINATES_PER_VERTEX:0);
+			default: return 0;
+		}
 	}
 	
 	
@@ -38,9 +64,9 @@ public class Model {
 	public void make(float xyz[], float rgba[], float st[], float vn[]){
 		if(xyz==null||xyz.length==0) return;
 		
-		hasColours=(rgba!=null&&rgba.length>0);
-		hasTextures=(st!=null&&st.length>0);
-		hasNormals=(vn!=null&&vn.length>0);
+		hasColours=(rgba!=null&&rgba.length>0); usesColours(true);
+		hasTextures=(st!=null&&st.length>0); usesTextures(true);
+		hasNormals=(vn!=null&&vn.length>0); usesNormals(true);
 				
 		int xyzs=xyz.length/COORDINATES_PER_VERTEX;
 		
@@ -81,6 +107,9 @@ public class Model {
 		
 		shaders.use();
 		
+		
+		
+		
 		// Pass in the position information
 		myVertices.position(0);
         GLES20.glVertexAttribPointer(shaders.getPosition(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false,
@@ -89,8 +118,11 @@ public class Model {
         GLES20.glEnableVertexAttribArray(shaders.getPosition());        
         
         if(hasColours){
-        	// Pass in the color information        
-        	myVertices.position(COORDINATES_PER_VERTEX);
+        	// Pass in the color information
+        	
+        	GLES20.glUniform1i(shaders.getColourUse(), usesColours?Shaders.YES:0);
+        	
+        	myVertices.position(position(POS_COLOUR));
         	GLES20.glVertexAttribPointer(shaders.getColour(), COLOUR_COMPONENTS_PER_VERTEX, GLES20.GL_FLOAT, false,
         			stride()*BYTES_PER_FLOAT, myVertices);        
         
@@ -100,7 +132,11 @@ public class Model {
         
         if(hasTextures){
         	// Pass in the texture coordinate information
-            myVertices.position(COORDINATES_PER_VERTEX+COLOUR_COMPONENTS_PER_VERTEX);
+        	
+        	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);
+        	
+        	
+            myVertices.position(position(POS_TEXTURE));
             GLES20.glVertexAttribPointer(shaders.getTexture(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
             		stride()*BYTES_PER_FLOAT, myVertices);
             
@@ -126,6 +162,17 @@ public class Model {
 	}
 	
 		
+	public void usesColours(boolean uses) { usesColours=hasColours&&uses; }
+	public boolean usesColours() { return usesColours; }
+	
+	public void usesTextures(boolean uses) { usesTextures=hasTextures&&uses; }
+	public boolean usesTextures() { return usesTextures; }
+
+	public void usesNormals(boolean uses) { usesNormals=hasNormals&&uses; }
+	public boolean usesNormals() { return usesNormals; }
+
+	
+	
 	public final FloatBuffer getBuffer() { return myVertices; }
 	
 }

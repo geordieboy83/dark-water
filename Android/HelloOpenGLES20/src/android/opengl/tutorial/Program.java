@@ -20,6 +20,9 @@ public class Program {
 	protected String myNormal="";
 	protected String myModelView="";
 	protected String myTexture2D="";
+	protected String myColourUse="";
+	protected String myTextureUse="";
+	protected String myNormalUse="";
 	
 	public int getProgram() { return myHandle; }
 	
@@ -42,6 +45,9 @@ public class Program {
 	
 	public int getModelView() { return getUniform(myModelView); }
 	public int getTexture2D() { return getUniform(myTexture2D); }
+	public int getColourUse() { return getUniform(myColourUse); }
+	public int getTextureUse() { return getUniform(myTextureUse); }
+	public int getNormalUse() { return getUniform(myNormalUse); }
 	
 	public Program(String vertexShaderCode, String fragmentShaderCode, String[] attributes, String[] uniforms){
 		
@@ -55,6 +61,9 @@ public class Program {
 		try{
 			myModelView=uniforms[0];
 			myTexture2D=uniforms[1];
+			myColourUse=uniforms[2];
+			myTextureUse=uniforms[3];
+			myNormalUse=uniforms[4];
 		}catch(Throwable t){}		
 		
 		myHandle=Shaders.makeProgram(vertexShaderCode, fragmentShaderCode, attributes);
@@ -91,8 +100,9 @@ public class Program {
 		else return ArrayUtils.addAll(basics, other);
 	}
 	
-	public static String[] makeUniforms(String ModelView, String Texture2D, String ...other){		
-		String[] basics= new String[]{ModelView,Texture2D};
+	public static String[] makeUniforms(String ModelView, String Texture2D,
+			String usesColours, String usesTextures, String usesNormals, String ...other){		
+		String[] basics= new String[]{ModelView,Texture2D, usesColours, usesTextures, usesNormals};
 		if(other==null||other.length==0) return basics;
 		else return ArrayUtils.addAll(basics, other);
 	}
