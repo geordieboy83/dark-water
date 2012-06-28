@@ -100,7 +100,7 @@ public class Model {
 	}
 	
 	
-	public void draw(float[] ModelView, Program shaders)
+	public void draw(float[] ModelView, Program shaders, int RenderMode)
 	{	
 		
 //		System.out.println("Draw. Stride is "+stride());
@@ -156,8 +156,10 @@ public class Model {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);*/
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
-//        for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        
+        if(RenderMode==HelloOpenGLES20Renderer.WIREFRAME)
+        	for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
 
 	}
 	

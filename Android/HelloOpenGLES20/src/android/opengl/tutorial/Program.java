@@ -80,7 +80,7 @@ public class Program {
 	
 	public Program(Context context, int vertexShaderCode, int fragmentShaderCode, String[] attributes, String[] uniforms){
 		
-		this(Shaders.fromArray(context, vertexShaderCode), Shaders.fromArray(context, fragmentShaderCode),
+		this(Shaders.fromResource(context, vertexShaderCode), Shaders.fromResource(context, fragmentShaderCode),
 				attributes, uniforms);
 		
 	}

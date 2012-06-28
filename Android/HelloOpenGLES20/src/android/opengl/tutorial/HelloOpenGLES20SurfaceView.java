@@ -11,6 +11,17 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	    private float mPreviousX;
 	    private float mPreviousY;
 	
+	 public void setRenderMode(int mode){
+		 mRenderer.setRenderMode(mode);
+		 requestRender();
+	 }
+	 
+	 public void setModelMode(int mode){
+		 mRenderer.setModelMode(mode);
+		 requestRender();
+	 }
+	    
+	    
 	 public HelloOpenGLES20SurfaceView(Context context){
 	        super(context);
 	        // Create an OpenGL ES 2.0 context.
@@ -58,5 +69,9 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	        mPreviousY = y;
 	        return true;
 	    } 
+	 
+	 public void switchRenderMode(int mode){
+		 
+	 }
  
 }

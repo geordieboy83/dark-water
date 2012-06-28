@@ -1,5 +1,12 @@
 package android.opengl.tutorial;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.commons.lang3.StringUtils;
+
 import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Log;
@@ -15,16 +22,47 @@ public class Shaders {
 	
 	public static String fragmentShaderCode="";
 	
-	public static String fromArray(String[] array){
-		String s="";
-		if(array==null||array.length==0) return s;		
-		for(String ss: array) s+=ss+"\n";
-		return s;
+	public static String fromResource(Context context, int code_id) {
+		try{
+			return fromArray(context, code_id);
+		}catch(Throwable t){
+			return fromRaw(context, code_id);
+		}
 	}
+	
+	
+	public static String fromArray(String[] array){ return ((array==null||array.length==0)?"":StringUtils.join(array, "\n")); }
 	
 	public static String fromArray(Context context, int rID){
 		return fromArray(context.getResources().getStringArray(rID));
 	}
+	
+	public static String fromRaw(final Context context,	final int resourceId)
+	{
+		final InputStream inputStream = context.getResources().openRawResource(resourceId);
+		final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+		final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+		String nextLine;
+		final StringBuilder body = new StringBuilder();
+
+		try
+		{
+			while ((nextLine = bufferedReader.readLine()) != null)
+			{
+				body.append(nextLine);
+				body.append('\n');
+			}
+		}
+		catch (IOException e)
+		{
+			return null;
+		}
+
+		return body.toString();
+	}
+	
+	
 	
 	public static int makeShader(int type, String shaderCode){
         
@@ -123,5 +161,7 @@ public class Shaders {
 	public static int makeProgram(Context context, int vertexShaderCode, int fragmentShaderCode, String...attributes){
 		return makeProgram(vertexShader(context, vertexShaderCode), fragmentShader(context,fragmentShaderCode),attributes);
 	}
+
+	
 	
 }
