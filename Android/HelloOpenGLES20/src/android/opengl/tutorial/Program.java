@@ -23,6 +23,7 @@ public class Program {
 	protected String myColourUse="";
 	protected String myTextureUse="";
 	protected String myNormalUse="";
+	protected String myLight="";
 	
 	public int getProgram() { return myHandle; }
 	
@@ -60,11 +61,12 @@ public class Program {
 		}catch(Throwable t){}
 		
 		try{
-			myModelView=uniforms[0];			
-			myColourUse=uniforms[1];
-			myTextureUse=uniforms[2];
-			myNormalUse=uniforms[3];
-			myTexture2D=uniforms[4];
+			myModelView=uniforms[0];
+			myLight=uniforms[1];
+			myColourUse=uniforms[2];
+			myTextureUse=uniforms[3];
+			myNormalUse=uniforms[4];
+			myTexture2D=uniforms[5];
 		}catch(Throwable t){}		
 		
 		myHandle=Shaders.makeProgram(vertexShaderCode, fragmentShaderCode, attributes);
@@ -89,7 +91,7 @@ public class Program {
 	public Program(String vertexShaderCode, String fragmentShaderCode){
 		this(vertexShaderCode, fragmentShaderCode,
 				Shaders.makeAttributes(Shaders.ATTR_POS, Shaders.ATTR_COL, Shaders.ATTR_TEX,Shaders.ATTR_NOR),
-        		Shaders.makeUniforms(Shaders.UNI_MVP, Shaders.UNI_USE_COL, Shaders.UNI_USE_TEX, Shaders.UNI_USE_NOR, Shaders.UNI_TEX));
+        		Shaders.makeUniforms(Shaders.UNI_MVP, Shaders.UNI_LIT, Shaders.UNI_USE_COL, Shaders.UNI_USE_TEX, Shaders.UNI_USE_NOR, Shaders.UNI_TEX));
 	}
 	
 	public Program(String[] vertexShaderCode, String[] fragmentShaderCode){

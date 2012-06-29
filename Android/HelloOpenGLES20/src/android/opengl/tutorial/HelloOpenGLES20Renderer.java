@@ -69,11 +69,11 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
       
         // Create a rotation for the triangle (Boring! Comment this out:)
-        // long time = SystemClock.uptimeMillis() % 4000L;
-        // float angle = 0.090f * ((int) time);
-//        Matrix.setRotateM(mMMatrix, 0, angle, 0, 0, 1.0f);
+//         long time = SystemClock.uptimeMillis() % 4000L;
+//         mAngle = 0.090f * ((int) time);
+        
 
-        // Use the mAngle member as the rotation value
+//         Use the mAngle member as the rotation value
         Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1.0f);
 
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
@@ -98,11 +98,23 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     
     private void initShapes(){
         
+    	short indices[] = {
+    			0,1,2,
+    			2,3,0,
+    			4,5,6,
+    			7,8,9
+    	};
+    	
+    	
         float triangleCoords[] = {
             // X, Y, Z
-            -0.5f, -0.25f, 0,
-             0.5f, -0.25f, 0,
-             0.0f,  0.559016994f, 0,
+//            -0.5f, -0.25f, 0,
+//             0.5f, -0.25f, 0,
+//             0.0f,  0.559016994f, 0,
+        		-0.5f, -0.25f, 0,
+                0.5f, -0.25f, 0,
+                0.5f,  0.559016994f, 0,
+                -0.5f,  0.559016994f, 0,
              
              -0.5f, -0.5f, 0,
              -0.75f, -0.5f, 0,
@@ -121,6 +133,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	            1.0f, 0.0f, 0.0f, 1.0f,
 	            0.0f, 0.0f, 1.0f, 1.0f,
 	            0.0f, 1.0f, 0.0f, 1.0f,
+	            0.7f, 0.3f, 0.7f, 1.0f,
 		
 				// R, G, B, A
 	            1.0f, 1.0f, 0.0f, 1.0f,
@@ -137,7 +150,10 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         float texCoords[]={
         		0,0,
         		1,0,
-        		0.5f,1,
+//        		0.5f,1,
+        		1,1,
+        		0,1,
+        		
         		0,0,
         		1,0,
         		0.5f,1,
@@ -146,7 +162,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         		0.5f,1,
         };
         
-        myModel=new Model(triangleCoords,colourCoords,texCoords,null);
+        myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
         setMode((Models.COLOURS|Models.TEXTURE));
 
     

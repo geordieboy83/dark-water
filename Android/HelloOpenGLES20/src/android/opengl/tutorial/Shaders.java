@@ -27,9 +27,10 @@ public class Shaders {
 	
 	public static final String UNI_MVP="uMVPMatrix";
 	public static final String UNI_TEX="u_Texture";
+	public static final String UNI_LIT="u_Light";
 	public static final String UNI_USE_COL="uses_Colours";
 	public static final String UNI_USE_TEX="uses_Textures";
-	public static final String UNI_USE_NOR="uses_Normals";
+	public static final String UNI_USE_NOR="uses_Normals";	
 	
 	public static String fromResource(Context context, int code_id) {
 		try{
@@ -177,9 +178,9 @@ public class Shaders {
 		else return ArrayUtils.addAll(basics, other);
 	}
 	
-	public static String[] makeUniforms(String ModelView, String usesColours, String usesTextures, String usesNormals,
+	public static String[] makeUniforms(String ModelView, String Light, String usesColours, String usesTextures, String usesNormals,
 			String Texture2D, String ...other){		
-		String[] basics= new String[]{ModelView,usesColours, usesTextures, usesNormals, Texture2D};
+		String[] basics= new String[]{ModelView,Light, usesColours, usesTextures, usesNormals, Texture2D};
 		if(other==null||other.length==0) return basics;
 		else return ArrayUtils.addAll(basics, other);
 	}
