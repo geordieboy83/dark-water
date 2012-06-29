@@ -34,6 +34,9 @@ public class Model {
 	
 	protected boolean isFilled=true;
 	
+	protected int myTexture=0;
+	
+	
 	public Model(){}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[]){
@@ -63,6 +66,8 @@ public class Model {
 				(hasNormals?COORDINATES_PER_NORMAL:0);
 	}
 	
+	
+	public void setTexture(int id){ myTexture=id; }
 	
 	public void setMode(int Mode){
 		if(Mode==0){
@@ -122,15 +127,9 @@ public class Model {
 	}
 	
 	
-	public void draw(float[] ModelView, Program shaders)//, int RenderMode)
-	{	
-		
-//		System.out.println("Draw. Stride is "+stride());
+	public void draw(float[] ModelView, Program shaders){
 		
 		shaders.use();
-		
-		
-		
 		
 		// Pass in the position information
 		myVertices.position(0);
@@ -152,35 +151,32 @@ public class Model {
         
         }
         
-        if(hasTextures){
-        	// Pass in the texture coordinate information
+        if(hasTextures&&myTexture>0){
         	
-        	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);
+        	Textures.useTexture(0, myTexture, shaders);
         	
+        	// Pass in the texture coordinate information        	
+        	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
         	
             myVertices.position(position(POS_TEXTURE));
             GLES20.glVertexAttribPointer(shaders.getTexture(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
             		stride()*BYTES_PER_FLOAT, myVertices);
             
             GLES20.glEnableVertexAttribArray(shaders.getTexture());
+           
         }        
         
         if(hasNormals){
         	
-        }
-        
-/*		// This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
-        // (which currently contains model * view).
-        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-        
-        // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
-        // (which now contains model * view * projection).
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);*/
+        }        
+
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
         if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
         else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+        
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
 	}
 	

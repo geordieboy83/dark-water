@@ -55,12 +55,9 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	        // initialize the triangle vertex array
 	        initShapes();	        
 
-	        myProgram=new Program(
-	        		myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader,
-	        		Program.makeAttributes("a_Position", "a_Colour", "a_Texture",""),
-	        		Program.makeUniforms("uMVPMatrix", "u_Texture", "uses_Colours", "uses_Textures", "uses_Normals"));
+	        myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	        		
 	        
-	        Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain);
+	        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
 	        
 	    }
     
@@ -82,24 +79,9 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         
-        myProgram.use();
-        
-        Textures.useTexture(0,Textures.getTexture(R.drawable.bumpy_bricks_public_domain), myProgram);
         
         myModel.draw(mMVPMatrix, myProgram);
         
- /*    // Add program to OpenGL environment
-        myProgram.use();
-        
-        // Prepare the triangle data
-        GLES20.glVertexAttribPointer(myProgram.getPosition(), 3, GLES20.GL_FLOAT, false, 12, myModel.getBuffer());
-        GLES20.glEnableVertexAttribArray(myProgram.getPosition());
-        
-        // Apply a ModelView Projection transformation
-        GLES20.glUniformMatrix4fv(myProgram.getModelView(), 1, false, mMVPMatrix, 0);
-        
-        // Draw the triangle
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myModel.getBuffer().capacity()/3);*/
     }
     
     public void onSurfaceChanged(GL10 unused, int width, int height) {
