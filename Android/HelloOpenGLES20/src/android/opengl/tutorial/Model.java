@@ -3,6 +3,7 @@ package android.opengl.tutorial;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -19,10 +20,12 @@ public class Model {
 	protected static final int POS_COLOUR=2;
 	protected static final int POS_TEXTURE=3;
 	protected static final int POS_NORMALS=4;
+	protected static final int BYTES_PER_SHORT = 2;
 	
 	
 
 	protected FloatBuffer myVertices=null;
+	protected ShortBuffer myIndices=null;
 	
 	protected boolean hasColours=false;
 	protected boolean hasTextures=false;
@@ -39,8 +42,8 @@ public class Model {
 	
 	public Model(){}
 	
-	public Model(float xyz[], float rgba[], float st[], float vn[]){
-		make(xyz,rgba,st,vn);		
+	public Model(float xyz[], float rgba[], float st[], float vn[], short idx[]){
+		make(xyz,rgba,st,vn,idx);		
 	}
 	
 	
@@ -88,7 +91,7 @@ public class Model {
 	}
 	
 	
-	public void make(float xyz[], float rgba[], float st[], float vn[]){
+	public void make(float xyz[], float rgba[], float st[], float vn[], short idx[]){
 		if(xyz==null||xyz.length==0) return;
 		
 		hasColours=(rgba!=null&&rgba.length>0); usesColours(true);
@@ -124,6 +127,17 @@ public class Model {
         myVertices = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
         myVertices.put(data);    // add the coordinates to the FloatBuffer
         myVertices.position(0);            // set the buffer to read the first coordinate
+        
+        if(idx!=null&&idx.length>=3){
+        	ByteBuffer ibb = ByteBuffer.allocateDirect(
+                    // (# of coordinate values * 4 bytes per float)
+                    idx.length * BYTES_PER_FLOAT); 
+            ibb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
+            myIndices = ibb.asShortBuffer();  // create a floating point buffer from the ByteBuffer
+            myIndices.put(idx);    // add the coordinates to the FloatBuffer
+            myIndices.position(0);        	
+        }
+        
 	}
 	
 	
@@ -173,8 +187,18 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
-        if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
-        else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+        if(myIndices==null){        
+        	if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+        }
+        else{
+        	if(!isFilled) for(int i = 0; i < myIndices.capacity(); i += 3){ 
+        		myIndices.position(i);
+        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	}
+        	else
+        		GLES20.glDrawElements(GLES20.GL_TRIANGLES, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+        }
         
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 

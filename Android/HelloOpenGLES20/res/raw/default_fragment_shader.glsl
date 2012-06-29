@@ -7,6 +7,7 @@
 	uniform int uses_Textures;
 	uniform int uses_Normals;
     uniform sampler2D u_Texture;
+    uniform vec3 u_Light;
         
     varying vec4 v_Colour;
 	varying vec2 v_Texture;   // Interpolated texture coordinate per fragment.
