@@ -10,6 +10,7 @@
         
     varying vec4 v_Colour;
 	varying vec2 v_Texture;   // Interpolated texture coordinate per fragment.
+	varying vec3 v_Normal;
         
         
 	void main(){        
