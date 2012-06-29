@@ -6,10 +6,10 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
 public class Model {
 	
+	protected static final int VERTICES_PER_FACE=3;
 	protected static final int COORDINATES_PER_VERTEX=3;
 	protected static final int COLOUR_COMPONENTS_PER_VERTEX=4;
 	protected static final int TEXTURE_COORDINATES_PER_VERTEX=2;
@@ -46,6 +46,9 @@ public class Model {
 		make(xyz,rgba,st,vn,idx);		
 	}
 	
+	public Model(float xyz[], float rgba[], float st[], float vn[], short ixyz[], short irgba[], short ist[], short ivn[]){
+		make(xyz,rgba,st,vn,ixyz, irgba, ist, ivn);		
+	}
 	
 	protected int position(int ofwhat){
 		switch(ofwhat){
@@ -89,6 +92,61 @@ public class Model {
 	public int getMode(){
 		return ((usesColours?Models.COLOURS:0)|(usesTextures?Models.TEXTURE:0)|(usesNormals?Models.NORMALS:0)|(!isFilled?Models.WIREFRAME:0));
 	}
+	
+	
+	public void make(float xyz[], float rgba[], float st[], float vn[], short ixyz[], short irgba[], short ist[], short ivn[]){
+		if(xyz==null||xyz.length==0) return;
+		
+		hasColours=(rgba!=null&&rgba.length>0); usesColours(true);
+		hasTextures=(st!=null&&st.length>0); usesTextures(true);
+		hasNormals=(vn!=null&&vn.length>0); usesNormals(true);
+				
+		int xyzs=xyz.length/COORDINATES_PER_VERTEX;
+		
+		float data[]=new float[xyzs*stride()];
+		int j=0,k=0,l=0,m=0;
+		for(int i=0; i<data.length;){
+			
+			for(int jj=0; jj<COORDINATES_PER_VERTEX; jj++) data[i++]=xyz[j+jj];  j+=COORDINATES_PER_VERTEX;
+		
+			if(hasColours) try{
+				for(int kk=0; kk<COLOUR_COMPONENTS_PER_VERTEX; kk++) data[i++]=rgba[k+kk];	k+=COLOUR_COMPONENTS_PER_VERTEX;
+			}catch(Throwable t){System.out.println(t);}
+			
+			if(hasTextures) try{
+				for(int ll=0; ll<TEXTURE_COORDINATES_PER_VERTEX; ll++) data[i++]=st[l+ll]; l+=TEXTURE_COORDINATES_PER_VERTEX;
+			}catch(Throwable t){System.out.println(t);}
+			
+			if(hasNormals) try{
+				for(int mm=0; mm<COORDINATES_PER_NORMAL; mm++) data[i++]=st[m+mm]; m+=COORDINATES_PER_NORMAL;
+			}catch(Throwable t){System.out.println(t);}
+		}
+		
+		// initialize vertex Buffer for triangle  
+        ByteBuffer vbb = ByteBuffer.allocateDirect(
+                // (# of coordinate values * 4 bytes per float)
+                data.length * BYTES_PER_FLOAT); 
+        vbb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
+        myVertices = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
+        myVertices.put(data);    // add the coordinates to the FloatBuffer
+        myVertices.position(0);            // set the buffer to read the first coordinate
+        
+        if(ixyz!=null&&ixyz.length>=3){
+        	ByteBuffer ibb = ByteBuffer.allocateDirect(
+                    // (# of coordinate values * 4 bytes per float)
+                    ixyz.length * BYTES_PER_FLOAT); 
+            ibb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
+            myIndices = ibb.asShortBuffer();  // create a short buffer from the ByteBuffer
+            myIndices.put(ixyz);    // add the coordinates to the ShortBuffer
+            myIndices.position(0);        	
+        }
+        
+	}
+	
+	
+	
+	
+	
 	
 	
 	public void make(float xyz[], float rgba[], float st[], float vn[], short idx[]){
