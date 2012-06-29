@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import android.content.Context;
@@ -18,9 +19,17 @@ public class Shaders {
 	
 	public static Program currentShader=null;
 
-	public static String vertexShaderCode="";
 	
-	public static String fragmentShaderCode="";
+	public static final String ATTR_POS="a_Position";
+	public static final String ATTR_COL="a_Colour";
+	public static final String ATTR_TEX="a_Texture";
+	public static final String ATTR_NOR="a_Normal";
+	
+	public static final String UNI_MVP="uMVPMatrix";
+	public static final String UNI_TEX="u_Texture";
+	public static final String UNI_USE_COL="uses_Colours";
+	public static final String UNI_USE_TEX="uses_Textures";
+	public static final String UNI_USE_NOR="uses_Normals";
 	
 	public static String fromResource(Context context, int code_id) {
 		try{
@@ -162,6 +171,18 @@ public class Shaders {
 		return makeProgram(vertexShader(context, vertexShaderCode), fragmentShader(context,fragmentShaderCode),attributes);
 	}
 
+	public static String[] makeAttributes(String position, String colour, String texture, String normal, String ...other){		
+		String[] basics= new String[]{position, colour, texture,normal};
+		if(other==null||other.length==0) return basics;
+		else return ArrayUtils.addAll(basics, other);
+	}
+	
+	public static String[] makeUniforms(String ModelView, String usesColours, String usesTextures, String usesNormals,
+			String Texture2D, String ...other){		
+		String[] basics= new String[]{ModelView,usesColours, usesTextures, usesNormals, Texture2D};
+		if(other==null||other.length==0) return basics;
+		else return ArrayUtils.addAll(basics, other);
+	}
 	
 	
 }

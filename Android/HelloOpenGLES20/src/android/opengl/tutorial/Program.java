@@ -26,6 +26,7 @@ public class Program {
 	
 	public int getProgram() { return myHandle; }
 	
+	
 	public int getAttribute(String id){ return myAttributes.get(id)==null?0:myAttributes.get(id); }
 	public int addAttribute(String id){ 
 		myAttributes.put(id,GLES20.glGetAttribLocation(myHandle, id));
@@ -59,11 +60,11 @@ public class Program {
 		}catch(Throwable t){}
 		
 		try{
-			myModelView=uniforms[0];
-			myTexture2D=uniforms[1];
-			myColourUse=uniforms[2];
-			myTextureUse=uniforms[3];
-			myNormalUse=uniforms[4];
+			myModelView=uniforms[0];			
+			myColourUse=uniforms[1];
+			myTextureUse=uniforms[2];
+			myNormalUse=uniforms[3];
+			myTexture2D=uniforms[4];
 		}catch(Throwable t){}		
 		
 		myHandle=Shaders.makeProgram(vertexShaderCode, fragmentShaderCode, attributes);
@@ -85,6 +86,20 @@ public class Program {
 		
 	}
 	
+	public Program(String vertexShaderCode, String fragmentShaderCode){
+		this(vertexShaderCode, fragmentShaderCode,
+				Shaders.makeAttributes(Shaders.ATTR_POS, Shaders.ATTR_COL, Shaders.ATTR_TEX,Shaders.ATTR_NOR),
+        		Shaders.makeUniforms(Shaders.UNI_MVP, Shaders.UNI_USE_COL, Shaders.UNI_USE_TEX, Shaders.UNI_USE_NOR, Shaders.UNI_TEX));
+	}
+	
+	public Program(String[] vertexShaderCode, String[] fragmentShaderCode){
+		this(Shaders.fromArray(vertexShaderCode),Shaders.fromArray(fragmentShaderCode));
+	}
+	
+	public Program(Context context, int vShader, int fShader){
+		this(Shaders.fromResource(context, vShader), Shaders.fromResource(context, fShader));
+	}
+	
 	
 	public void use() { 
 		if(Shaders.currentShader!=this) {
@@ -94,17 +109,6 @@ public class Program {
 //		else { System.out.println("Shader already in use"); }
 	}
 	
-	public static String[] makeAttributes(String position, String colour, String texture, String normal, String ...other){		
-		String[] basics= new String[]{position, colour, texture,normal};
-		if(other==null||other.length==0) return basics;
-		else return ArrayUtils.addAll(basics, other);
-	}
 	
-	public static String[] makeUniforms(String ModelView, String Texture2D,
-			String usesColours, String usesTextures, String usesNormals, String ...other){		
-		String[] basics= new String[]{ModelView,Texture2D, usesColours, usesTextures, usesNormals};
-		if(other==null||other.length==0) return basics;
-		else return ArrayUtils.addAll(basics, other);
-	}
 	
 }
