@@ -85,7 +85,7 @@ public class HelloOpenGLES20 extends Activity {
 			public void onClick(View v) {
 				int oldMode=mGLView.getMode();
 				int newMode=Models.NONE;
-				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS)|(oldMode&Models.WIREFRAME));
+				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
 				
 				mGLView.setMode(newMode);
 			}});    	

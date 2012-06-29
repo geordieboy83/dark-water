@@ -76,6 +76,14 @@ public class Model {
 	public void setTexture(int id){ myTexture=id; }
 	
 	public void setMode(int Mode){
+		System.out.println("Mode "+ Integer.toBinaryString(Mode)+": "+
+				((Mode&Models.WIREFRAME)==0?"Is filled, ":"Is not filled ,")+
+				((Mode&Models.COLOURS)!=0?"Uses colours, ":"Does not use colours, ")+
+				((Mode&Models.TEXTURE)!=0?"Uses textures, ":"Does not use textures, ")+
+				((Mode&Models.NORMALS)!=0?"Uses normals":"Does not use normals"));
+		
+		
+		
 		if(Mode==0){
 			isFilled=true;
 			usesColours=false;
@@ -201,6 +209,9 @@ public class Model {
 	
 	public void draw(float[] ModelView, Program shaders){
 		
+		System.out.println(isFilled?"Is filled":"Is not filled");
+		
+		
 		shaders.use();
 		
 		// Pass in the position information
@@ -250,12 +261,16 @@ public class Model {
         	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
         }
         else{
+        	
+        	
         	if(!isFilled) for(int i = 0; i < myIndices.capacity(); i += 3){ 
         		myIndices.position(i);
         		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
         	}
-        	else
+        	else{
+        		myIndices.position(0);
         		GLES20.glDrawElements(GLES20.GL_TRIANGLES, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	}
         }
         
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
