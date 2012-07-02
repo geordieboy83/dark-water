@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashMap;
 
 import android.opengl.GLES20;
 
@@ -14,17 +15,27 @@ public class Model {
 	protected static final int COLOUR_COMPONENTS_PER_VERTEX=4;
 	protected static final int TEXTURE_COORDINATES_PER_VERTEX=2;
 	protected static final int COORDINATES_PER_NORMAL=3;
-	protected static final int BYTES_PER_FLOAT=4;
+	
 	
 	protected static final int POS_VERTEX=1;
 	protected static final int POS_COLOUR=2;
 	protected static final int POS_TEXTURE=3;
 	protected static final int POS_NORMALS=4;
-	protected static final int BYTES_PER_SHORT = 2;
 	
 	
+	protected static final int DATA_VERTEX=1;
+	protected static final int DATA_COLOUR=2;
+	protected static final int DATA_TEXTURE=3;
+	protected static final int DATA_NORMALS=4;
+	protected static final int DATA_INDICES=5;
+	
+	
+	protected int myVBO[]=new int[1];
+	protected int myIBO[]=new int[1];
+	protected int myVertexCount, myIndexCount;
 
-	protected FloatBuffer myVertices=null;
+	protected FloatBuffer myVertices=null, myColours=null, myNormals=null;
+	protected HashMap<Integer,FloatBuffer> myTextures=new HashMap<Integer,FloatBuffer>();
 	protected ShortBuffer myIndices=null;
 	
 	protected boolean hasColours=false;
@@ -39,6 +50,7 @@ public class Model {
 	
 	protected int myTexture=0;
 	
+	protected boolean drawPacked=false;
 	
 	public Model(){}
 	
@@ -49,6 +61,11 @@ public class Model {
 	public Model(float xyz[], float rgba[], float st[], float vn[], short ixyz[], short irgba[], short ist[], short ivn[]){
 		make(xyz,rgba,st,vn,ixyz, irgba, ist, ivn);		
 	}
+	
+	
+	
+	
+	
 	
 	protected int position(int ofwhat){
 		switch(ofwhat){
@@ -101,6 +118,42 @@ public class Model {
 		return ((usesColours?Models.COLOURS:0)|(usesTextures?Models.TEXTURE:0)|(usesNormals?Models.NORMALS:0)|(!isFilled?Models.WIREFRAME:0));
 	}
 	
+	public void make(float data[], int...typeAndOthers){
+		if(data==null||data.length==0||typeAndOthers==null||typeAndOthers.length==0)return;
+		switch(typeAndOthers[0]){
+			case DATA_VERTEX:
+				myVertices=Models.fromArray(data);
+				break;
+			case DATA_COLOUR:
+				myColours=Models.fromArray(data);
+				hasColours=true;
+				usesColours(true);
+				break;
+			case DATA_TEXTURE:
+				if(typeAndOthers.length<2) return;
+				hasTextures=true;
+				myTextures.put(typeAndOthers[1], Models.fromArray(data));
+				break;
+			case DATA_NORMALS:
+				myNormals=Models.fromArray(data);
+				hasNormals=true;
+				usesNormals(true);
+				break;
+			case DATA_INDICES:
+				short indexdata[]=new short[data.length];
+				for(int i=0;i<indexdata.length; i++) indexdata[i]=(short) data[i];
+				myIndices=Models.fromArray(indexdata);
+				break;
+			default:
+				break;
+		}
+		drawPacked=false;
+	}
+	
+	public void make(short indices[]){
+		if(indices==null||indices.length==0) return;
+		myIndices=Models.fromArray(indices);
+	}
 	
 	public void make(float xyz[], float rgba[], float st[], float vn[], short ixyz[], short irgba[], short ist[], short ivn[]){
 		if(xyz==null||xyz.length==0) return;
@@ -130,24 +183,22 @@ public class Model {
 			}catch(Throwable t){System.out.println(t);}
 		}
 		
-		// initialize vertex Buffer for triangle  
-        ByteBuffer vbb = ByteBuffer.allocateDirect(
-                // (# of coordinate values * 4 bytes per float)
-                data.length * BYTES_PER_FLOAT); 
-        vbb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
-        myVertices = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
-        myVertices.put(data);    // add the coordinates to the FloatBuffer
-        myVertices.position(0);            // set the buffer to read the first coordinate
+		FloatBuffer Vertices=Models.fromArray(data);
+        myVertexCount=Vertices.capacity();
         
-        if(ixyz!=null&&ixyz.length>=3){
-        	ByteBuffer ibb = ByteBuffer.allocateDirect(
-                    // (# of coordinate values * 4 bytes per float)
-                    ixyz.length * BYTES_PER_FLOAT); 
-            ibb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
-            myIndices = ibb.asShortBuffer();  // create a short buffer from the ByteBuffer
-            myIndices.put(ixyz);    // add the coordinates to the ShortBuffer
-            myIndices.position(0);        	
+        ShortBuffer Indices=null;
+        if(ixyz!=null&&ixyz.length>=3){        	
+        	Indices=Models.fromArray(ixyz);    	
+            myIndexCount=Indices.capacity();
         }
+        
+        
+            myVertices=Vertices;
+            myIndices=Indices;
+       
+        
+    	drawPacked=true;
+        
         
 	}
 	
@@ -185,31 +236,37 @@ public class Model {
 			}catch(Throwable t){System.out.println(t);}
 		}
 		
-		// initialize vertex Buffer for triangle  
-        ByteBuffer vbb = ByteBuffer.allocateDirect(
-                // (# of coordinate values * 4 bytes per float)
-                data.length * BYTES_PER_FLOAT); 
-        vbb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
-        myVertices = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
-        myVertices.put(data);    // add the coordinates to the FloatBuffer
-        myVertices.position(0);            // set the buffer to read the first coordinate
+		// initialize vertex Buffer for triangle
+		FloatBuffer Vertices=Models.fromArray(data);
+        myVertexCount=Vertices.capacity();
         
+        ShortBuffer Indices=null;
         if(idx!=null&&idx.length>=3){
-        	ByteBuffer ibb = ByteBuffer.allocateDirect(
-                    // (# of coordinate values * 4 bytes per float)
-                    idx.length * BYTES_PER_FLOAT); 
-            ibb.order(ByteOrder.nativeOrder());// use the device hardware's native byte order
-            myIndices = ibb.asShortBuffer();  // create a floating point buffer from the ByteBuffer
-            myIndices.put(idx);    // add the coordinates to the FloatBuffer
-            myIndices.position(0);        	
-        }
+        	Indices=Models.fromArray(idx);        	
+            myIndexCount=Indices.capacity();
+        }    
         
-	}
+            myVertices=Vertices;
+            myIndices=Indices;
+        
+        drawPacked=true;
+        
+	}	
 	
 	
 	public void draw(float[] ModelView, Program shaders){
-		
-		System.out.println(isFilled?"Is filled":"Is not filled");
+	
+		if(myVertices!=null){
+			if(drawPacked) drawCPU(ModelView,shaders);
+			else drawSeparateCPU(ModelView, shaders);
+		}
+		else {
+			drawSeparateGPU(ModelView, shaders);
+		}
+	}
+	
+	protected void drawSeparateCPU(float[] ModelView, Program shaders){
+		System.out.println("Draw Separate CPU");
 		
 		
 		shaders.use();
@@ -217,7 +274,86 @@ public class Model {
 		// Pass in the position information
 		myVertices.position(0);
         GLES20.glVertexAttribPointer(shaders.getPosition(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false,
-        		stride()*BYTES_PER_FLOAT, myVertices);        
+        		COORDINATES_PER_VERTEX*Models.BYTES_PER_FLOAT, myVertices);        
+                
+        GLES20.glEnableVertexAttribArray(shaders.getPosition());        
+        
+        if(hasColours&&myColours!=null){
+        	// Pass in the color information
+        	
+        	GLES20.glUniform1i(shaders.getColourUse(), usesColours?Shaders.YES:0);
+        	
+        	myColours.position(0);
+        	GLES20.glVertexAttribPointer(shaders.getColour(), COLOUR_COMPONENTS_PER_VERTEX, GLES20.GL_FLOAT, false,
+        			COLOUR_COMPONENTS_PER_VERTEX*Models.BYTES_PER_FLOAT, myColours);        
+        
+        	GLES20.glEnableVertexAttribArray(shaders.getColour());
+        
+        }
+        
+        if(hasTextures&&!myTextures.isEmpty()){
+        	
+        	int i=0;
+        	for(Integer texture:myTextures.keySet()){
+        		Textures.useTexture(i++, texture, shaders);
+        		// Pass in the texture coordinate information        	
+            	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
+            	
+                FloatBuffer texturecoords=myTextures.get(texture);
+                texturecoords.position(0);
+                GLES20.glVertexAttribPointer(shaders.getTexture(), TEXTURE_COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
+                		TEXTURE_COORDINATES_PER_VERTEX*Models.BYTES_PER_FLOAT, texturecoords);
+                
+                GLES20.glEnableVertexAttribArray(shaders.getTexture());
+        	}
+        	
+        	
+        	
+           
+        }        
+        
+        if(hasNormals){
+        	
+        }        
+
+
+        GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
+        
+        if(myIndices==null){        
+        	if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+        }
+        else{
+        	
+        	
+        	if(!isFilled) for(int i = 0; i < myIndices.capacity(); i += 3){ 
+        		myIndices.position(i);
+        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	}
+        	else{
+        		myIndices.position(0);
+        		GLES20.glDrawElements(GLES20.GL_TRIANGLES, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	}
+        }
+        
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+	}
+	
+	protected void drawSeparateGPU(float[] ModelView, Program shaders){
+		
+	}	
+	
+	protected void drawCPU(float[] ModelView, Program shaders){
+		
+		System.out.println("Draw CPU");
+		
+		
+		shaders.use();
+		
+		// Pass in the position information
+		myVertices.position(0);
+        GLES20.glVertexAttribPointer(shaders.getPosition(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false,
+        		stride()*Models.BYTES_PER_FLOAT, myVertices);        
                 
         GLES20.glEnableVertexAttribArray(shaders.getPosition());        
         
@@ -228,7 +364,7 @@ public class Model {
         	
         	myVertices.position(position(POS_COLOUR));
         	GLES20.glVertexAttribPointer(shaders.getColour(), COLOUR_COMPONENTS_PER_VERTEX, GLES20.GL_FLOAT, false,
-        			stride()*BYTES_PER_FLOAT, myVertices);        
+        			stride()*Models.BYTES_PER_FLOAT, myVertices);        
         
         	GLES20.glEnableVertexAttribArray(shaders.getColour());
         
@@ -242,8 +378,8 @@ public class Model {
         	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
         	
             myVertices.position(position(POS_TEXTURE));
-            GLES20.glVertexAttribPointer(shaders.getTexture(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
-            		stride()*BYTES_PER_FLOAT, myVertices);
+            GLES20.glVertexAttribPointer(shaders.getTexture(), TEXTURE_COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
+            		stride()*Models.BYTES_PER_FLOAT, myVertices);
             
             GLES20.glEnableVertexAttribArray(shaders.getTexture());
            

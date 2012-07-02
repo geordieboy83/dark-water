@@ -25,6 +25,8 @@ public class Textures {
     
     	// Bind the texture to this unit.
     	GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureid);
+//    	GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT );
+//      GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT );
     
     	// Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
     	GLES20.glUniform1i(shader.getTexture2D(), textureunit);
@@ -49,8 +51,9 @@ public class Textures {
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 			
 			// Set filtering
-			GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-			GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+	        GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR );
+	        GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR );	        
+	        
 			
 			// Load the bitmap into the bound texture.
 			GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);

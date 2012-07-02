@@ -47,17 +47,20 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		    
 	        // Set the background frame color
-	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
+//	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
+		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	        
 	        // Enable texture mapping
 			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
-	        
+			
+			myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	 
+			
 	        // initialize the triangle vertex array
 	        initShapes();	        
 
-	        myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	        		
+	               		
 	        
-	        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
+
 	        
 	    }
     
@@ -148,22 +151,30 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
         
         float texCoords[]={
-        		0,0,
-        		1,0,
+        		0,2,
+        		2,2,
 //        		0.5f,1,
+        		2,0,
+        		0,0,
+        		
         		1,1,
         		0,1,
+        		0.5f,0,
         		
-        		0,0,
-        		1,0,
-        		0.5f,1,
-        		0,0,
-        		1,0,
-        		0.5f,1,
+        		0,1,
+        		1,1,
+        		0.5f,0,
         };
         
         myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
+//        myModel=new Model();
+//        myModel.make(triangleCoords, Model.DATA_VERTEX);
+//        myModel.make(colourCoords, Model.DATA_COLOUR);
+//        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
+//        myModel.make(indices);
         setMode((Models.COLOURS|Models.TEXTURE));
+        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));	       
+//        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.ihs_black));
 
     
     }    
