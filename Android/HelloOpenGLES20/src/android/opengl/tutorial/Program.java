@@ -1,6 +1,7 @@
 package android.opengl.tutorial;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -11,8 +12,11 @@ public class Program {
 
 	protected int myHandle;
 	
-	protected HashMap<String,Integer> myAttributes=new HashMap<String,Integer>();
-	protected HashMap<String,Integer> myUniforms=new HashMap<String,Integer>();
+//	protected HashMap<String,Integer> myAttributes=new HashMap<String,Integer>();
+//	protected HashMap<String,Integer> myUniforms=new HashMap<String,Integer>();
+	
+//	protected HashSet<String> myAttributes=new HashSet<String>();
+//	protected HashSet<String> myUniforms=new HashSet<String>();
 	
 	protected String myPosition="";
 	protected String myColour="";
@@ -28,17 +32,20 @@ public class Program {
 	public int getProgram() { return myHandle; }
 	
 	
-	public int getAttribute(String id){ return myAttributes.get(id)==null?0:myAttributes.get(id); }
-	public int addAttribute(String id){ 
-		myAttributes.put(id,GLES20.glGetAttribLocation(myHandle, id));
-		return getAttribute(id);
-	}
+//	public int getAttribute(String id){ return myAttributes.get(id)==null?0:myAttributes.get(id); }
+//	public int addAttribute(String id){ 
+//		myAttributes.put(id,GLES20.glGetAttribLocation(myHandle, id));
+//		return getAttribute(id);
+//	}
 	
-	public int getUniform(String id){ return myUniforms.get(id)==null?0:myUniforms.get(id); }
-	public int addUniform(String id){ 
-		myUniforms.put(id,GLES20.glGetUniformLocation(myHandle, id));
-		return getUniform(id);
-	}
+//	public int getUniform(String id){ return myUniforms.get(id)==null?0:myUniforms.get(id); }
+//	public int addUniform(String id){ 
+//		myUniforms.put(id,GLES20.glGetUniformLocation(myHandle, id));
+//		return getUniform(id);
+//	}
+	
+	public int getUniform(String id){ return GLES20.glGetUniformLocation(myHandle, id); }
+	public int getAttribute(String id){ return GLES20.glGetAttribLocation(myHandle, id); }
 	
 	public int getPosition() { return getAttribute(myPosition); }
 	public int getColour() { return getAttribute(myColour); }
@@ -71,8 +78,8 @@ public class Program {
 		
 		myHandle=Shaders.makeProgram(vertexShaderCode, fragmentShaderCode, attributes);
 		
-		for(String s: attributes) addAttribute(s);
-		for(String s: uniforms) addUniform(s);
+//		for(String s: attributes) addAttribute(s);
+//		for(String s: uniforms) addUniform(s);
 		
 	}
 	

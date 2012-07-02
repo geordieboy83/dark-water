@@ -140,10 +140,10 @@ public class Shaders {
 	     GLES20.glAttachShader(mProgram, vertexShader);   	// add the vertex shader to program
 	     GLES20.glAttachShader(mProgram, fragmentShader);	// add the fragment shader to program
 	     
-	     if(attributes!=null)								// bind attributes, if any
-	    	 for(int i=0; i<attributes.length; i++)
-	    		 if(attributes[i]!=null&&!attributes[i].isEmpty())
-	    			 GLES20.glBindAttribLocation(mProgram, i, attributes[i]);
+//	     if(attributes!=null)								// bind attributes, if any
+//	    	 for(int i=0; i<attributes.length; i++)
+//	    		 if(attributes[i]!=null&&!attributes[i].isEmpty())
+//	    			 GLES20.glBindAttribLocation(mProgram, i, attributes[i]);
 	     
 	     GLES20.glLinkProgram(mProgram);					// create OpenGL program executables
 	     
