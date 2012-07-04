@@ -11,6 +11,20 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	    private float mPreviousX;
 	    private float mPreviousY;
 	 
+	    public static final int AXIS_X=0;
+	    public static final int AXIS_Y=1;
+	    public static final int AXIS_Z=2;
+	    
+	    
+	    
+	    public void setRotationAxis(int axis){
+	    	if(axis<AXIS_X||axis>AXIS_Z) return;
+	    	mRenderer.mAxis=axis;
+	    	mRenderer.mAngle=0;
+	    	requestRender();
+	    }
+	    
+	    
 	 public void setMode(int mode){
 		 mRenderer.setMode(mode);
 		 requestRender();

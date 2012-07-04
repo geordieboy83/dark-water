@@ -1,21 +1,25 @@
 package android.opengl.tutorial;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public class Models {
+import android.opengl.GLES20;
 
-	public static final int WIREFRAME=Integer.valueOf("1000000",2);    
-    public static final int NONE=Byte.valueOf("0000000",2);
-    public static final int COLOURS=Byte.valueOf("0000001",2);
-    public static final int TEXTURE=Byte.valueOf("0000010",2);
-    public static final int NORMALS=Byte.valueOf("0000100",2);
+public class BufferObject {
+
+	public static final int BYTES_PER_FLOAT = 4;
+    public static final int BYTES_PER_SHORT = 2;
+	
+    protected Buffer myData=null; 
+    protected int myGPUBuffer=0;
+    protected int myBufferElements=0;
+    protected int myPerVertexElements=0;
     
     
-    
-    public static FloatBuffer fromArray(float data[]){
+    protected static FloatBuffer fromArray(float data[]){
 		if(data==null||data.length==0) return null;
         ByteBuffer vbb = ByteBuffer.allocateDirect(data.length * BufferObject.BYTES_PER_FLOAT); 
         vbb.order(ByteOrder.nativeOrder());
@@ -25,7 +29,7 @@ public class Models {
         return result;
 	}
 	
-	public static ShortBuffer fromArray(short data[]){
+	protected static ShortBuffer fromArray(short data[]){
 		if(data==null||data.length==0) return null;
         ByteBuffer vbb = ByteBuffer.allocateDirect(data.length * BufferObject.BYTES_PER_SHORT); 
         vbb.order(ByteOrder.nativeOrder());
@@ -35,6 +39,10 @@ public class Models {
         return result;
 	}
 	
+	public void draw(Program shaders){}
 	
+	public void create(){}
 	
+	public void destroy(){ GLES20.glDeleteBuffers(1, new int[]{myGPUBuffer}, 0); }
+    
 }

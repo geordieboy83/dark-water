@@ -274,7 +274,7 @@ public class Model {
 		// Pass in the position information
 		myVertices.position(0);
         GLES20.glVertexAttribPointer(shaders.getPosition(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false,
-        		COORDINATES_PER_VERTEX*Models.BYTES_PER_FLOAT, myVertices);        
+        		COORDINATES_PER_VERTEX*BufferObject.BYTES_PER_FLOAT, myVertices);        
                 
         GLES20.glEnableVertexAttribArray(shaders.getPosition());        
         
@@ -285,7 +285,7 @@ public class Model {
         	
         	myColours.position(0);
         	GLES20.glVertexAttribPointer(shaders.getColour(), COLOUR_COMPONENTS_PER_VERTEX, GLES20.GL_FLOAT, false,
-        			COLOUR_COMPONENTS_PER_VERTEX*Models.BYTES_PER_FLOAT, myColours);        
+        			COLOUR_COMPONENTS_PER_VERTEX*BufferObject.BYTES_PER_FLOAT, myColours);        
         
         	GLES20.glEnableVertexAttribArray(shaders.getColour());
         
@@ -302,7 +302,7 @@ public class Model {
                 FloatBuffer texturecoords=myTextures.get(texture);
                 texturecoords.position(0);
                 GLES20.glVertexAttribPointer(shaders.getTexture(), TEXTURE_COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
-                		TEXTURE_COORDINATES_PER_VERTEX*Models.BYTES_PER_FLOAT, texturecoords);
+                		TEXTURE_COORDINATES_PER_VERTEX*BufferObject.BYTES_PER_FLOAT, texturecoords);
                 
                 GLES20.glEnableVertexAttribArray(shaders.getTexture());
         	}
@@ -353,7 +353,7 @@ public class Model {
 		// Pass in the position information
 		myVertices.position(0);
         GLES20.glVertexAttribPointer(shaders.getPosition(), COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false,
-        		stride()*Models.BYTES_PER_FLOAT, myVertices);        
+        		stride()*BufferObject.BYTES_PER_FLOAT, myVertices);        
                 
         GLES20.glEnableVertexAttribArray(shaders.getPosition());        
         
@@ -364,7 +364,7 @@ public class Model {
         	
         	myVertices.position(position(POS_COLOUR));
         	GLES20.glVertexAttribPointer(shaders.getColour(), COLOUR_COMPONENTS_PER_VERTEX, GLES20.GL_FLOAT, false,
-        			stride()*Models.BYTES_PER_FLOAT, myVertices);        
+        			stride()*BufferObject.BYTES_PER_FLOAT, myVertices);        
         
         	GLES20.glEnableVertexAttribArray(shaders.getColour());
         
@@ -379,7 +379,7 @@ public class Model {
         	
             myVertices.position(position(POS_TEXTURE));
             GLES20.glVertexAttribPointer(shaders.getTexture(), TEXTURE_COORDINATES_PER_VERTEX, GLES20.GL_FLOAT, false, 
-            		stride()*Models.BYTES_PER_FLOAT, myVertices);
+            		stride()*BufferObject.BYTES_PER_FLOAT, myVertices);
             
             GLES20.glEnableVertexAttribArray(shaders.getTexture());
            
