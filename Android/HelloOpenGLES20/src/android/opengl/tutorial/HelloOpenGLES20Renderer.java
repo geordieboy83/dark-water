@@ -29,7 +29,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	private float[] mProjMatrix = new float[16];
 	    
 	 
-	public float mAngle;  
+	public float mAngle;
+	public int mAxis=HelloOpenGLES20SurfaceView.AXIS_X;
 	
 	public Model myModel;
 	 
@@ -51,7 +52,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	        
 	        // Enable texture mapping
-			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+//			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
 			
 			myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	 
 			
@@ -77,7 +78,21 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
 
 //         Use the mAngle member as the rotation value
-        Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1.0f);
+//        Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1.0f);
+        
+        switch(mAxis){
+        	case HelloOpenGLES20SurfaceView.AXIS_X:
+        		Matrix.setRotateM(mMMatrix, 0, mAngle, 1, 0, 0);
+        		break;
+        	case HelloOpenGLES20SurfaceView.AXIS_Y:
+        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 1, 0);
+        		break;
+        	case HelloOpenGLES20SurfaceView.AXIS_Z:
+        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1);
+        		break;
+        	default:
+        		break;
+        }
 
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
@@ -94,7 +109,9 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
         // this projection matrix is applied to object coodinates
         // in the onDrawFrame() method
-        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+//        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+//        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
+        Matrix.orthoM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
         Matrix.setLookAtM(mVMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
     }  
   
@@ -166,12 +183,12 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         		0.5f,0,
         };
         
-        myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
-//        myModel=new Model();
-//        myModel.make(triangleCoords, Model.DATA_VERTEX);
-//        myModel.make(colourCoords, Model.DATA_COLOUR);
-//        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
-//        myModel.make(indices);
+//        myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
+        myModel=new Model();
+        myModel.make(triangleCoords, Model.DATA_VERTEX);
+        myModel.make(colourCoords, Model.DATA_COLOUR);
+        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
+        myModel.make(indices);
         setMode((Models.COLOURS|Models.TEXTURE));
         myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));	       
 //        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.ihs_black));

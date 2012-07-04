@@ -9,9 +9,18 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class HelloOpenGLES20 extends Activity {
   
@@ -36,6 +45,7 @@ public class HelloOpenGLES20 extends Activity {
         myContent=new FrameLayout(this);
         
         mGLView = new HelloOpenGLES20SurfaceView(this);
+        
         myContent.addView(mGLView);        
         myContent.addView(makeTestButtons());
         setContentView(myContent);
@@ -72,23 +82,41 @@ public class HelloOpenGLES20 extends Activity {
 				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE));
 			}});
     	
-    	Button wireframe=(Button) l.findViewById(R.id.btn_wireframe);
+    	ToggleButton wireframe=(ToggleButton) l.findViewById(R.id.btn_wireframe);
     	wireframe.setTypeface(myFont);
-    	wireframe.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {				
-				mGLView.setMode((byte) (mGLView.getMode()|Models.WIREFRAME));
+    	wireframe.setChecked(true);
+    	wireframe.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if(isChecked){
+					int oldMode=mGLView.getMode();
+					int newMode=Models.NONE;
+					newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
+					
+					mGLView.setMode(newMode);
+				}
+				else{
+					mGLView.setMode((byte) (mGLView.getMode()|Models.WIREFRAME));
+				}
+				
 			}});
     	
-    	Button filled=(Button) l.findViewById(R.id.btn_filled);
-    	filled.setTypeface(myFont);
-    	filled.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				int oldMode=mGLView.getMode();
-				int newMode=Models.NONE;
-				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
+    	Spinner axis=(Spinner) l.findViewById(R.id.spn_rotation);
+    	axis.setOnItemSelectedListener(new OnItemSelectedListener(){
+			
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
+				mGLView.setRotationAxis(arg2);
 				
-				mGLView.setMode(newMode);
-			}});    	
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
     	
     	
     	return l;

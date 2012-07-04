@@ -41,25 +41,28 @@
         android:layout_marginRight="62dp"
         android:text="@string/test_texture_only"
         android:textSize="30sp" />
-
-    <Button
+
+    <ToggleButton
         android:id="@+id/btn_wireframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btn_colours_only"
         android:layout_alignParentTop="true"
         android:layout_marginTop="48dp"
-        android:text="@string/test_wireframe"
+        android:padding="15dp"
+        android:textOff="@string/test_wireframe"
+        android:textOn="@string/test_filled"
         android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/btn_filled"
+    <Spinner
+        android:id="@+id/spn_rotation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btn_wireframe"
         android:layout_alignBottom="@+id/btn_wireframe"
         android:layout_alignRight="@+id/btn_texture_only"
-        android:text="@string/test_filled"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/test_axes"
         android:textSize="30sp" />
 
    
