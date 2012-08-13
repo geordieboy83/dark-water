@@ -4,17 +4,18 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.opengl.GLES20;
 
 public class Model {
 	
-	protected static final int VERTICES_PER_FACE=3;
-	protected static final int COORDINATES_PER_VERTEX=3;
-	protected static final int COLOUR_COMPONENTS_PER_VERTEX=4;
-	protected static final int TEXTURE_COORDINATES_PER_VERTEX=2;
-	protected static final int COORDINATES_PER_NORMAL=3;
+	public static final int VERTICES_PER_FACE=3;
+	public static final int COORDINATES_PER_VERTEX=3;
+	public static final int COLOUR_COMPONENTS_PER_VERTEX=4;
+	public static final int TEXTURE_COORDINATES_PER_VERTEX=2;
+	public static final int COORDINATES_PER_NORMAL=3;
 	
 	
 	protected static final int POS_VERTEX=1;
@@ -30,8 +31,12 @@ public class Model {
 	protected static final int DATA_INDICES=5;
 	
 	
-	protected int myVBO[]=new int[1];
-	protected int myIBO[]=new int[1];
+//	protected int myVBO[]=new int[1];
+//	protected int myIBO[]=new int[1];	
+	protected ArrayList<TBO> myTBOs=new ArrayList<TBO>();
+	protected VBO myVBO;
+	protected IBO myIBO;
+	protected BufferObject myCBO, myNBO;
 	protected int myVertexCount, myIndexCount;
 
 	protected FloatBuffer myVertices=null, myColours=null, myNormals=null;
@@ -64,7 +69,38 @@ public class Model {
 	
 	
 	
-	
+	public void addBufferObject(BufferObject BO, int type){
+		
+		if(BO==null)return;
+		switch(type){
+			case DATA_VERTEX:
+				myVBO=(VBO) BO;
+				break;
+			case DATA_COLOUR:
+				myCBO=BO;
+				hasColours=true;
+				usesColours(true);
+				break;
+			case DATA_TEXTURE:				
+				hasTextures=true;
+				myTBOs.add((TBO) BO);
+				myTBOs.get(myTBOs.size()-1).setTextureUnit(myTBOs.size()-1);
+				break;
+			case DATA_NORMALS:
+				myNBO=BO;
+				hasNormals=true;
+				usesNormals(true);
+				break;
+			case DATA_INDICES:
+				myIBO=(IBO) BO;
+				break;
+			default:
+				break;
+		}
+		drawPacked=false;
+
+		
+	}
 	
 	
 	protected int position(int ofwhat){
@@ -149,6 +185,8 @@ public class Model {
 		}
 		drawPacked=false;
 	}
+	
+	
 	
 	public void make(short indices[]){
 		if(indices==null||indices.length==0) return;
@@ -254,15 +292,16 @@ public class Model {
 	}	
 	
 	
-	public void draw(float[] ModelView, Program shaders){
-	
-		if(myVertices!=null){
+	public void draw(float[] ModelView, Program shaders){		
+		
+		if(myVBO!=null){
+			drawSeparateGPU(ModelView, shaders);
+		}
+		else if(myVertices!=null){
 			if(drawPacked) drawCPU(ModelView,shaders);
 			else drawSeparateCPU(ModelView, shaders);
 		}
-		else {
-			drawSeparateGPU(ModelView, shaders);
-		}
+		
 	}
 	
 	protected void drawSeparateCPU(float[] ModelView, Program shaders){
@@ -320,8 +359,8 @@ public class Model {
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
         if(myIndices==null){        
-        	if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
-        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
+        	if(!isFilled) for(int i = 0; i < myVertices.capacity(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity());
         }
         else{
         	
@@ -340,6 +379,49 @@ public class Model {
 	}
 	
 	protected void drawSeparateGPU(float[] ModelView, Program shaders){
+		System.out.println("Draw Separate GPU");
+		
+		
+		shaders.use();
+		
+		myVBO.draw(shaders);     
+        
+        if(hasColours&&myCBO!=null){
+        	// Pass in the color information
+        	
+        	GLES20.glUniform1i(shaders.getColourUse(), usesColours?Shaders.YES:0);        	
+        	myCBO.draw(shaders);
+        
+        }
+        
+        if(hasTextures&&!myTBOs.isEmpty()){
+        	
+        	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
+        	for(TBO tbo:myTBOs){
+        		tbo.draw(shaders);
+        	}
+        	
+        	
+        	
+           
+        }        
+        
+        if(hasNormals){
+        	
+        }        
+
+
+        GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
+        
+        if(myIBO==null){        
+        	if(!isFilled) for(int i = 0; i < myVBO.myBufferElements; i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVBO.myBufferElements);
+        }
+        else{
+        	myIBO.draw(shaders);
+        }
+        
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);	
 		
 	}	
 	

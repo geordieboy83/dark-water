@@ -28,8 +28,25 @@ public class Textures {
 //    	GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT );
 //      GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT );
     
-    	// Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+    	// Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.    	
     	GLES20.glUniform1i(shader.getTexture2D(), textureunit);
+	}
+	
+	
+	public static void useTexture(int textureunit, int textureid, Program shader, String texUniform){
+		
+		if(textureunit<0) return;
+	
+		// Set the active texture unit to texture unit 0.
+    	GLES20.glActiveTexture(GLES20.GL_TEXTURE0+textureunit);
+    
+    	// Bind the texture to this unit.
+    	GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureid);
+//    	GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT );
+//      GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT );
+    
+    	// Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.    	
+    	GLES20.glUniform1i(shader.getUniform(texUniform), textureunit);
 	}
 	
 	

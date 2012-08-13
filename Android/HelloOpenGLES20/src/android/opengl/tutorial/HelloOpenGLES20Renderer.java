@@ -185,11 +185,19 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
 //        myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
         myModel=new Model();
-        myModel.make(triangleCoords, Model.DATA_VERTEX);
-        myModel.make(colourCoords, Model.DATA_COLOUR);
-        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
-        myModel.make(indices);
+        myModel.addBufferObject(new VBO(triangleCoords),Model.DATA_VERTEX);
+//        myModel.make(triangleCoords, Model.DATA_VERTEX);
+        myModel.addBufferObject(new BufferObject(colourCoords,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);
+//        myModel.make(colourCoords, Model.DATA_COLOUR);
+        
+        myModel.addBufferObject(
+        		new TBO(texCoords,
+        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
+//        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
+//        myModel.make(indices);
         setMode((Models.COLOURS|Models.TEXTURE));
+
         myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));	       
 //        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.ihs_black));
 
