@@ -359,15 +359,21 @@ public class Model {
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
         if(myIndices==null){        
-        	if(!isFilled) for(int i = 0; i < myVertices.capacity(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	if(!isFilled) 
+//        		for(int i = 0; i < myVertices.capacity(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        		 GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, myVertices.capacity());
         	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity());
         }
         else{
         	
         	
-        	if(!isFilled) for(int i = 0; i < myIndices.capacity(); i += 3){ 
-        		myIndices.position(i);
-        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	if(!isFilled){
+//        		for(int i = 0; i < myIndices.capacity(); i += 3){ 
+//        			myIndices.position(i);
+//        			GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+//        		}
+            		myIndices.position(0);
+            		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
         	}
         	else{
         		myIndices.position(0);
@@ -375,6 +381,8 @@ public class Model {
         	}
         }
         
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 	}
 	
@@ -382,9 +390,7 @@ public class Model {
 		System.out.println("Draw Separate GPU");
 		
 		
-		shaders.use();
-		
-		myVBO.draw(shaders);     
+		shaders.use();		     
         
         if(hasColours&&myCBO!=null){
         	// Pass in the color information
@@ -399,10 +405,7 @@ public class Model {
         	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
         	for(TBO tbo:myTBOs){
         		tbo.draw(shaders);
-        	}
-        	
-        	
-        	
+        	}       	
            
         }        
         
@@ -413,14 +416,18 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
+        myVBO.draw(shaders);
+        
+        
         if(myIBO==null){        
-        	if(!isFilled) for(int i = 0; i < myVBO.myBufferElements; i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
-        	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVBO.myBufferElements);
+        	myVBO.render(isFilled);
         }
         else{
-        	myIBO.draw(shaders);
+        	myIBO.render(isFilled);
         }
         
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);	
 		
 	}	
@@ -481,9 +488,13 @@ public class Model {
         else{
         	
         	
-        	if(!isFilled) for(int i = 0; i < myIndices.capacity(); i += 3){ 
-        		myIndices.position(i);
-        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+        	if(!isFilled){ 
+//        		for(int i = 0; i < myIndices.capacity(); i += 3){ 
+//        			myIndices.position(i);
+//        			GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
+//        		}
+        		myIndices.position(0);
+        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
         	}
         	else{
         		myIndices.position(0);
@@ -491,6 +502,8 @@ public class Model {
         	}
         }
         
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
 	}

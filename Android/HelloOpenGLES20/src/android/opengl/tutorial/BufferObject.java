@@ -45,6 +45,13 @@ public class BufferObject {
 	
 	protected String myAttribute="";
 	
+	public BufferObject(short data[], String attribute, int elementsPerVertex){
+		myData=fromArray(data);
+		myAttribute=attribute;
+		myPerVertexElements=elementsPerVertex;
+		create();
+	}	
+	
 	public BufferObject(float data[], String attribute, int elementsPerVertex){
 		myData=fromArray(data);
 		myAttribute=attribute;
@@ -53,23 +60,33 @@ public class BufferObject {
 	}
 	
 	protected void create(){
+		if(myData==null) return;
 		final int buffers[] = new int[1];
 		GLES20.glGenBuffers(1, buffers, 0);
 		
 		if(buffers[0]>0){
+			if(myData instanceof FloatBuffer){
 		 
-			// Bind to the buffer. Future commands will affect this buffer specifically.
-			GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
+				// Bind to the buffer. Future commands will affect this buffer specifically.
+				GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
 		 
-			// Transfer data from client memory to the buffer.
-			// We can release the client memory after this call.
-			GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, myData.capacity() * BYTES_PER_FLOAT, myData, GLES20.GL_STATIC_DRAW);
+				// Transfer data from client memory to the buffer.
+				// We can release the client memory after this call.
+				GLES20.glBufferData( GLES20.GL_ARRAY_BUFFER, myData.capacity() * BYTES_PER_FLOAT, myData, GLES20.GL_STATIC_DRAW);
 		 
-			// IMPORTANT: Unbind from the buffer when we're done with it.
-			GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+				// IMPORTANT: Unbind from the buffer when we're done with it.
+				GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+			}
+			
+			else {
+				GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, buffers[0]);
+				GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, myData.capacity() * BYTES_PER_SHORT, myData, GLES20.GL_STATIC_DRAW);
+				GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);				
+			}			
 			
 			myBufferElements=myData.capacity();
 			myGPUBuffer=buffers[0];
+			
 			
 			myData.limit(0);
 			myData=null;			

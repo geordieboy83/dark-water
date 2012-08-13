@@ -54,6 +54,8 @@ public class Textures {
 	{
 		final int[] textureHandle = new int[1];
 		
+		if(myTexturesI.get(resourceId)!=null) return myTexturesI.get(resourceId); 
+		
 		GLES20.glGenTextures(1, textureHandle, 0);
 		
 		if (textureHandle[0] != 0)
