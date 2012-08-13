@@ -39,10 +39,60 @@ public class BufferObject {
         return result;
 	}
 	
-	public void draw(Program shaders){}
-	
-	public void create(){}
 	
 	public void destroy(){ GLES20.glDeleteBuffers(1, new int[]{myGPUBuffer}, 0); }
+	
+	
+	protected String myAttribute="";
+	
+	public BufferObject(float data[], String attribute, int elementsPerVertex){
+		myData=fromArray(data);
+		myAttribute=attribute;
+		myPerVertexElements=elementsPerVertex;
+		create();
+	}
+	
+	protected void create(){
+		final int buffers[] = new int[1];
+		GLES20.glGenBuffers(1, buffers, 0);
+		
+		if(buffers[0]>0){
+		 
+			// Bind to the buffer. Future commands will affect this buffer specifically.
+			GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
+		 
+			// Transfer data from client memory to the buffer.
+			// We can release the client memory after this call.
+			GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, myData.capacity() * BYTES_PER_FLOAT, myData, GLES20.GL_STATIC_DRAW);
+		 
+			// IMPORTANT: Unbind from the buffer when we're done with it.
+			GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+			
+			myBufferElements=myData.capacity();
+			myGPUBuffer=buffers[0];
+			
+			myData.limit(0);
+			myData=null;			
+			
+		}		
+	}
+	
+	public void draw(Program shaders){
+		
+		if(myData==null){
+			GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, myGPUBuffer);
+			GLES20.glEnableVertexAttribArray(shaders.getAttribute(myAttribute));
+			GLES20.glVertexAttribPointer(shaders.getAttribute(myAttribute), myPerVertexElements, GLES20.GL_FLOAT, false, 0, 0);
+		}
+		else {			
+			myData.position(0);
+        	GLES20.glVertexAttribPointer(shaders.getColour(), myPerVertexElements, GLES20.GL_FLOAT, false,
+        			myPerVertexElements*BYTES_PER_FLOAT, myData);        
+        
+        	GLES20.glEnableVertexAttribArray(shaders.getAttribute(myAttribute));
+		}
+	}
+	
+	
     
 }
