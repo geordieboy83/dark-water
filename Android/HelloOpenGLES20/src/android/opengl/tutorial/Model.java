@@ -522,4 +522,13 @@ public class Model {
 	
 	public final FloatBuffer getBuffer() { return myVertices; }
 	
+	
+	public void destroy(){
+		if(myVBO!=null) myVBO.destroy();
+		if(myCBO!=null) myCBO.destroy();
+		if(myNBO!=null) myNBO.destroy();
+		if(myIBO!=null) myIBO.destroy();
+		for(TBO t: myTBOs) if(t!=null) t.destroy();
+	}
+	
 }

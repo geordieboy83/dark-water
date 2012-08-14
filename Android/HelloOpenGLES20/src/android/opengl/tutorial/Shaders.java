@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,8 @@ public class Shaders {
 	
 	public static Program currentShader=null;
 
+	protected static ArrayList<Integer> myShaders=new ArrayList<Integer>();
+	protected static ArrayList<Integer> myPrograms=new ArrayList<Integer>();
 	
 	public static final String ATTR_POS="a_Position";
 	public static final String ATTR_COL="a_Colour";
@@ -99,6 +102,8 @@ public class Shaders {
      		shader = 0;
      	}     
         
+     	if(shader!=0) myShaders.add(shader);
+     	
         return shader;
     }	
 	
@@ -156,6 +161,8 @@ public class Shaders {
 	  		 mProgram = 0;
 	  	}
 	  	 
+	  	 if(mProgram==0) myPrograms.add(mProgram);
+	  	 
 	     return mProgram;
 	}
 	
@@ -183,6 +190,11 @@ public class Shaders {
 		String[] basics= new String[]{ModelView,Light, usesColours, usesTextures, usesNormals, Texture2D};
 		if(other==null||other.length==0) return basics;
 		else return ArrayUtils.addAll(basics, other);
+	}
+	
+	public static void destroy(){
+		for(int i: myPrograms) GLES20.glDeleteProgram(i);
+		for(int i: myShaders) GLES20.glDeleteShader(i);
 	}
 	
 	
