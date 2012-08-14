@@ -54,7 +54,11 @@ public class Textures {
 	{
 		final int[] textureHandle = new int[1];
 		
-		if(myTexturesI.get(resourceId)!=null) return myTexturesI.get(resourceId); 
+		if(myTexturesI.get(resourceId)!=null&&
+				GLES20.glIsTexture(myTexturesI.get(resourceId))){
+					System.out.println("Texture "+resourceId+" already exists");
+					return myTexturesI.get(resourceId); 
+		}
 		
 		GLES20.glGenTextures(1, textureHandle, 0);
 		
