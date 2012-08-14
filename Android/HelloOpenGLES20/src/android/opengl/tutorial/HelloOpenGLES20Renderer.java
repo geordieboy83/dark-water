@@ -32,12 +32,24 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	public float mAngle;
 	public int mAxis=HelloOpenGLES20SurfaceView.AXIS_X;
 	
+<<<<<<< .mine
 	public Model myModel, myModel1, myModel2;
+//	public Model myModel;
+=======
+	public Model myModel, myModel1, myModel2;
+>>>>>>> .r23
 	 
 	protected Context myContext;
 	
 	
+<<<<<<< .mine
+	public void setMode(int mode) { 
+		myModel.setMode(mode); 
+	myModel1.setMode(mode); myModel2.setMode(mode); 
+	}
+=======
 	public void setMode(int mode) { myModel.setMode(mode); myModel1.setMode(mode); myModel2.setMode(mode); }
+>>>>>>> .r23
 	public int getMode() { return myModel.getMode(); }	
 	  
 	public HelloOpenGLES20Renderer(Context context){
@@ -101,6 +113,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 //        myModel.draw(mMVPMatrix, myProgram);
         myModel1.draw(mMVPMatrix, myProgram);
 //        myModel2.draw(mMVPMatrix, myProgram);
+        myModel1.draw(mMVPMatrix, myProgram);
+        myModel2.draw(mMVPMatrix, myProgram);
         
     }
     
@@ -118,6 +132,113 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     }  
   
     
+<<<<<<< .mine
+    private void initShapes2(){
+        
+    	short indices0[] = {
+    			0,1,2,
+    			2,3,0,};
+    	short indices1[]={
+    			0,1,2,};
+    	short indices2[]={
+    			0,1,2
+    	};
+    	
+    	
+        float coords0[] = {
+            // X, Y, Z
+        		-0.5f, -0.25f, 0,
+                0.5f, -0.25f, 0,
+                0.5f,  0.559016994f, 0,
+                -0.5f,  0.559016994f, 0,};
+        float coords1[]={
+             
+             -0.5f, -0.5f, 0,
+             -0.75f, -0.5f, 0,
+             -0.55f,  0.559016994f, 0,};
+             
+        float coords2[]={
+             0.5f, -0.5f, 0,
+             0.75f, -0.5f, 0,
+             0.55f,  0.559016994f, 0
+             
+             
+        }; 
+        
+        
+        float colours0[]= {
+				// R, G, B, A
+	            1.0f, 0.0f, 0.0f, 1.0f,
+	            0.0f, 0.0f, 1.0f, 1.0f,
+	            0.0f, 1.0f, 0.0f, 1.0f,
+	            0.7f, 0.3f, 0.7f, 1.0f,};
+        float colours1[]={		
+				// R, G, B, A
+	            1.0f, 1.0f, 0.0f, 1.0f,
+	            0.0f, 1.0f, 1.0f, 1.0f,
+	            1.0f, 0.0f, 1.0f, 1.0f,};
+        float colours2[]={
+		
+	            // R, G, B, A
+	            1.0f, 1.0f, 1.0f, 1.0f,
+	            0.5f, 0.5f, 0.5f, 1.0f,
+	            0.0f, 0.0f, 0.0f, 1.0f};        
+        
+
+        
+        float tex0[]={
+        		0,2,
+        		2,2,
+        		2,0,
+        		0,0,};
+        float tex1[]={
+        		
+        		1,1,
+        		0,1,
+        		0.5f,0,};
+        		
+        float tex2[]={
+        		0,1,
+        		1,1,
+        		0.5f,0,
+        };
+        
+        myModel=new Model();
+        myModel.addBufferObject(new VBO(coords0),Model.DATA_VERTEX);
+        myModel.addBufferObject(new BufferObject(colours0,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
+        myModel.addBufferObject(
+        		new TBO(tex0,
+        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
+        myModel.addBufferObject(new IBO(indices0), Model.DATA_INDICES);
+        myModel.setMode(Models.COLOURS|Models.TEXTURE);
+        
+        myModel1=new Model();
+        myModel1.addBufferObject(new VBO(coords1),Model.DATA_VERTEX);
+        myModel1.addBufferObject(new BufferObject(colours1,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
+        myModel1.addBufferObject(
+        		new TBO(tex1,
+        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
+        myModel1.addBufferObject(new IBO(indices1), Model.DATA_INDICES);
+        myModel1.setMode(Models.COLOURS|Models.TEXTURE);
+        
+        
+        myModel2=new Model();
+        myModel2.addBufferObject(new VBO(coords2),Model.DATA_VERTEX);
+        myModel2.addBufferObject(new BufferObject(colours2,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
+        myModel2.addBufferObject(
+        		new TBO(tex2,
+        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
+        myModel2.addBufferObject(new IBO(indices2), Model.DATA_INDICES);
+        myModel2.setMode(Models.COLOURS|Models.TEXTURE);
+    
+    }    
+    
+    
+    
+=======
     private void initShapes2(){
         
     	short indices0[] = {
@@ -223,6 +344,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     
     
     
+>>>>>>> .r23
     private void initShapes(){
         
     	short indices[] = {
@@ -310,7 +432,14 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 //        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.ihs_black));
 
     
-    }    
+    }
+	public void destroy() {
+		if(myModel!=null) myModel.destroy();
+		if(myModel1!=null) myModel1.destroy();
+		if(myModel2!=null) myModel2.destroy();
+		Textures.destroy();		
+		
+	}    
     
     
 }

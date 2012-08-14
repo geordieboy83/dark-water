@@ -141,5 +141,11 @@ public class HelloOpenGLES20 extends Activity {
         // this is a good place to re-allocate them.
         mGLView.onResume();
     }
+    
+    @Override protected void onDestroy(){
+    	super.onDestroy();
+    	mGLView.onDestroy();
+    }
+    
 }
   

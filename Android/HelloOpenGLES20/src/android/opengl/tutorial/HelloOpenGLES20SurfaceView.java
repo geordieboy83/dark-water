@@ -84,5 +84,11 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	 public void switchRenderMode(int mode){
 		 
 	 }
+
+
+	public void onDestroy() {
+		if(mRenderer!=null) mRenderer.destroy();
+		
+	}
  
 }

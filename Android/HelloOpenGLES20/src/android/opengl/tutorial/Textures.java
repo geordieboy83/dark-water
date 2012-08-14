@@ -91,5 +91,16 @@ public class Textures {
 		return textureHandle[0];
 	}
 	
+	public static void destroy(){
+		for(int i: myTexturesI.values()){
+			int texid[]={i};
+			GLES20.glDeleteTextures(1, texid,0);
+		}
+		
+		for(int i: myTexturesS.values()){
+			int texid[]={i};
+			GLES20.glDeleteTextures(1, texid,0);
+		}
+	}
 	
 }
