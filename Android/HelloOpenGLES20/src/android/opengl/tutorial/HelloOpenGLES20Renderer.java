@@ -192,34 +192,35 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         };
         
         myModel=new Model();
-        myModel.addBufferObject(new VBO(coords0),Model.DATA_VERTEX);
-        myModel.addBufferObject(new BufferObject(colours0,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
-        myModel.addBufferObject(
+        myModel.addTypedBufferObject(new VBO(coords0));
+        myModel.addTypedBufferObject(new CBO(colours0));        
+        myModel.addTypedBufferObject(
         		new TBO(tex0,
         				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
-        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
-        myModel.addBufferObject(new IBO(indices0), Model.DATA_INDICES);
+        				Textures.loadTexture(myContext, R.drawable.radiance)));
+        myModel.addTypedBufferObject(new IBO(indices0));
         myModel.setMode(Models.COLOURS|Models.TEXTURE);
         
         myModel1=new Model();
-        myModel1.addBufferObject(new VBO(coords1),Model.DATA_VERTEX);
-        myModel1.addBufferObject(new BufferObject(colours1,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
-        myModel1.addBufferObject(
+        myModel1.addTypedBufferObject(new VBO(coords1));
+        myModel1.addTypedBufferObject(new CBO(colours1));        
+        myModel1.addTypedBufferObject(
         		new TBO(tex1,
         				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
-        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
-        myModel1.addBufferObject(new IBO(indices1), Model.DATA_INDICES);
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)));
+        myModel1.addTypedBufferObject(new IBO(indices1));
         myModel1.setMode(Models.COLOURS|Models.TEXTURE);
         
         
         myModel2=new Model();
-        myModel2.addBufferObject(new VBO(coords2),Model.DATA_VERTEX);
-        myModel2.addBufferObject(new BufferObject(colours2,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);        
-        myModel2.addBufferObject(
-        		new TBO(tex2,
-        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
-        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
-        myModel2.addBufferObject(new IBO(indices2), Model.DATA_INDICES);
+        myModel2.addTypedBufferObject(new VBO(coords2));
+//        myModel2.addTypedBufferObject(new CBO(colours2));
+        myModel2.addTypedBufferObject(new CBO(coords2.length/Model.COORDINATES_PER_VERTEX,0f,0f,1f,0.5f));
+//        myModel2.addTypedBufferObject(
+//        		new TBO(tex2,
+//        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+//        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)));
+        myModel2.addTypedBufferObject(new IBO(indices2));
         myModel2.setMode(Models.COLOURS|Models.TEXTURE);
     
     }    

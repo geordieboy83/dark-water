@@ -69,6 +69,27 @@ public class Model {
 	
 	
 	
+	public void addTypedBufferObject(BufferObject BO){
+		
+		if(BO==null)return;
+		if(BO instanceof VBO) { myVBO=(VBO) BO; }
+		else if(BO instanceof IBO) { myIBO=(IBO) BO; }
+		else if(BO instanceof CBO) { myCBO=BO; hasColours=true; usesColours(true); }
+		else if(BO instanceof TBO) {	
+			hasTextures=true; 
+			usesTextures(true);
+			myTBOs.add((TBO) BO);
+			myTBOs.get(myTBOs.size()-1).setTextureUnit(myTBOs.size()-1);
+			return;
+		}
+		
+		drawPacked=false;
+
+		
+	}
+	
+	
+	
 	public void addBufferObject(BufferObject BO, int type){
 		
 		if(BO==null)return;
@@ -83,6 +104,7 @@ public class Model {
 				break;
 			case DATA_TEXTURE:				
 				hasTextures=true;
+				usesTextures(true);
 				myTBOs.add((TBO) BO);
 				myTBOs.get(myTBOs.size()-1).setTextureUnit(myTBOs.size()-1);
 				break;
@@ -394,24 +416,25 @@ public class Model {
 		
 		shaders.use();		     
         
-        if(hasColours&&myCBO!=null){
+		GLES20.glUniform1i(shaders.getColourUse(), usesColours?Shaders.YES:0);
+        if(usesColours&&myCBO!=null){
         	// Pass in the color information
         	
-        	GLES20.glUniform1i(shaders.getColourUse(), usesColours?Shaders.YES:0);        	
+        	        	
         	myCBO.draw(shaders);
         
         }
         
-        if(hasTextures&&!myTBOs.isEmpty()){
-        	
-        	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
+        GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);
+        if(usesTextures&&!myTBOs.isEmpty()){        	
+        	        	
         	for(TBO tbo:myTBOs){
         		tbo.draw(shaders);
         	}       	
            
         }        
         
-        if(hasNormals){
+        if(usesNormals){
         	
         }        
 
