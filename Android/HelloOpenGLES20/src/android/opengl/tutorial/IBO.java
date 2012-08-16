@@ -18,7 +18,8 @@ public class IBO extends BufferObject {
 		
 
     	if(!isFilled)
-    		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myBufferElements,GLES20.GL_UNSIGNED_SHORT, 0);
+    		GLES20.glDrawElements(GLES20.GL_LINE_STRIP, myBufferElements,GLES20.GL_UNSIGNED_SHORT, 0);
+//    		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myBufferElements,GLES20.GL_UNSIGNED_SHORT, 0);
 //    		for(int i = 0; i < myBufferElements/3; i++){    		
 //    			GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, 3*i);
 //    		}

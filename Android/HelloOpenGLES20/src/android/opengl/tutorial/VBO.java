@@ -10,7 +10,8 @@ public class VBO extends BufferObject {
 	
 	public void render(boolean isFilled){
 		if(!isFilled) {			
-			GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, myBufferElements);
+			GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, myBufferElements);
+//			GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, myBufferElements);
 //			for(int i = 0; i < 3*(int) Math.floor(myBufferElements/9.0); i += 3)				
 //					GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
 		}
