@@ -361,7 +361,8 @@ public class Model {
         if(myIndices==null){        
         	if(!isFilled) 
 //        		for(int i = 0; i < myVertices.capacity(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
-        		 GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, myVertices.capacity());
+//        		 GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, myVertices.capacity());
+        		GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, myVertices.capacity());
         	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity());
         }
         else{
@@ -373,7 +374,8 @@ public class Model {
 //        			GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
 //        		}
             		myIndices.position(0);
-            		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+//            		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+            		GLES20.glDrawElements(GLES20.GL_LINE_STRIP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
         	}
         	else{
         		myIndices.position(0);
@@ -482,7 +484,9 @@ public class Model {
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
         if(myIndices==null){        
-        	if(!isFilled) for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        	if(!isFilled)
+//        		for(int i = 0; i < myVertices.capacity()/stride(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
+        		GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, myVertices.capacity()/stride());
         	else GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, myVertices.capacity()/stride());
         }
         else{
@@ -494,7 +498,8 @@ public class Model {
 //        			GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3,GLES20.GL_UNSIGNED_SHORT, myIndices);
 //        		}
         		myIndices.position(0);
-        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+//        		GLES20.glDrawElements(GLES20.GL_LINE_LOOP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
+        		GLES20.glDrawElements(GLES20.GL_LINE_STRIP, myIndices.capacity(),GLES20.GL_UNSIGNED_SHORT, myIndices);
         	}
         	else{
         		myIndices.position(0);
