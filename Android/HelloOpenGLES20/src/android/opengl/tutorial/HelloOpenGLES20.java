@@ -38,6 +38,23 @@ public class HelloOpenGLES20 extends Activity {
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
         
+        long now=System.currentTimeMillis();
+        
+        System.out.println(
+     			"On Begin Model: "+
+     			"Maximum Memory: "+ (int) (Runtime.getRuntime().maxMemory()/(1024*1024))+" MB, "+
+				"Allocated Memory: "+ (int) (Runtime.getRuntime().totalMemory()/(1024*1024))+" MB, "+
+				"Used Memory: "+ (int) ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024))+" MB");
+        
+        OBJ test= new OBJ(R.raw.model_just_grid,this);
+        
+        System.out.println(
+     			"On End Model: "+
+     			"Maximum Memory: "+ (int) (Runtime.getRuntime().maxMemory()/(1024*1024))+" MB, "+
+				"Allocated Memory: "+ (int) (Runtime.getRuntime().totalMemory()/(1024*1024))+" MB, "+
+				"Used Memory: "+ (int) ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024))+" MB. "+
+				"Loading took "+(System.currentTimeMillis()-now)+" ms.");
+        
         this.setTheme(android.R.style.Theme_Light_NoTitleBar_Fullscreen);
 		
         myFont=Typeface.createFromAsset(getAssets(), myFontAsset);

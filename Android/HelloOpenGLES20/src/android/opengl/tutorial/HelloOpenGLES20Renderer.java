@@ -225,101 +225,13 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     
     }    
     
-    
-    
-    private void initShapes(){
-        
-    	short indices[] = {
-    			0,1,2,
-    			2,3,0,
-    			4,5,6,
-    			7,8,9
-    	};
-    	
-    	
-        float triangleCoords[] = {
-            // X, Y, Z
-//            -0.5f, -0.25f, 0,
-//             0.5f, -0.25f, 0,
-//             0.0f,  0.559016994f, 0,
-        		-0.5f, -0.25f, 0,
-                0.5f, -0.25f, 0,
-                0.5f,  0.559016994f, 0,
-                -0.5f,  0.559016994f, 0,
-             
-             -0.5f, -0.5f, 0,
-             -0.75f, -0.5f, 0,
-             -0.55f,  0.559016994f, 0,
-             
-             0.5f, -0.5f, 0,
-             0.75f, -0.5f, 0,
-             0.55f,  0.559016994f, 0
-             
-             
-        }; 
-        
-        
-        float colourCoords[]= {
-				// R, G, B, A
-	            1.0f, 0.0f, 0.0f, 1.0f,
-	            0.0f, 0.0f, 1.0f, 1.0f,
-	            0.0f, 1.0f, 0.0f, 1.0f,
-	            0.7f, 0.3f, 0.7f, 1.0f,
-		
-				// R, G, B, A
-	            1.0f, 1.0f, 0.0f, 1.0f,
-	            0.0f, 1.0f, 1.0f, 1.0f,
-	            1.0f, 0.0f, 1.0f, 1.0f,
-		
-	            // R, G, B, A
-	            1.0f, 1.0f, 1.0f, 1.0f,
-	            0.5f, 0.5f, 0.5f, 1.0f,
-	            0.0f, 0.0f, 0.0f, 1.0f};        
-        
-
-        
-        float texCoords[]={
-        		0,2,
-        		2,2,
-//        		0.5f,1,
-        		2,0,
-        		0,0,
-        		
-        		1,1,
-        		0,1,
-        		0.5f,0,
-        		
-        		0,1,
-        		1,1,
-        		0.5f,0,
-        };
-        
-//        myModel=new Model(triangleCoords,colourCoords,texCoords,null,indices);
-        myModel=new Model();
-        myModel.addBufferObject(new VBO(triangleCoords),Model.DATA_VERTEX);
-//        myModel.make(triangleCoords, Model.DATA_VERTEX);
-        myModel.addBufferObject(new BufferObject(colourCoords,Shaders.ATTR_COL,Model.COLOUR_COMPONENTS_PER_VERTEX), Model.DATA_COLOUR);
-//        myModel.make(colourCoords, Model.DATA_COLOUR);
-        
-        myModel.addBufferObject(
-        		new TBO(texCoords,
-        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
-        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)), Model.DATA_TEXTURE);
-//        myModel.make(texCoords, Model.DATA_TEXTURE, Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));
-//        myModel.make(indices);
-        myModel.addBufferObject(new IBO(indices), Model.DATA_INDICES);
-        setMode(Models.COLOURS|Models.TEXTURE);
-
-//        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain));	       
-//        myModel.setTexture(Textures.loadTexture(myContext, R.drawable.ihs_black));
-
-    
-    }
+   
 	public void destroy() {
 		if(myModel!=null) myModel.destroy();
 		if(myModel1!=null) myModel1.destroy();
 		if(myModel2!=null) myModel2.destroy();
-		Textures.destroy();		
+		Textures.destroy();
+		Shaders.destroy();
 		
 	}    
     
