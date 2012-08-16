@@ -10,6 +10,18 @@ public class CBO extends BufferObject {
 		this(fromRGBA(vertices, r,g,b,a));
 	}
 	
+	
+	public CBO(int vertices, float rgba[]){
+		this(fromRGBA(vertices, rgba));
+	}
+	
+	
+	protected static float[] fromRGBA(int vertices, float rgba[]){
+		if(rgba==null||rgba.length<4) return null;
+		return fromRGBA(vertices, rgba[0],rgba[1],rgba[2],rgba[3]);
+	}
+	
+	
 	protected static float[] fromRGBA(int vertices, float r, float g, float b, float a){
 		if(vertices <=0) return null;
 		float result[]=new float[4*vertices];
