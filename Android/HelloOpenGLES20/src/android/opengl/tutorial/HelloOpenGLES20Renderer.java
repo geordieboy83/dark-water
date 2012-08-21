@@ -50,8 +50,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		    
 	        // Set the background frame color
-//	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
-		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
+//		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	        
 	        // Enable texture mapping
 //			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
@@ -127,7 +127,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     			0,1,2,
     			2,3,0,};
     	short indices1[]={
-    			0,1,2,};
+    			1,0,2,};
     	short indices2[]={
     			0,1,2
     	};
@@ -153,6 +153,37 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
              
         }; 
         
+        float normals0[]=new float[indices0.length], normals1[]=new float[indices1.length], normals2[]=new float[indices1.length];
+        
+        for(int i=0; i<indices0.length/3; i++){
+        	Vector v1=new Vector(coords0,indices0[3*i]);
+        	Vector v2=new Vector(coords0,indices0[3*i+1]);
+        	Vector v3=new Vector(coords0,indices0[3*i+2]);       	
+        	Vector vn=Vector.normal(v1,v2,v3);
+        	normals0[3*i]=vn.x;
+        	normals0[3*i+1]=vn.y;
+        	normals0[3*i+2]=vn.z;
+        }
+        
+        for(int i=0; i<indices1.length/3; i++){
+        	Vector v1=new Vector(coords1,indices1[3*i]);
+        	Vector v2=new Vector(coords1,indices1[3*i+1]);
+        	Vector v3=new Vector(coords1,indices1[3*i+2]);       	
+        	Vector vn=Vector.normal(v1,v2,v3);
+        	normals1[3*i]=vn.x;
+        	normals1[3*i+1]=vn.y;
+        	normals1[3*i+2]=vn.z;
+        }
+        
+        for(int i=0; i<indices2.length/3; i++){
+        	Vector v1=new Vector(coords2,indices2[3*i]);
+        	Vector v2=new Vector(coords2,indices2[3*i+1]);
+        	Vector v3=new Vector(coords2,indices2[3*i+2]);       	
+        	Vector vn=Vector.normal(v1,v2,v3);
+        	normals2[3*i]=vn.x;
+        	normals2[3*i+1]=vn.y;
+        	normals2[3*i+2]=vn.z;
+        }
         
         float colours0[]= {
 				// R, G, B, A
@@ -198,12 +229,14 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         		new TBO(tex0,
         				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
         				Textures.loadTexture(myContext, R.drawable.radiance)));
-        myModel.addTypedBufferObject(new IBO(indices0));
+        myModel.addBufferObject(new BufferObject(normals0, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
+        myModel.addTypedBufferObject(new IBO(indices0));        
         myModel.setMode(Models.COLOURS|Models.TEXTURE);
         
         myModel1=new Model();
         myModel1.addTypedBufferObject(new VBO(coords1));
-        myModel1.addTypedBufferObject(new CBO(colours1));        
+        myModel1.addTypedBufferObject(new CBO(colours1));
+        myModel1.addBufferObject(new BufferObject(normals1, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
         myModel1.addTypedBufferObject(
         		new TBO(tex1,
         				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
@@ -214,12 +247,13 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
         myModel2=new Model();
         myModel2.addTypedBufferObject(new VBO(coords2));
-//        myModel2.addTypedBufferObject(new CBO(colours2));
-        myModel2.addTypedBufferObject(new CBO(coords2.length/Model.COORDINATES_PER_VERTEX,0f,0f,1f,0.5f));
-//        myModel2.addTypedBufferObject(
-//        		new TBO(tex2,
-//        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
-//        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)));
+        myModel2.addTypedBufferObject(new CBO(colours2));
+        myModel.addBufferObject(new BufferObject(normals2, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
+//        myModel2.addTypedBufferObject(new CBO(coords2.length/Model.COORDINATES_PER_VERTEX,0f,0f,1f,0.5f));
+        myModel2.addTypedBufferObject(
+        		new TBO(tex2,
+        				Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX,
+        				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)));
         myModel2.addTypedBufferObject(new IBO(indices2));
         myModel2.setMode(Models.COLOURS|Models.TEXTURE);
     

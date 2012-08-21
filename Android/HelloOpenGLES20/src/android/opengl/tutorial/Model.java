@@ -388,7 +388,8 @@ public class Model {
            
         }        
         
-        if(hasNormals){
+//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        if(usesNormals){
         	
         }        
 
@@ -451,8 +452,10 @@ public class Model {
            
         }        
         
-        if(usesNormals){
-        	
+        
+//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        if(usesNormals&&myNBO!=null){
+//        	myNBO.draw(shaders);
         }        
 
 
@@ -518,7 +521,8 @@ public class Model {
            
         }        
         
-        if(hasNormals){
+//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        if(usesNormals){
         	
         }        
 
