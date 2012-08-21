@@ -7,6 +7,19 @@ public class Vector {
 	protected float z=0;
 	protected float magnitude=0;
 	
+	
+	public Vector(float[] vertices, short index){
+		
+		try{
+			x=vertices[3*index];
+			y=vertices[3*index+1];
+			z=vertices[3*index+2];
+			magn();
+			
+		}catch(Throwable t){}
+		
+	}
+	
 	public Vector(float xcoord, float ycoord, float zcoord){
 		x=xcoord;
 		y=ycoord;
