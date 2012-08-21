@@ -10,6 +10,8 @@
 	varying vec4 v_Colour;
 	varying vec2 v_Texture;
 	varying vec3 v_Normal;
+	
+	uniform float u_Time;
         
 	void main(){
         
@@ -18,6 +20,7 @@
 		v_Normal = a_Normal;
         
 		// the matrix must be included as a modifier of gl_Position
-		gl_Position = uMVPMatrix * a_Position;
+		gl_Position = uMVPMatrix * (a_Position*vec4(1.0+sin(u_Time*0.1),1.0+sin(u_Time*0.1),1.0,1.0));
+		//gl_Position = uMVPMatrix * (a_Position*vec4(1.0+sin(u_Time*0.1),1.0+sin(u_Time*0.1),1.0,1.0));
         
 	}

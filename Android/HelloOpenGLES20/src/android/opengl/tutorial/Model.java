@@ -57,6 +57,8 @@ public class Model {
 	
 	protected boolean drawPacked=false;
 	
+	protected long now=0, start=0;	
+	
 	public Model(){}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[], short idx[]){
@@ -68,7 +70,7 @@ public class Model {
 	}
 	
 	
-	
+		
 	public void addTypedBufferObject(BufferObject BO){
 		
 		if(BO==null)return;
@@ -313,9 +315,20 @@ public class Model {
         
 	}	
 	
+	protected float getTime(){		
+		now=System.currentTimeMillis();
+		if(start==0) start=now;
+		
+		float result=(now-start)/1000f;
+		System.out.println("Time: "+result+" s");
+		return result;
+//		if(before==0) return 0f;
+//		else return (now-before)/1000f;
+	}
 	
 	public void draw(float[] ModelView, Program shaders){		
 		
+				
 		if(myVBO!=null){
 			drawSeparateGPU(ModelView, shaders);
 		}
@@ -380,6 +393,8 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
+        GLES20.glUniform1f(shaders.getTime(), getTime());
+        
         if(myIndices==null){        
         	if(!isFilled) 
 //        		for(int i = 0; i < myVertices.capacity(); i += 3)  GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, i, 3);
@@ -440,6 +455,8 @@ public class Model {
 
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
+
+        GLES20.glUniform1f(shaders.getTime(), getTime());
         
         myVBO.draw(shaders);
         
@@ -486,7 +503,7 @@ public class Model {
         
         if(hasTextures&&myTexture>0){
         	
-        	Textures.useTexture(0, myTexture, shaders);
+        	Textures.useTexture(0, myTexture, shaders);        	
         	
         	// Pass in the texture coordinate information        	
         	GLES20.glUniform1i(shaders.getTextureUse(), usesTextures?Shaders.YES:0);        	
@@ -505,6 +522,8 @@ public class Model {
 
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
+        
+        GLES20.glUniform1f(shaders.getTime(), getTime());
         
         if(myIndices==null){        
         	if(!isFilled)
