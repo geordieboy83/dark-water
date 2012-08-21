@@ -58,6 +58,7 @@ public class Model {
 	protected boolean drawPacked=false;
 	
 	protected long now=0, start=0;	
+	protected float myTime=0;
 	
 	public Model(){}
 	
@@ -328,6 +329,7 @@ public class Model {
 	
 	public void draw(float[] ModelView, Program shaders){		
 		
+		myTime=getTime();
 				
 		if(myVBO!=null){
 			drawSeparateGPU(ModelView, shaders);
@@ -393,7 +395,7 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
-        GLES20.glUniform1f(shaders.getTime(), getTime());
+        GLES20.glUniform1f(shaders.getTime(), myTime);
         
         if(myIndices==null){        
         	if(!isFilled) 
@@ -456,7 +458,7 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
 
-        GLES20.glUniform1f(shaders.getTime(), getTime());
+        GLES20.glUniform1f(shaders.getTime(), myTime);
         
         myVBO.draw(shaders);
         
@@ -523,7 +525,7 @@ public class Model {
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
         
-        GLES20.glUniform1f(shaders.getTime(), getTime());
+        GLES20.glUniform1f(shaders.getTime(), myTime);
         
         if(myIndices==null){        
         	if(!isFilled)
