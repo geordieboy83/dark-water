@@ -33,7 +33,8 @@ public class Shaders {
 	public static final String UNI_LIT="u_Light";
 	public static final String UNI_USE_COL="uses_Colours";
 	public static final String UNI_USE_TEX="uses_Textures";
-	public static final String UNI_USE_NOR="uses_Normals";	
+	public static final String UNI_USE_NOR="uses_Normals";
+	public static final String UNI_TIME="u_Time";
 	
 	public static String fromResource(Context context, int code_id) {
 		try{
