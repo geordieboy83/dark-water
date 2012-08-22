@@ -321,7 +321,7 @@ public class Model {
 		if(start==0) start=now;
 		
 		float result=(now-start)/1000f;
-		System.out.println("Time: "+result+" s");
+//		System.out.println("Time: "+result+" s");
 		return result;
 //		if(before==0) return 0f;
 //		else return (now-before)/1000f;
@@ -453,9 +453,9 @@ public class Model {
         }        
         
         
-//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
         if(usesNormals&&myNBO!=null){
-//        	myNBO.draw(shaders);
+        	myNBO.draw(shaders);
         }        
 
 

@@ -5,6 +5,9 @@
 	const float X_PER_SEC=0.8;
 	const float Y_PER_SEC=0.8;
         
+    
+    uniform mat4 uMVPMatrix;
+    
     uniform float u_Time;
 	uniform int uses_Colours;
 	uniform int uses_Textures;
@@ -16,7 +19,7 @@
 	varying vec2 v_Texture;   // Interpolated texture coordinate per fragment.
 	varying vec3 v_Normal;
         
-    varying vec4 v_Position;
+    varying vec3 v_Position;
         
 	void main(){        
         
@@ -27,18 +30,20 @@
         
         float diffuse;	
         if(uses_Normals==YES){
-        	vec3 u_LightPos=vec3(0.0,0.0,10.0);
-        	vec3 pos=vec3(v_Position);
-        	
+        	//vec3 u_LightPos=vec3(uMVPMatrix*vec4(0.0,0.0,10,1.0));
+        	//vec3 u_LightPos=vec3(0.0,0.0,10.0);
+        	vec3 u_LightPos=vec3(0.25,0.1,0.1);
+        	        	
         	// Will be used for attenuation.
-    		float distance = length(u_LightPos - pos);
+    		float distance = length(u_LightPos - v_Position);
 	 
    			// Get a lighting direction vector from the light to the vertex.
-    		vec3 lightVector = normalize(u_LightPos - pos);
+    		vec3 lightVector = normalize(u_LightPos - v_Position);
  
     		// Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
     		// pointing in the same direction then it will get max illumination.
-    		diffuse = max(dot(v_Normal, lightVector), 0.1);
+    		//diffuse = max(dot(v_Normal, lightVector), 0.1);
+    		diffuse = dot(v_Normal, lightVector);
  
     		// Add attenuation.
     		diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));
