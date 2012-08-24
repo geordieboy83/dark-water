@@ -29,21 +29,17 @@
         	);
         
         float diffuse;	
-        if(uses_Normals==YES){
-        	//vec3 u_LightPos=vec3(uMVPMatrix*vec4(0.0,0.0,10,1.0));
-        	//vec3 u_LightPos=vec3(0.0,0.0,10.0);
-        	vec3 u_LightPos=vec3(0.25,0.1,0.1);
-        	        	
+        if(uses_Normals==YES){        	
         	// Will be used for attenuation.
-    		float distance = length(u_LightPos - v_Position);
+    		float distance = length(u_Light - v_Position);
 	 
    			// Get a lighting direction vector from the light to the vertex.
-    		vec3 lightVector = normalize(u_LightPos - v_Position);
+    		vec3 lightVector = normalize(u_Light - v_Position);
  
     		// Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
     		// pointing in the same direction then it will get max illumination.
-    		//diffuse = max(dot(v_Normal, lightVector), 0.1);
-    		diffuse = dot(v_Normal, lightVector);
+    		diffuse = max(dot(v_Normal, lightVector), 0.1);
+    		//diffuse = dot(v_Normal, lightVector);
  
     		// Add attenuation.
     		diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));

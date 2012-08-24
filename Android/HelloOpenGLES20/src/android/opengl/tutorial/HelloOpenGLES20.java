@@ -75,28 +75,32 @@ public class HelloOpenGLES20 extends Activity {
     	none.setTypeface(myFont);
     	none.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setMode((mGLView.getMode()&Models.WIREFRAME)|Models.NONE);
+				int oldMode=mGLView.getMode();
+				mGLView.setMode((mGLView.getMode()&Models.WIREFRAME)|Models.NONE|(oldMode&Models.NORMALS));
 			}});    	
     	
     	Button colours_only=(Button) l.findViewById(R.id.btn_colours_only);
     	colours_only.setTypeface(myFont);
     	colours_only.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS));
+				int oldMode=mGLView.getMode();
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|(oldMode&Models.NORMALS)));
 			}});
     	
     	Button texture_only=(Button) l.findViewById(R.id.btn_texture_only);
     	texture_only.setTypeface(myFont);
     	texture_only.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.TEXTURE));
+				int oldMode=mGLView.getMode();
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.TEXTURE|(oldMode&Models.NORMALS)));
 			}});
     	
     	Button texture_and_colours=(Button) l.findViewById(R.id.btn_colours_and_texture);
     	texture_and_colours.setTypeface(myFont);
     	texture_and_colours.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {				
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE));
+			public void onClick(View v) {	
+				int oldMode=mGLView.getMode();
+				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE|(oldMode&Models.NORMALS)));
 			}});
     	
     	ToggleButton wireframe=(ToggleButton) l.findViewById(R.id.btn_wireframe);
@@ -133,6 +137,57 @@ public class HelloOpenGLES20 extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
 				
+			}});
+    	
+    	
+    	Button plusx=(Button) l.findViewById(R.id.btn_plus_x);
+    	plusx.setTypeface(myFont);
+    	plusx.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[0]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
+				
+			}});
+    	
+    	Button minusx=(Button) l.findViewById(R.id.btn_minus_x);
+    	minusx.setTypeface(myFont);
+    	minusx.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[0]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
+			}});
+    	
+    	Button plusy=(Button) l.findViewById(R.id.btn_plus_y);
+    	plusy.setTypeface(myFont);
+    	plusy.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[1]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
+			}});
+    	
+    	Button minusy=(Button) l.findViewById(R.id.btn_minus_y);
+    	minusy.setTypeface(myFont);
+    	minusy.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[1]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
+			}});
+    	
+    	Button plusz=(Button) l.findViewById(R.id.btn_plus_z);
+    	plusz.setTypeface(myFont);
+    	plusz.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[2]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
+			}});
+    	
+    	Button minusz=(Button) l.findViewById(R.id.btn_minus_z);
+    	minusz.setTypeface(myFont);
+    	minusz.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myLight[2]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
     	
     	

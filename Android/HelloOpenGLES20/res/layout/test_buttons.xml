@@ -66,6 +66,61 @@
         android:entries="@array/test_axes"
         android:textSize="30sp" />
 
-   
+    <Button
+        android:id="@+id/btn_plus_x"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_wireframe"
+        android:layout_marginTop="93dp"
+        android:textSize="30sp"
+        android:text="x+" />
+
+    <Button
+        android:id="@+id/btn_minus_x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_plus_x"
+        android:textSize="30sp"
+        android:text="x-" />
+
+    <Button
+        android:id="@+id/btn_plus_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_minus_x"
+        android:layout_marginTop="31dp"
+        android:textSize="30sp"
+        android:text="y+" />
+
+    <Button
+        android:id="@+id/btn_minus_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_plus_y"
+        android:textSize="30sp"
+        android:text="y-" />
+
+    <Button
+        android:id="@+id/btn_plus_z"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_minus_y"
+        android:layout_marginTop="41dp"
+        android:textSize="30sp"
+        android:text="z+" />
+
+    <Button
+        android:id="@+id/btn_minus_z"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btn_plus_z"
+        android:textSize="30sp"
+        android:text="z-" />
 
 </RelativeLayout>

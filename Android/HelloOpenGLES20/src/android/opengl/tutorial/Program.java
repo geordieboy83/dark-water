@@ -59,6 +59,7 @@ public class Program {
 	public int getTextureUse() { return getUniform(myTextureUse); }
 	public int getNormalUse() { return getUniform(myNormalUse); }
 	public int getTime() { return getUniform(myTime); }
+	public int getLight() { return getUniform(myLight); }
 	
 	public Program(String vertexShaderCode, String fragmentShaderCode, String[] attributes, String[] uniforms){
 		

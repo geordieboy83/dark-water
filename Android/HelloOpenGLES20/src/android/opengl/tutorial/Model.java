@@ -60,6 +60,8 @@ public class Model {
 	protected long now=0, start=0;	
 	protected float myTime=0;
 	
+	protected float[] myLight={0,0,0};
+	
 	public Model(){}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[], short idx[]){
@@ -70,6 +72,8 @@ public class Model {
 		make(xyz,rgba,st,vn,ixyz, irgba, ist, ivn);		
 	}
 	
+	
+	public void setLight(float[] light) { try{ myLight[0]=light[0]; myLight[1]=light[1]; myLight[2]=light[2]; } catch(Throwable t){} }
 	
 		
 	public void addTypedBufferObject(BufferObject BO){
@@ -342,7 +346,7 @@ public class Model {
 	}
 	
 	protected void drawSeparateCPU(float[] ModelView, Program shaders){
-		System.out.println("Draw Separate CPU");
+//		System.out.println("Draw Separate CPU");
 		
 		
 		shaders.use();
@@ -429,7 +433,7 @@ public class Model {
 	}
 	
 	protected void drawSeparateGPU(float[] ModelView, Program shaders){
-		System.out.println("Draw Separate GPU");
+//		System.out.println("Draw Separate GPU");
 		
 		
 		shaders.use();		     
@@ -455,6 +459,7 @@ public class Model {
         
         GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
         if(usesNormals&&myNBO!=null){
+        	GLES20.glUniform3f(shaders.getLight(), myLight[0], myLight[1], myLight[2]);
         	myNBO.draw(shaders);
         }        
 
@@ -481,7 +486,7 @@ public class Model {
 	
 	protected void drawCPU(float[] ModelView, Program shaders){
 		
-		System.out.println("Draw CPU");
+//		System.out.println("Draw CPU");
 		
 		
 		shaders.use();
