@@ -11,6 +11,7 @@ import android.os.SystemClock;
 
 public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
+	public static final float MV_LIGHT=0.1f;
 	 
 	public static final int WIREFRAME=-1;
     public static final int FILLED=-2;
@@ -27,6 +28,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     private float[] mMMatrix = new float[16];
 	private float[] mVMatrix = new float[16];
 	private float[] mProjMatrix = new float[16];
+	protected float[] myLight = {0.0f,0.0f,0.0f};
 	    
 	 
 	public float mAngle;
@@ -99,7 +101,11 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         
-        
+       
+        myModel.setLight(myLight);
+        myModel1.setLight(myLight);
+        myModel2.setLight(myLight);
+       
         myModel.draw(mMVPMatrix, myProgram);
         myModel1.draw(mMVPMatrix, myProgram);
         myModel2.draw(mMVPMatrix, myProgram);
@@ -173,38 +179,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
             };
         
         
-//        float normals0[]=new float[indices0.length], normals1[]=new float[indices1.length], normals2[]=new float[indices1.length];
-//        
-//        for(int i=0; i<indices0.length/3; i++){
-//        	Vector v1=new Vector(coords0,indices0[3*i]);
-//        	Vector v2=new Vector(coords0,indices0[3*i+1]);
-//        	Vector v3=new Vector(coords0,indices0[3*i+2]);       	
-//        	Vector vn=Vector.normal(v1,v2,v3);
-//        	normals0[3*i]=vn.x;
-//        	normals0[3*i+1]=vn.y;
-//        	normals0[3*i+2]=vn.z;
-//        }
-//        
-//        for(int i=0; i<indices1.length/3; i++){
-//        	Vector v1=new Vector(coords1,indices1[3*i]);
-//        	Vector v2=new Vector(coords1,indices1[3*i+1]);
-//        	Vector v3=new Vector(coords1,indices1[3*i+2]);       	
-//        	Vector vn=Vector.normal(v1,v2,v3);
-//        	normals1[3*i]=vn.x;
-//        	normals1[3*i+1]=vn.y;
-//        	normals1[3*i+2]=vn.z;
-//        }
-//        
-//        for(int i=0; i<indices2.length/3; i++){
-//        	Vector v1=new Vector(coords2,indices2[3*i]);
-//        	Vector v2=new Vector(coords2,indices2[3*i+1]);
-//        	Vector v3=new Vector(coords2,indices2[3*i+2]);       	
-//        	Vector vn=Vector.normal(v1,v2,v3);
-//        	normals2[3*i]=vn.x;
-//        	normals2[3*i+1]=vn.y;
-//        	normals2[3*i+2]=vn.z;
-//        }
-        
+   
         float colours0[]= {
 				// R, G, B, A
 	            1.0f, 0.0f, 0.0f, 1.0f,
@@ -276,6 +251,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         				Textures.loadTexture(myContext, R.drawable.bumpy_bricks_public_domain)));
         myModel2.addTypedBufferObject(new IBO(indices2));
         myModel2.setMode(Models.COLOURS|Models.TEXTURE|Models.NORMALS);
+
     
     }    
     

@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 
 	   private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
-	    private HelloOpenGLES20Renderer mRenderer;
+	    protected HelloOpenGLES20Renderer mRenderer;
 	    private float mPreviousX;
 	    private float mPreviousY;
 	 
