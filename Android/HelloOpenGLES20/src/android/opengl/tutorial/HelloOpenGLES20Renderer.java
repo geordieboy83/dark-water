@@ -28,7 +28,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     private float[] mMMatrix = new float[16];
 	private float[] mVMatrix = new float[16];
 	private float[] mProjMatrix = new float[16];
-	protected float[] myLight = {0.0f,0.0f,0.0f};
+	protected float[] myLight = {0.0f,0.0f,1.0f};
 	    
 	 
 	public float mAngle;
@@ -88,27 +88,37 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         	case HelloOpenGLES20SurfaceView.AXIS_X:
 //        		Matrix.setRotateM(mMMatrix, 0, mAngle, 1, 0, 0);
         		myModel.rotate(mAngle, 1, 0, 0);
+//        		myModel.translate(0.5f, 0.3f, 0.2f);
+//        		myModel.scale(0.7f,0.8f,0.9f);
         		myModel1.rotate(mAngle, 1, 0, 0);
         		myModel2.rotate(mAngle, 1, 0, 0);
         		break;
         	case HelloOpenGLES20SurfaceView.AXIS_Y:
 //        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 1, 0);
         		myModel.rotate(mAngle, 0, 1, 0);
+//        		myModel.translate(0.5f, 0.3f, 0.2f);
+//        		myModel.scale(0.7f,0.8f,0.9f);
         		myModel1.rotate(mAngle, 0, 1, 0);
         		myModel2.rotate(mAngle, 0, 1, 0);
         		break;
         	case HelloOpenGLES20SurfaceView.AXIS_Z:
 //        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1);
+//        		myModel.translate(0.5f, 0.3f, 0.2f);
         		myModel.rotate(mAngle, 0, 0, 1);
         		myModel1.rotate(mAngle, 0, 0, 1);
         		myModel2.rotate(mAngle, 0, 0, 1);
+//        		myModel.scale(0.7f,0.8f,0.9f);
         		break;
         	default:
         		break;
         }
+        
+        
 
 //        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
 //        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        
+//        System.out.println("RND: " ); for(float f: mtx) System.out.print(f+", "); System.out.println();
         
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
        
@@ -120,6 +130,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         myModel1.draw(mMVPMatrix, myProgram);
         myModel2.draw(mMVPMatrix, myProgram);
         
+//        System.out.println("===");
     }
     
     public void onSurfaceChanged(GL10 unused, int width, int height) {
