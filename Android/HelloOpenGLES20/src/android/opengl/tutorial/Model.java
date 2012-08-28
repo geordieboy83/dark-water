@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 public class Model {
 	
@@ -62,13 +63,42 @@ public class Model {
 	
 	protected float[] myLight={0,0,0};
 	
-	public Model(){}
+	protected float[] myRotation=new float[16], myTranslation=new float[16], myScale=new float[16], myModelView=new float[16];
+//	protected float myAngle=0;
+//	protected Vector myAxis=new Vector(), myScales=new Vector(), myShift=new Vector();
+	
+	
+	public void rotate(float angle, float x, float y, float z){
+//		myAngle=angle; myAxis.set_coords(x, y, z);
+		Matrix.setRotateM(myRotation, 0, angle, x, y, z);
+	}
+	
+	public void translate(float dx, float dy, float dz) { 
+//		myShift.set_coords(dx, dy, dz);
+		Matrix.setIdentityM(myTranslation, 0);
+		Matrix.translateM(myTranslation, 0, dx, dy, dz);
+	}
+	
+	public void scale(float s){
+		Matrix.setIdentityM(myScale, 0);
+		Matrix.scaleM(myScale, 0, s, s, s);
+	}
+	
+	public void scale(float sx, float sy, float sz){
+		Matrix.setIdentityM(myScale, 0);
+		Matrix.scaleM(myScale, 0, sx, sy, sz);
+	}
+	
+	
+	public Model(){ Matrix.setIdentityM(myRotation, 0); Matrix.setIdentityM(myTranslation, 0); Matrix.setIdentityM(myScale, 0);}	
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[], short idx[]){
+		this();
 		make(xyz,rgba,st,vn,idx);		
 	}
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[], short ixyz[], short irgba[], short ist[], short ivn[]){
+		this();
 		make(xyz,rgba,st,vn,ixyz, irgba, ist, ivn);		
 	}
 	
@@ -333,14 +363,20 @@ public class Model {
 	
 	public void draw(float[] ModelView, Program shaders){		
 		
-		myTime=getTime();
+		myTime=getTime();	
+		
+		Matrix.setIdentityM(myModelView, 0);
+		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myScale, 0);
+		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myRotation, 0);
+		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myTranslation, 0);
+		Matrix.multiplyMM(myModelView, 0, myModelView, 0, ModelView, 0);
 				
 		if(myVBO!=null){
-			drawSeparateGPU(ModelView, shaders);
+			drawSeparateGPU(myModelView, shaders);
 		}
 		else if(myVertices!=null){
-			if(drawPacked) drawCPU(ModelView,shaders);
-			else drawSeparateCPU(ModelView, shaders);
+			if(drawPacked) drawCPU(myModelView,shaders);
+			else drawSeparateCPU(myModelView, shaders);
 		}
 		
 	}
@@ -460,6 +496,7 @@ public class Model {
         GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
         if(usesNormals&&myNBO!=null){
         	GLES20.glUniform3f(shaders.getLight(), myLight[0], myLight[1], myLight[2]);
+        	GLES20.glUniformMatrix4fv(shaders.getNormalM(), 1, false, myRotation, 0);
         	myNBO.draw(shaders);
         }        
 
