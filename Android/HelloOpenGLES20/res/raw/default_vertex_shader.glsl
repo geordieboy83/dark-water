@@ -2,6 +2,7 @@
 // the coordinates of the objects that use this vertex shader
         
 	uniform mat4 uMVPMatrix;
+	uniform mat4 uNMatrix;
 	attribute vec4 a_Position;
 	attribute vec4 a_Colour;
 	attribute vec2 a_Texture;
@@ -19,7 +20,7 @@
         
 		v_Colour = a_Colour;
 		v_Texture = a_Texture;
-		v_Normal = a_Normal;
+		v_Normal = mat3(uNMatrix)*a_Normal;
         
         
 		// the matrix must be included as a modifier of gl_Position

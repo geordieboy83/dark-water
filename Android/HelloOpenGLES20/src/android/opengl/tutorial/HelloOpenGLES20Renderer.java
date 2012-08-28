@@ -86,23 +86,33 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
         switch(mAxis){
         	case HelloOpenGLES20SurfaceView.AXIS_X:
-        		Matrix.setRotateM(mMMatrix, 0, mAngle, 1, 0, 0);
+//        		Matrix.setRotateM(mMMatrix, 0, mAngle, 1, 0, 0);
+        		myModel.rotate(mAngle, 1, 0, 0);
+        		myModel1.rotate(mAngle, 1, 0, 0);
+        		myModel2.rotate(mAngle, 1, 0, 0);
         		break;
         	case HelloOpenGLES20SurfaceView.AXIS_Y:
-        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 1, 0);
+//        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 1, 0);
+        		myModel.rotate(mAngle, 0, 1, 0);
+        		myModel1.rotate(mAngle, 0, 1, 0);
+        		myModel2.rotate(mAngle, 0, 1, 0);
         		break;
         	case HelloOpenGLES20SurfaceView.AXIS_Z:
-        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1);
+//        		Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1);
+        		myModel.rotate(mAngle, 0, 0, 1);
+        		myModel1.rotate(mAngle, 0, 0, 1);
+        		myModel2.rotate(mAngle, 0, 0, 1);
         		break;
         	default:
         		break;
         }
 
-        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+//        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
+//        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
        
-        myModel.setLight(myLight);
+        myModel.setLight(myLight);        
         myModel1.setLight(myLight);
         myModel2.setLight(myLight);
        

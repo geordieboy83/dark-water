@@ -8,6 +8,8 @@ public class Vector {
 	protected float magnitude=0;
 	
 	
+	public Vector(){}
+	
 	public Vector(float[] vertices, short index){
 		
 		try{
