@@ -61,9 +61,10 @@ public class Model {
 	protected long now=0, start=0;	
 	protected float myTime=0;
 	
-	protected float[] myLight={0,0,0};
+	protected float[] myLight={0,0,1};
 	
-	protected float[] myRotation=new float[16], myTranslation=new float[16], myScale=new float[16], myModelView=new float[16];
+	protected float[] myRotation=new float[16], myTranslation=new float[16], myScale=new float[16], myModelView=new float[16],
+			RS=new float[16], TRS=new float[16];
 //	protected float myAngle=0;
 //	protected Vector myAxis=new Vector(), myScales=new Vector(), myShift=new Vector();
 	
@@ -90,7 +91,11 @@ public class Model {
 	}
 	
 	
-	public Model(){ Matrix.setIdentityM(myRotation, 0); Matrix.setIdentityM(myTranslation, 0); Matrix.setIdentityM(myScale, 0);}	
+	public Model(){ 
+		Matrix.setIdentityM(myRotation, 0);
+		Matrix.setIdentityM(myTranslation, 0);
+		Matrix.setIdentityM(myScale, 0);
+	}	
 	
 	public Model(float xyz[], float rgba[], float st[], float vn[], short idx[]){
 		this();
@@ -365,11 +370,26 @@ public class Model {
 		
 		myTime=getTime();	
 		
-		Matrix.setIdentityM(myModelView, 0);
-		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myScale, 0);
-		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myRotation, 0);
-		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myTranslation, 0);
-		Matrix.multiplyMM(myModelView, 0, myModelView, 0, ModelView, 0);
+//		Matrix.setIdentityM(myModelView, 0);
+////		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myScale, 0);
+//		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myRotation, 0);
+////		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myTranslation, 0);
+		
+
+		Matrix.multiplyMM(RS, 0, myRotation, 0, myScale, 0);
+		Matrix.multiplyMM(TRS, 0, myTranslation, 0, RS, 0);
+//		Matrix.multiplyMM(myModelView, 0, myModelView, 0, myTranslation, 0);
+
+		
+//		for(float f: TRS) System.out.print(f+", "); System.out.println();
+		
+		
+//		Matrix.multiplyMM(myModelView, 0, ModelView, 0, myModelView, 0);
+//		Matrix.multiplyMM(myModelView, 0, ModelView, 0, myRotation, 0);
+		Matrix.multiplyMM(myModelView, 0, ModelView, 0, TRS, 0);
+		
+		
+//		for(float f: myModelView) System.out.print(f+", "); System.out.println();
 				
 		if(myVBO!=null){
 			drawSeparateGPU(myModelView, shaders);
@@ -428,9 +448,15 @@ public class Model {
            
         }        
         
-//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
         if(usesNormals){
-        	
+        	GLES20.glUniform3f(shaders.getLight(), myLight[0], myLight[1], myLight[2]);
+        	GLES20.glUniformMatrix4fv(shaders.getNormalM(), 1, false, myRotation, 0);
+        	myNormals.position(0);
+        	GLES20.glVertexAttribPointer(shaders.getNormal(), COORDINATES_PER_NORMAL, GLES20.GL_FLOAT, false,
+        			COORDINATES_PER_NORMAL*BufferObject.BYTES_PER_FLOAT, myNormals);        
+        
+        	GLES20.glEnableVertexAttribArray(shaders.getNormal());
         }        
 
 
@@ -563,10 +589,17 @@ public class Model {
            
         }        
         
-//        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
+        GLES20.glUniform1i(shaders.getNormalUse(), usesNormals?Shaders.YES:0);
         if(usesNormals){
-        	
+        	GLES20.glUniform3f(shaders.getLight(), myLight[0], myLight[1], myLight[2]);
+        	GLES20.glUniformMatrix4fv(shaders.getNormalM(), 1, false, myRotation, 0);
+        	myNormals.position(0);
+        	GLES20.glVertexAttribPointer(shaders.getNormal(), COORDINATES_PER_NORMAL, GLES20.GL_FLOAT, false,
+        			COORDINATES_PER_NORMAL*BufferObject.BYTES_PER_FLOAT, myNormals);        
+        
+        	GLES20.glEnableVertexAttribArray(shaders.getNormal());
         }        
+     
 
 
         GLES20.glUniformMatrix4fv(shaders.getModelView(), 1, false, ModelView, 0);
