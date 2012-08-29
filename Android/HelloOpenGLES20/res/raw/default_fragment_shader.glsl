@@ -25,7 +25,8 @@
         
         vec4 interpolatedColour=(
 			(uses_Colours==YES?v_Colour:vec4(1,1,1,1))*
-        	(uses_Textures==YES?texture2D(u_Texture, v_Texture+vec2(X_PER_SEC*u_Time, Y_PER_SEC*u_Time)):vec4(1,1,1,1))
+        	//(uses_Textures==YES?texture2D(u_Texture, v_Texture+vec2(X_PER_SEC*u_Time, Y_PER_SEC*u_Time)):vec4(1,1,1,1))
+        	(uses_Textures==YES?texture2D(u_Texture, v_Texture):vec4(1,1,1,1))
         	);
         
         float diffuse;	

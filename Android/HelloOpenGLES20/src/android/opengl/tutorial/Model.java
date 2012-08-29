@@ -108,7 +108,25 @@ public class Model {
 	}
 	
 	
+	public Model(OBJ obj){
+		this();
+		addTypedBufferObject(new VBO(obj.myVertices));
+		if(obj.myMaterial!=null) addTypedBufferObject(new CBO(obj.myMaterial));
+		if(obj.myTextures!=null) addTypedBufferObject(new TBO(obj.myTextures));
+	    addBufferObject(new BufferObject(obj.myNormals, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
+	    setMode(
+	    		(myCBO!=null?Models.COLOURS:Models.NONE)|
+	    		(!myTBOs.isEmpty()?Models.TEXTURE:Models.NONE)|
+	    		Models.NORMALS);	
+	}
+	
+	
 	public void setLight(float[] light) { try{ myLight[0]=light[0]; myLight[1]=light[1]; myLight[2]=light[2]; } catch(Throwable t){} }
+	
+	public void setTexture(int textureid, int which){
+		if(myTBOs.isEmpty()||which<0||which>=myTBOs.size()) return;
+		myTBOs.get(which).setTexture(textureid);
+	}
 	
 		
 	public void addTypedBufferObject(BufferObject BO){
@@ -118,7 +136,7 @@ public class Model {
 		else if(BO instanceof IBO) { myIBO=(IBO) BO; }
 		else if(BO instanceof CBO) { myCBO=BO; hasColours=true; usesColours(true); }
 		else if(BO instanceof TBO) {	
-			hasTextures=true; 
+			if(((TBO) BO).myTexture>0) hasTextures=true; 
 			usesTextures(true);
 			myTBOs.add((TBO) BO);
 			myTBOs.get(myTBOs.size()-1).setTextureUnit(myTBOs.size()-1);

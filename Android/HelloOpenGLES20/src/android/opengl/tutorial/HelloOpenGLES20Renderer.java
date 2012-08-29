@@ -142,8 +142,13 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         // in the onDrawFrame() method
 //        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 //        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
+        
         Matrix.orthoM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
         Matrix.setLookAtM(mVMatrix, 0, 0, 0, 30, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        
+       
+        
+        
     }  
   
     
@@ -248,6 +253,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         myModel.addBufferObject(new BufferObject(normals0, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
         myModel.addTypedBufferObject(new IBO(indices0));        
         myModel.setMode(Models.COLOURS|Models.TEXTURE|Models.NORMALS);
+        
+//        myModel=new Model(new OBJ(R.raw.model_just_boat, myContext));
         
         myModel1=new Model();
         myModel1.addTypedBufferObject(new VBO(coords1));

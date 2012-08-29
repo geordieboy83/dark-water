@@ -46,7 +46,8 @@ public class HelloOpenGLES20 extends Activity {
 				"Allocated Memory: "+ (int) (Runtime.getRuntime().totalMemory()/(1024*1024))+" MB, "+
 				"Used Memory: "+ (int) ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024))+" MB");
         
-        OBJ test= new OBJ(R.raw.model_just_grid,this);
+        OBJ test= new OBJ(R.raw.model_missile,this);
+//        OBJ test= new OBJ(R.raw.model_just_grid,this);
         
         System.out.println(
      			"On End Model: "+

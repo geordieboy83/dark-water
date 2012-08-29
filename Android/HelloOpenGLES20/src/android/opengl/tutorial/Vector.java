@@ -28,6 +28,19 @@ public class Vector {
 		z=zcoord;		
 		magn();
 	}
+	
+	public Vector(String line){
+		String substrings[]=line.split(" ");	
+		try{
+			set_coords(
+				Float.valueOf(substrings[substrings.length-3]),
+				Float.valueOf(substrings[substrings.length-2]),
+				Float.valueOf(substrings[substrings.length-1]));
+		}catch(Throwable t){}
+		magn();
+	}
+	
+	
 
 	// Remake vector.
 	public void set_coords(float newx, float newy, float newz) { x=newx; y=newy; z=newz; magn(); }
