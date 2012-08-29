@@ -14,6 +14,15 @@ public class TBO extends BufferObject {
 	public int getTextureUnit() { return myTextureUnit; }
 	public void setTextureUnit(int TextureUnit) { if(TextureUnit<0) return; myTextureUnit=TextureUnit;} 
 	
+	
+	public TBO(float[] data) {
+		super(data,Shaders.ATTR_TEX, Model.COORDINATES_PER_VERTEX);
+		myTexture=-1;
+		mySampler2D=Shaders.UNI_TEX;
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	public TBO(float[] data, String attribute, int elementspervertex, int textureid) {
 		super(data,attribute, elementspervertex);
 		myTexture=textureid;
@@ -27,9 +36,11 @@ public class TBO extends BufferObject {
 		mySampler2D=Uniform;
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void setTexture(int textureid) { myTexture=textureid; }
 
 	@Override public void draw(Program shaders){		
-		
+		if(myTexture<=0) return;
 		Textures.useTexture(myTextureUnit, myTexture, shaders, mySampler2D);
 		super.draw(shaders);
 		
