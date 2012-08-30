@@ -377,7 +377,11 @@ public class HelloOpenGLES20 extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
-				mGLView.setRotationAxis(arg2);
+				mGLView.mRenderer.mOrthoPlane=arg2;
+				bar_hi.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2+1]);
+				bar_hi.setProgress((int) mGLView.mRenderer.myOrtho[2*arg2+1]);
+				bar_lo.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2]);
+				bar_lo.setProgress(bar_lo.getMax()-(int) mGLView.mRenderer.myOrtho[2*arg2]);
 				
 			}
 
@@ -392,8 +396,17 @@ public class HelloOpenGLES20 extends Activity {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
+				mGLView.mRenderer.myOrtho[2*mGLView.mRenderer.mOrthoPlane]=Math.max(bar_lo.getMax()-progress,1);
 				
+				txt_ortho.setText("Orthographic Projection: "+
+						String.format("%.2f",-mGLView.mRenderer.myOrtho[0]*mGLView.mRenderer.ratio)+" to "+
+						String.format("%.2f",mGLView.mRenderer.myOrtho[1]*mGLView.mRenderer.ratio)+"x, "+
+						String.format("%.2f",-mGLView.mRenderer.myOrtho[2])+" to "+
+						String.format("%.2f",mGLView.mRenderer.myOrtho[3])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myOrtho[4])+" to "+
+						String.format("%.2f",mGLView.mRenderer.myOrtho[5])+"z.");
+				
+						
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
@@ -412,7 +425,15 @@ public class HelloOpenGLES20 extends Activity {
 
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-			// TODO Auto-generated method stub
+			mGLView.mRenderer.myOrtho[2*mGLView.mRenderer.mOrthoPlane+1]=Math.max(progress,1);
+			
+			txt_ortho.setText("Orthographic Projection: "+
+					String.format("%.2f",-mGLView.mRenderer.myOrtho[0]*mGLView.mRenderer.ratio)+" to "+
+					String.format("%.2f",mGLView.mRenderer.myOrtho[1]*mGLView.mRenderer.ratio)+"x, "+
+					String.format("%.2f",-mGLView.mRenderer.myOrtho[2])+" to "+
+					String.format("%.2f",mGLView.mRenderer.myOrtho[3])+"y, "+
+					String.format("%.2f",mGLView.mRenderer.myOrtho[4])+" to "+
+					String.format("%.2f",mGLView.mRenderer.myOrtho[5])+"z.");
 			
 		}
 
@@ -457,9 +478,9 @@ public class HelloOpenGLES20 extends Activity {
 				String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
 				String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
 		txt_ortho.setText("Orthographic Projection: "+
-				String.format("%.2f",mGLView.mRenderer.myOrtho[0]*mGLView.mRenderer.ratio)+" to "+
+				String.format("%.2f",-mGLView.mRenderer.myOrtho[0]*mGLView.mRenderer.ratio)+" to "+
 				String.format("%.2f",mGLView.mRenderer.myOrtho[1]*mGLView.mRenderer.ratio)+"x, "+
-				String.format("%.2f",mGLView.mRenderer.myOrtho[2])+" to "+
+				String.format("%.2f",-mGLView.mRenderer.myOrtho[2])+" to "+
 				String.format("%.2f",mGLView.mRenderer.myOrtho[3])+"y, "+
 				String.format("%.2f",mGLView.mRenderer.myOrtho[4])+" to "+
 				String.format("%.2f",mGLView.mRenderer.myOrtho[5])+"z.");

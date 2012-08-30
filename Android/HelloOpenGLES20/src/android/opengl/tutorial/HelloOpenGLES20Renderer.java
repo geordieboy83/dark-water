@@ -35,6 +35,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	protected float[] myLight = {0.0f,0.0f,1.0f};
 	protected float[] myEye={0,0,30};
 	protected float[] myOrtho={1,1,1,1,1,70};
+	protected final int[] myOrthoLimits={100,100,100,100,300,300};
 	
 	protected float ratio=1;
 	    
