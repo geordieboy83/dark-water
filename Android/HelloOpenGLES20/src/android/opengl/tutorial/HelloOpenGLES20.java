@@ -2,6 +2,7 @@ package android.opengl.tutorial;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
@@ -30,6 +31,10 @@ public class HelloOpenGLES20 extends Activity {
     protected Typeface myFont;
     
     protected FrameLayout myContent;
+    
+    protected ToggleButton btn_lights, btn_colours, btn_textures, btn_wireframe;
+    protected Button btn_none, btn_all;
+    protected TextView txt_light, txt_camera;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,42 +77,74 @@ public class HelloOpenGLES20 extends Activity {
     protected View makeTestButtons(){
     	RelativeLayout l=(RelativeLayout) this.getLayoutInflater().inflate(R.layout.test_buttons, null);
     	
-    	Button none=(Button) l.findViewById(R.id.btn_none);
-    	none.setTypeface(myFont);
-    	none.setOnClickListener(new OnClickListener(){
+    	btn_none=(Button) l.findViewById(R.id.btn_none);
+    	btn_none.setTypeface(myFont);
+    	btn_none.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				int oldMode=mGLView.getMode();
-				mGLView.setMode((mGLView.getMode()&Models.WIREFRAME)|Models.NONE|(oldMode&Models.NORMALS));
+				btn_colours.setChecked(false);
+				btn_textures.setChecked(false);
+				btn_lights.setChecked(false);
+//				int oldMode=mGLView.getMode();
+//				mGLView.setMode((mGLView.getMode()&Models.WIREFRAME)|Models.NONE);
 			}});    	
     	
-    	Button colours_only=(Button) l.findViewById(R.id.btn_colours_only);
-    	colours_only.setTypeface(myFont);
-    	colours_only.setOnClickListener(new OnClickListener(){
+    	btn_colours=(ToggleButton) l.findViewById(R.id.btn_colours_only);
+    	btn_colours.setTypeface(myFont);
+    	btn_colours.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				
+				int oldMode=mGLView.getMode();
+				int newMode=Models.NONE;
+				newMode=(newMode|(isChecked?Models.COLOURS:Models.NONE)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
+				mGLView.setMode(newMode);
+				
+				
+				
+//				mGLView.setMode(mGLView.getMode()|
+//						(btn_lights.isChecked()?Models.NORMALS:Models.NONE)|
+//						(btn_textures.isChecked()?Models.TEXTURE:Models.NONE)|
+//						(isChecked?Models.COLOURS:Models.NONE));
+				
+			}});
+    	
+    	btn_textures=(ToggleButton) l.findViewById(R.id.btn_texture_only);
+    	btn_textures.setTypeface(myFont);
+    	btn_textures.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				
+				int oldMode=mGLView.getMode();
+				int newMode=Models.NONE;
+				newMode=(newMode|(oldMode&Models.COLOURS)|(isChecked?Models.TEXTURE:Models.NONE)|(oldMode&Models.NORMALS));
+				mGLView.setMode(newMode);
+				
+//				mGLView.setMode(mGLView.getMode()|
+//						(btn_lights.isChecked()?Models.NORMALS:Models.NONE)|
+//						(isChecked?Models.TEXTURE:Models.NONE)|
+//						(btn_colours.isChecked()?Models.COLOURS:Models.NONE));
+				
+			}});
+    	
+    	btn_all=(Button) l.findViewById(R.id.btn_all);
+    	btn_all.setTypeface(myFont);
+    	btn_all.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
-				int oldMode=mGLView.getMode();
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|(oldMode&Models.NORMALS)));
+				
+				btn_colours.setChecked(true);
+				btn_textures.setChecked(true);
+				btn_lights.setChecked(true);
+				
+//				int oldMode=mGLView.getMode();
+//				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE|Models.NORMALS));
 			}});
     	
-    	Button texture_only=(Button) l.findViewById(R.id.btn_texture_only);
-    	texture_only.setTypeface(myFont);
-    	texture_only.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
-				int oldMode=mGLView.getMode();
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.TEXTURE|(oldMode&Models.NORMALS)));
-			}});
-    	
-    	Button texture_and_colours=(Button) l.findViewById(R.id.btn_colours_and_texture);
-    	texture_and_colours.setTypeface(myFont);
-    	texture_and_colours.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {	
-				int oldMode=mGLView.getMode();
-				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE|(oldMode&Models.NORMALS)));
-			}});
-    	
-    	ToggleButton wireframe=(ToggleButton) l.findViewById(R.id.btn_wireframe);
-    	wireframe.setTypeface(myFont);
-    	wireframe.setChecked(true);
-    	wireframe.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+    	btn_wireframe=(ToggleButton) l.findViewById(R.id.btn_wireframe);
+    	btn_wireframe.setTypeface(myFont);
+    	btn_wireframe.setChecked(true);
+    	btn_wireframe.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
@@ -123,6 +160,27 @@ public class HelloOpenGLES20 extends Activity {
 				}
 				
 			}});
+    	
+    	btn_lights=(ToggleButton) l.findViewById(R.id.btn_normals);
+    	btn_lights.setTypeface(myFont);
+    	btn_lights.setChecked(true);
+    	btn_lights.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				
+				int oldMode=mGLView.getMode();
+				int newMode=Models.NONE;
+				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(isChecked?Models.NORMALS:Models.NONE));
+				mGLView.setMode(newMode);
+				
+				
+//				mGLView.setMode(mGLView.getMode()|
+//						(isChecked?Models.NORMALS:Models.NONE)|
+//						(btn_textures.isChecked()?Models.TEXTURE:Models.NONE)|
+//						(btn_colours.isChecked()?Models.COLOURS:Models.NONE));				
+			}});
+    	
     	
     	Spinner axis=(Spinner) l.findViewById(R.id.spn_rotation);
     	axis.setOnItemSelectedListener(new OnItemSelectedListener(){
@@ -140,12 +198,24 @@ public class HelloOpenGLES20 extends Activity {
 				
 			}});
     	
+    	txt_camera=(TextView) l.findViewById(R.id.txt_camera);
+    	txt_camera.setTypeface(myFont);
+    	txt_camera.setTextColor(Color.WHITE);
+    	
+    	txt_light=(TextView) l.findViewById(R.id.txt_light);
+    	txt_light.setTypeface(myFont);
+    	txt_light.setTextColor(Color.WHITE);
     	
     	Button plusx=(Button) l.findViewById(R.id.btn_plus_x);
     	plusx.setTypeface(myFont);
     	plusx.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				mGLView.mRenderer.myLight[0]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 				
@@ -156,6 +226,10 @@ public class HelloOpenGLES20 extends Activity {
     	minusx.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				mGLView.mRenderer.myLight[0]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
     	
@@ -164,6 +238,10 @@ public class HelloOpenGLES20 extends Activity {
     	plusy.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				mGLView.mRenderer.myLight[1]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
     	
@@ -172,6 +250,10 @@ public class HelloOpenGLES20 extends Activity {
     	minusy.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				mGLView.mRenderer.myLight[1]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
     	
@@ -180,16 +262,107 @@ public class HelloOpenGLES20 extends Activity {
     	plusz.setOnClickListener(new OnClickListener(){
 			public void onClick(View v) {
 				mGLView.mRenderer.myLight[2]+=HelloOpenGLES20Renderer.MV_LIGHT;
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
     	
     	Button minusz=(Button) l.findViewById(R.id.btn_minus_z);
     	minusz.setTypeface(myFont);
     	minusz.setOnClickListener(new OnClickListener(){
-			public void onClick(View v) {
+			public void onClick(View v) {				
 				mGLView.mRenderer.myLight[2]-=HelloOpenGLES20Renderer.MV_LIGHT;
+				txt_light.setText("Light: "+
+						String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
 				System.out.println("Light: "+mGLView.mRenderer.myLight[0]+"x, "+mGLView.mRenderer.myLight[1]+"y, "+mGLView.mRenderer.myLight[2]+"z.");
 			}});
+    	
+    	
+    	Button plusxc=(Button) l.findViewById(R.id.btn_plus_x_c);
+    	plusxc.setTypeface(myFont);
+    	plusxc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[0]+=HelloOpenGLES20Renderer.MV_CAMERA;
+				
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+				
+			}});
+    	
+    	Button minusxc=(Button) l.findViewById(R.id.btn_minus_x_c);
+    	minusxc.setTypeface(myFont);
+    	minusxc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[0]-=HelloOpenGLES20Renderer.MV_CAMERA;
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+			}});
+    	
+    	Button plusyc=(Button) l.findViewById(R.id.btn_plus_y_c);
+    	plusyc.setTypeface(myFont);
+    	plusyc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[1]+=HelloOpenGLES20Renderer.MV_CAMERA;
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+			}});
+    	
+    	Button minusyc=(Button) l.findViewById(R.id.btn_minus_y_c);
+    	minusyc.setTypeface(myFont);
+    	minusyc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[1]-=HelloOpenGLES20Renderer.MV_CAMERA;
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+			}});
+    	
+    	Button pluszc=(Button) l.findViewById(R.id.btn_plus_z_c);
+    	pluszc.setTypeface(myFont);
+    	pluszc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[2]+=HelloOpenGLES20Renderer.MV_CAMERA;
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+			}});
+    	
+    	Button minuszc=(Button) l.findViewById(R.id.btn_minus_z_c);
+    	minuszc.setTypeface(myFont);
+    	minuszc.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				mGLView.mRenderer.myEye[2]-=HelloOpenGLES20Renderer.MV_CAMERA;
+				txt_camera.setText("Camera: "+
+						String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+						String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+				
+				System.out.println("Camera: "+mGLView.mRenderer.myEye[0]+"x, "+mGLView.mRenderer.myEye[1]+"y, "+mGLView.mRenderer.myEye[2]+"z.");
+			}});
+    	
+    	
     	
     	
     	return l;
@@ -213,6 +386,15 @@ public class HelloOpenGLES20 extends Activity {
         // If you de-allocated graphic objects for onPause()
         // this is a good place to re-allocate them.
         mGLView.onResume();
+        btn_all.performClick();
+        txt_light.setText("Light: "+
+				String.format("%.2f",mGLView.mRenderer.myLight[0])+"x, "+
+				String.format("%.2f",mGLView.mRenderer.myLight[1])+"y, "+
+				String.format("%.2f",mGLView.mRenderer.myLight[2])+"z.");
+		txt_camera.setText("Camera: "+
+				String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
+				String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
+				String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
     }
     
     @Override protected void onDestroy(){
