@@ -21,6 +21,7 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	    	if(axis<AXIS_X||axis>AXIS_Z) return;
 	    	mRenderer.mAxis=axis;
 	    	mRenderer.mAngle=0;
+	    	((HelloOpenGLES20)getContext()).txt_angle.setText("Angle: "+String.format("%.2f",mRenderer.mAngle%360));
 	    	requestRender();
 	    }
 	    
@@ -73,6 +74,7 @@ class HelloOpenGLES20SurfaceView extends GLSurfaceView {
 	              
 //	                mRenderer.mAngle += (dx + dy) * TOUCH_SCALE_FACTOR;
 	                mRenderer.mAngle -= (dx + dy) * TOUCH_SCALE_FACTOR;
+	                ((HelloOpenGLES20)getContext()).txt_angle.setText("Angle: "+String.format("%.2f",mRenderer.mAngle%360));
 	                requestRender();
 	        }
 
