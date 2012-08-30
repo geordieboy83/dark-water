@@ -126,6 +126,8 @@ public class Model {
 	public void setTexture(int textureid, int which){
 		if(myTBOs.isEmpty()||which<0||which>=myTBOs.size()) return;
 		myTBOs.get(which).setTexture(textureid);
+		hasTextures=true;
+		usesTextures(true);
 	}
 	
 		

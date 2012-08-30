@@ -14,6 +14,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -30,7 +31,7 @@ public class HelloOpenGLES20 extends Activity {
     protected ToggleButton btn_lights, btn_colours, btn_textures, btn_wireframe;
     protected Button btn_none, btn_all;
     protected TextView txt_light, txt_camera, txt_ortho, txt_angle;
-    protected SeekBar slider;
+    protected SeekBar bar_hi, bar_lo;
     protected Spinner ortho_plane;
     
     @Override
@@ -369,27 +370,64 @@ public class HelloOpenGLES20 extends Activity {
     	
     	
     	
-//    	Spinner ortho=(Spinner) l.findViewById(R.id.spn_ortho);
-//    	ortho.setOnItemSelectedListener(new OnItemSelectedListener(){
-//			
-//
-//			public void onItemSelected(AdapterView<?> arg0, View arg1,
-//					int arg2, long arg3) {
-//				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
-//				mGLView.setRotationAxis(arg2);
-//				
-//			}
-//
-//			public void onNothingSelected(AdapterView<?> arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}});
-//    	
-//    	
-//    	SeekBar bar=(SeekBar) l.findViewById(R.id.bar_seek);
+    	Spinner ortho=(Spinner) l.findViewById(R.id.spn_ortho);
+    	ortho.setOnItemSelectedListener(new OnItemSelectedListener(){
+			
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
+				mGLView.setRotationAxis(arg2);
+				
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
     	
-    	return l;
-    }
+    	
+    	bar_lo=(SeekBar) l.findViewById(R.id.bar_plane_low);
+    	bar_lo.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}});
+    	
+    
+    	bar_hi=(SeekBar) l.findViewById(R.id.bar_plane_high);
+    	bar_hi.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void onStartTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void onStopTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			
+		}});
+	
+	return l;
+}
     
     
     @Override
