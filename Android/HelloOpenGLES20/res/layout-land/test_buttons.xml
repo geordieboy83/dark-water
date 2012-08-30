@@ -204,33 +204,13 @@
         android:layout_below="@+id/btn_plus_x_c"
         android:text="x-"
         android:textSize="30sp" />
-
+
     <SeekBar
-        android:id="@+id/bar_seek"
+        android:id="@+id/bar_plane_low"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_colours_only"
         android:layout_alignParentLeft="true" />
-
-    <Spinner
-        android:id="@+id/spn_ortho"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bar_seek"
-        android:drawSelectorOnTop="true"
-        android:entries="@array/test_ortho_planes"
-        android:textSize="30sp"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:id="@+id/txt_ortho"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bar_seek"
-        android:layout_alignParentRight="true"
-        android:text="@string/test_ortho"
-        android:textSize="30sp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/txt_angle"
@@ -241,5 +221,32 @@
         android:text="@string/test_angle"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+        android:id="@+id/bar_plane_high"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bar_plane_low"
+        android:layout_alignParentLeft="true" />
+
+    <Spinner
+        android:id="@+id/spn_ortho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bar_plane_high"
+        android:layout_alignParentLeft="true"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/test_axes"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/txt_ortho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bar_plane_high"
+        android:layout_alignParentRight="true"
+        android:text="@string/test_ortho"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp" />
 
 </RelativeLayout>

@@ -41,6 +41,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 
 	public float mAngle;
 	public int mAxis=HelloOpenGLES20SurfaceView.AXIS_X;
+	public int mOrthoPlane=0;
 	
 
 	protected ArrayList<Model> myModels=new ArrayList<Model>();
@@ -143,11 +144,11 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         // this projection matrix is applied to object coodinates
         // in the onDrawFrame() method
 //        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-//        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
+//        Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);        
+        
         
         Matrix.orthoM(mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 70);
-        Matrix.setLookAtM(mVMatrix, 0, 0, 0, 30, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        
+        Matrix.setLookAtM(mVMatrix, 0, 0, 0, 30, 0f, 0f, 0f, 0f, 1.0f, 0.0f);     
        
         
         
