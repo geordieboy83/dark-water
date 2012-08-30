@@ -15,6 +15,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
 	public static final float MV_LIGHT=0.1f;
 	public static final float MV_CAMERA=1f;
+	public static final float MV_ORTHO=1f;
 	 
 	public static final int WIREFRAME=-1;
     public static final int FILLED=-2;
@@ -33,6 +34,9 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	private float[] mProjMatrix = new float[16];
 	protected float[] myLight = {0.0f,0.0f,1.0f};
 	protected float[] myEye={0,0,30};
+	protected float[] myOrtho={1,1,1,1,1,70};
+	
+	protected float ratio=1;
 	    
 	 
 	public float mAngle;
@@ -48,6 +52,10 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
 	public int getMode() { return myModels.isEmpty()?0:myModels.get(0).getMode(); }
 	
+	
+	protected void Ortho(){
+		Matrix.orthoM(mProjMatrix, 0, -ratio*myOrtho[0], ratio*myOrtho[1], -myOrtho[2], myOrtho[3], myOrtho[4], myOrtho[5]);
+	}
 	
 	protected void LookAt(){
 		
@@ -116,6 +124,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 //        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
 //        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         
+        Ortho();
         LookAt();
         
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
@@ -129,7 +138,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         
-        float ratio = (float) width / height;
+        ratio = (float) width / height;
         
         // this projection matrix is applied to object coodinates
         // in the onDrawFrame() method

@@ -1,26 +1,21 @@
 package android.opengl.tutorial;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class HelloOpenGLES20 extends Activity {
@@ -34,7 +29,9 @@ public class HelloOpenGLES20 extends Activity {
     
     protected ToggleButton btn_lights, btn_colours, btn_textures, btn_wireframe;
     protected Button btn_none, btn_all;
-    protected TextView txt_light, txt_camera;
+    protected TextView txt_light, txt_camera, txt_ortho, txt_angle;
+    protected SeekBar slider;
+    protected Spinner ortho_plane;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -206,6 +203,14 @@ public class HelloOpenGLES20 extends Activity {
     	txt_light.setTypeface(myFont);
     	txt_light.setTextColor(Color.WHITE);
     	
+    	txt_ortho=(TextView) l.findViewById(R.id.txt_ortho);
+    	txt_ortho.setTypeface(myFont);
+    	txt_ortho.setTextColor(Color.WHITE);
+    	
+    	txt_angle=(TextView) l.findViewById(R.id.txt_angle);
+    	txt_angle.setTypeface(myFont);
+    	txt_angle.setTextColor(Color.WHITE);
+    	
     	Button plusx=(Button) l.findViewById(R.id.btn_plus_x);
     	plusx.setTypeface(myFont);
     	plusx.setOnClickListener(new OnClickListener(){
@@ -364,6 +369,24 @@ public class HelloOpenGLES20 extends Activity {
     	
     	
     	
+//    	Spinner ortho=(Spinner) l.findViewById(R.id.spn_ortho);
+//    	ortho.setOnItemSelectedListener(new OnItemSelectedListener(){
+//			
+//
+//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+//					int arg2, long arg3) {
+//				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
+//				mGLView.setRotationAxis(arg2);
+//				
+//			}
+//
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}});
+//    	
+//    	
+//    	SeekBar bar=(SeekBar) l.findViewById(R.id.bar_seek);
     	
     	return l;
     }
@@ -395,6 +418,16 @@ public class HelloOpenGLES20 extends Activity {
 				String.format("%.2f",mGLView.mRenderer.myEye[0])+"x, "+
 				String.format("%.2f",mGLView.mRenderer.myEye[1])+"y, "+
 				String.format("%.2f",mGLView.mRenderer.myEye[2])+"z.");
+		txt_ortho.setText("Orthographic Projection: "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[0]*mGLView.mRenderer.ratio)+" to "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[1]*mGLView.mRenderer.ratio)+"x, "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[2])+" to "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[3])+"y, "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[4])+" to "+
+				String.format("%.2f",mGLView.mRenderer.myOrtho[5])+"z.");
+		txt_angle.setText("Angle: "+String.format("%.2f",mGLView.mRenderer.mAngle%360));
+		
+		
     }
     
     @Override protected void onDestroy(){
