@@ -14,6 +14,7 @@ import android.os.SystemClock;
 public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
 	public static final float MV_LIGHT=0.1f;
+	public static final float MV_CAMERA=1f;
 	 
 	public static final int WIREFRAME=-1;
     public static final int FILLED=-2;
@@ -31,6 +32,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	private float[] mVMatrix = new float[16];
 	private float[] mProjMatrix = new float[16];
 	protected float[] myLight = {0.0f,0.0f,1.0f};
+	protected float[] myEye={0,0,30};
 	    
 	 
 	public float mAngle;
@@ -44,7 +46,13 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	
 	public void setMode(int mode) { for(Model m: myModels) m.setMode(mode); }
 
-	public int getMode() { return myModels.isEmpty()?0:myModels.get(0).getMode(); }	
+	public int getMode() { return myModels.isEmpty()?0:myModels.get(0).getMode(); }
+	
+	
+	protected void LookAt(){
+		
+		Matrix.setLookAtM(mVMatrix, 0, myEye[0], myEye[1], myEye[2], 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+	}
 	  
 	public HelloOpenGLES20Renderer(Context context){
 		myContext=context;
@@ -107,6 +115,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 
 //        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
 //        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        
+        LookAt();
         
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
         
