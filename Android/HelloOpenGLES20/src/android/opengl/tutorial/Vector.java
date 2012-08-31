@@ -118,6 +118,6 @@ public class Vector {
 	// Vector translation functionality.
 	public void translate(Vector p) {set_coords(x=x+p.getx(), y=y+p.gety(), z=z+p.getz()); return;}
 
-
+	public static Vector clone(Vector v){ if(v==null) return null; else return new Vector(v.x, v.y, v.z);  }
 
 }

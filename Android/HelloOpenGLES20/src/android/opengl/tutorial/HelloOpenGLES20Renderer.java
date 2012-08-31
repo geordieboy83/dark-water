@@ -72,8 +72,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	 public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		    
 	        // Set the background frame color
-	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
-//		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+//	        GLES20.glClearColor(0f, 0f, 0f, 1.0f);
+		 	GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	        
 	        // Enable texture mapping
 //			GLES20.glEnable(GLES20.GL_TEXTURE_2D);
@@ -165,7 +165,10 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     	GLES20.glCullFace(GLES20.GL_BACK);
     	GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     	
-    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_just_boat,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
+    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
     	
     	
 //      OBJ ship=new OBJ(R.raw.model_just_boat, myContext);

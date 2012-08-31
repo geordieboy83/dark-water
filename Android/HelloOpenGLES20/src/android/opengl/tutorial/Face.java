@@ -1,5 +1,7 @@
 package android.opengl.tutorial;
 
+import java.util.ArrayList;
+
 public class Face {
 
 //	public float myData[];
@@ -12,7 +14,9 @@ public class Face {
 //		
 //	}
 	
-	public int[] myTextures={-1,-1,-1}, myVertices={-1,-1,-1}, myNormals={-1,-1,-1};
+	public int[] myTextureI={-1,-1,-1}, myVertexI={-1,-1,-1}, myNormalI={-1,-1,-1};
+	
+	
 	
 	public Face(){}
 	
@@ -20,14 +24,16 @@ public class Face {
 		String substrings[]=line.split(" ");
 		for(int i=substrings.length-3; i<substrings.length; i++){
 		String vertexindices[]=substrings[i].split("/");
-			myVertices[i-(substrings.length-3)]=
+			myVertexI[i-(substrings.length-3)]=
 					!vertexindices[vertexindices.length-3].isEmpty()?Integer.valueOf(vertexindices[vertexindices.length-3]):-1;
-			myTextures[i-(substrings.length-3)]=		
+			myTextureI[i-(substrings.length-3)]=		
 					!vertexindices[vertexindices.length-2].isEmpty()?Integer.valueOf(vertexindices[vertexindices.length-2]):-1;
-			myNormals[i-(substrings.length-3)]=
+			myNormalI[i-(substrings.length-3)]=
 					!vertexindices[vertexindices.length-1].isEmpty()?Integer.valueOf(vertexindices[vertexindices.length-1]):-1;
 		}
 		
 	}
+	
+	
 	
 }

@@ -96,13 +96,13 @@ public class OBJ {
 		for(int i=0; i<f.size(); i++){
 			Face face= f.get(i);
 			
-			Vector v1=v.get(face.myVertices[0]-1), v2=v.get(face.myVertices[1]-1), v3=v.get(face.myVertices[2]-1);
+			Vector v1=v.get(face.myVertexI[0]-1), v2=v.get(face.myVertexI[1]-1), v3=v.get(face.myVertexI[2]-1);
 			
 			myVertices[9*i]=v1.x; myVertices[9*i+1]=v1.y; myVertices[9*i+2]=v1.z;
 			myVertices[9*i+3]=v2.x; myVertices[9*i+4]=v2.y; myVertices[9*i+5]=v2.z;
 			myVertices[9*i+6]=v3.x; myVertices[9*i+7]=v3.y; myVertices[9*i+8]=v3.z;
 			
-			if(face.myNormals[0]<=0||face.myNormals[1]<=0||face.myNormals[2]<=0){
+			if(face.myNormalI[0]<=0||face.myNormalI[1]<=0||face.myNormalI[2]<=0){
 				// Calculate face normal; the OBJ does not provide
 				Vector n=Vector.normal(v1, v2, v3);
 				myNormals[9*i]=n.x; myNormals[9*i+1]=n.y; myNormals[9*i+2]=n.z;
@@ -111,14 +111,14 @@ public class OBJ {
 			}
 			else{
 				
-				v1=vn.get(face.myNormals[0]-1); v2=vn.get(face.myNormals[1]-1); v3=vn.get(face.myNormals[2]-1);
+				v1=vn.get(face.myNormalI[0]-1); v2=vn.get(face.myNormalI[1]-1); v3=vn.get(face.myNormalI[2]-1);
 				myNormals[9*i]=v1.x; myNormals[9*i+1]=v1.y; myNormals[9*i+2]=v1.z;
 				myNormals[9*i+3]=v2.x; myNormals[9*i+4]=v2.y; myNormals[9*i+5]=v2.z;
 				myNormals[9*i+6]=v3.x; myNormals[9*i+7]=v3.y; myNormals[9*i+8]=v3.z;
 			}
 			
 			if(myTextures!=null){
-				v1=vt.get(face.myTextures[0]-1); v2=vt.get(face.myTextures[1]-1); v3=vt.get(face.myTextures[2]-1);
+				v1=vt.get(face.myTextureI[0]-1); v2=vt.get(face.myTextureI[1]-1); v3=vt.get(face.myTextureI[2]-1);
 				myTextures[6*i]=v1.x; myTextures[6*i+1]=v1.y;
 				myTextures[6*i+2]=v2.x; myTextures[6*i+3]=v2.y;
 				myTextures[6*i+4]=v3.x; myTextures[6*i+5]=v3.y;

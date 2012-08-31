@@ -381,9 +381,6 @@ public class HelloOpenGLES20 extends Activity {
 				bar_hi.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2+1]);
 				bar_hi.setProgress((int) mGLView.mRenderer.myOrtho[2*arg2+1]);				
 				bar_lo.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2]);
-				int max=bar_lo.getMax();
-				int ortho=(int) mGLView.mRenderer.myOrtho[2*arg2];
-				int lo=bar_lo.getMax()+(int) mGLView.mRenderer.myOrtho[2*arg2];
 				bar_lo.setProgress(bar_lo.getMax()+(int) mGLView.mRenderer.myOrtho[2*arg2]);
 				
 			}

@@ -120,6 +120,15 @@ public class Model {
 	    		Models.NORMALS);	
 	}
 	
+	public Model(PHIL obj){
+		this();
+		addTypedBufferObject(new VBO(obj.myVertices));
+		addBufferObject(new BufferObject(obj.myNormals, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
+		addTypedBufferObject(new IBO(obj.myIndices));
+	    setMode(Models.NORMALS);	
+	}
+	
+	
 	
 	public void setLight(float[] light) { try{ myLight[0]=light[0]; myLight[1]=light[1]; myLight[2]=light[2]; } catch(Throwable t){} }
 	
