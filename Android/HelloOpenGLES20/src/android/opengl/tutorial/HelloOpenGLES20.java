@@ -379,8 +379,11 @@ public class HelloOpenGLES20 extends Activity {
 				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
 				mGLView.mRenderer.mOrthoPlane=arg2;
 				bar_hi.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2+1]);
-				bar_hi.setProgress((int) mGLView.mRenderer.myOrtho[2*arg2+1]);
+				bar_hi.setProgress((int) mGLView.mRenderer.myOrtho[2*arg2+1]);				
 				bar_lo.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2]);
+				int max=bar_lo.getMax();
+				int ortho=(int) mGLView.mRenderer.myOrtho[2*arg2];
+				int lo=bar_lo.getMax()+(int) mGLView.mRenderer.myOrtho[2*arg2];
 				bar_lo.setProgress(bar_lo.getMax()+(int) mGLView.mRenderer.myOrtho[2*arg2]);
 				
 			}
@@ -396,6 +399,7 @@ public class HelloOpenGLES20 extends Activity {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
+				if(progress==0) return;
 				mGLView.mRenderer.myOrtho[2*mGLView.mRenderer.mOrthoPlane]=Math.min(progress-bar_lo.getMax(),-1);
 				
 				txt_ortho.setText("Orthographic Projection: "+
