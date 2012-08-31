@@ -34,7 +34,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	private float[] mProjMatrix = new float[16];
 	protected float[] myLight = {0.0f,0.0f,1.0f};
 	protected float[] myEye={0,0,30};
-	protected float[] myOrtho={1,1,1,1,1,70};
+	protected float[] myOrtho={-1,1,-1,1,-1,70};
 	protected final int[] myOrthoLimits={100,100,100,100,300,300};
 	
 	protected float ratio=1;
@@ -56,7 +56,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	
 	
 	protected void Ortho(){
-		Matrix.orthoM(mProjMatrix, 0, -ratio*myOrtho[0], ratio*myOrtho[1], -myOrtho[2], myOrtho[3], myOrtho[4], myOrtho[5]);
+		Matrix.orthoM(mProjMatrix, 0, ratio*myOrtho[0], ratio*myOrtho[1], myOrtho[2], myOrtho[3], myOrtho[4], myOrtho[5]);
 	}
 	
 	protected void LookAt(){
