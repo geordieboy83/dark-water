@@ -35,7 +35,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	protected float[] myLight = {0.0f,0.0f,1.0f};
 	protected float[] myEye={0,0,30};
 	protected float[] myOrtho={-1,1,-1,1,-1,70};
-	protected final int[] myOrthoLimits={100,100,100,100,300,300};
+	protected final int[] myOrthoLimits={300,300,300,300,300,300};
 	
 	protected float ratio=1;
 	    
@@ -81,7 +81,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 			myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	 
 			
 	        // initialize the triangle vertex array
-	        initShapes2();	        
+//	        initShapes2();			
+			initShapes();	
 
 	               		
 	        
@@ -155,9 +156,39 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
     }  
   
-    
+    private void initShapes(){
+    	
+    	for(Model m: myModels) if(m!=null) m.destroy();
+    	myModels.clear();
+    	
+    	GLES20.glEnable(GLES20.GL_CULL_FACE);
+    	GLES20.glCullFace(GLES20.GL_BACK);
+    	GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+    	
+    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
+    	
+    	
+//      OBJ ship=new OBJ(R.raw.model_just_boat, myContext);
+//      OBJ sail=new OBJ(R.raw.model_just_sail, myContext);
+      
+//      Model myModel=new Model();
+//      myModel.make(ship.myVertices, Model.DATA_VERTEX);
+//      myModel.make(ship.myNormals, Model.DATA_NORMALS);
+//      myModels.add(myModel);
+      
+//      myModel=new Model();
+//      myModel.make(sail.myVertices, Model.DATA_VERTEX);
+//      myModel.make(sail.myNormals, Model.DATA_NORMALS);
+//      myModels.add(myModel);
+
+//      myModels.add(new Model(new OBJ(R.raw.model_just_boat, myContext)));
+//      myModels.add(new Model(new OBJ(R.raw.model_just_sail, myContext)));
+    }
 
     private void initShapes2(){
+    	
+    	for(Model m: myModels) if(m!=null) m.destroy();
+    	myModels.clear();
         
     	short indices0[] = {
     			0,1,2,
@@ -262,7 +293,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         
         myModels.add(myModel);
         
-//        myModel=new Model(new OBJ(R.raw.model_just_boat, myContext));
+
         
         myModel=new Model();
         myModel.addTypedBufferObject(new VBO(coords1));
@@ -290,7 +321,9 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
         myModel.setMode(Models.COLOURS|Models.TEXTURE|Models.NORMALS);
         
         myModels.add(myModel);
+        
 
+        
     
     }    
     
