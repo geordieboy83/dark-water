@@ -28,8 +28,9 @@
 		//gl_Position = uMVPMatrix * a_Position;
 		
 		//vec4 t_Pos=uMVPMatrix * (a_Position*vec4(1.0+sin(u_Time*0.1),1.0+sin(u_Time*0.1),1.0,1.0));
-		//vec4 t_Pos=uMVPMatrix * (a_Position+vec4(v_Normal*sin(u_Time*0.1),0.0));
-		vec4 t_Pos=uMVPMatrix * a_Position;
+		//vec4 t_Pos=uMVPMatrix * (a_Position+vec4(a_Normal*sin(u_Time*0.1),0.0));
+		vec4 t_Pos=uMVPMatrix * (a_Position+vec4(100.0*sin(u_Time*0.1)*a_Normal,0.0));
+		//vec4 t_Pos=uMVPMatrix * a_Position;
 		
         v_Position=t_Pos.xyz;
         
