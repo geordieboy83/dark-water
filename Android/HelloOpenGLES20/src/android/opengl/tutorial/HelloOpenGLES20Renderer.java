@@ -171,8 +171,11 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 //    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_boat,myContext)));
     	myModels.add(new Model(new OBJ(R.raw.model_just_grid,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_volcano,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
 //    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
+    	
+//    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
     	
     	myOrtho[0]=myModels.get(0).min.x*VIEW_FACTOR*ratio;
     	myOrtho[1]=myModels.get(0).max.x*VIEW_FACTOR*ratio;
