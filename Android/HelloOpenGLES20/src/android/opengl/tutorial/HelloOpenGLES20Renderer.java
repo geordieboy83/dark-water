@@ -23,6 +23,8 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     public static final int COLOURS_ONLY=1;
     public static final int TEXTURE_ONLY=2;
     public static final int COLOURS_AND_TEXTURE=3;
+    
+    protected static final float VIEW_FACTOR=1.75f;
 	
 	protected int myRenderMode=FILLED;
     
@@ -55,7 +57,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 	public int getMode() { return myModels.isEmpty()?0:myModels.get(0).getMode(); }
 	
 	
-	protected void Ortho(){
+	protected void Ortho(){		
 		Matrix.orthoM(mProjMatrix, 0, ratio*myOrtho[0], ratio*myOrtho[1], myOrtho[2], myOrtho[3], myOrtho[4], myOrtho[5]);
 	}
 	
@@ -81,6 +83,7 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
 			myProgram=new Program(myContext, R.raw.default_vertex_shader, R.raw.default_fragment_shader);	 
 			
 	        // initialize the triangle vertex array
+			System.out.println("Shapes");
 //	        initShapes2();			
 			initShapes();	
 
@@ -167,8 +170,16 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     	
 //    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_boat,myContext)));
+    	myModels.add(new Model(new OBJ(R.raw.model_just_grid,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
-    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
+//    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
+    	
+    	myOrtho[0]=myModels.get(0).min.x*VIEW_FACTOR*ratio;
+    	myOrtho[1]=myModels.get(0).max.x*VIEW_FACTOR*ratio;
+    	myOrtho[2]=myModels.get(0).min.y*VIEW_FACTOR;
+    	myOrtho[3]=myModels.get(0).max.y*VIEW_FACTOR;
+    	myOrtho[4]=myModels.get(0).min.z*VIEW_FACTOR;
+    	myOrtho[5]=myModels.get(0).max.z*VIEW_FACTOR;
     	
     	
 //      OBJ ship=new OBJ(R.raw.model_just_boat, myContext);

@@ -207,6 +207,7 @@ public class HelloOpenGLES20 extends Activity {
     	txt_ortho=(TextView) l.findViewById(R.id.txt_ortho);
     	txt_ortho.setTypeface(myFont);
     	txt_ortho.setTextColor(Color.WHITE);
+    	txt_ortho.setVisibility(View.GONE);
     	
     	txt_angle=(TextView) l.findViewById(R.id.txt_angle);
     	txt_angle.setTypeface(myFont);
@@ -377,6 +378,9 @@ public class HelloOpenGLES20 extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				//Toast.makeText(mGLView.getContext(), arg2+" clicked", Toast.LENGTH_SHORT).show();
+				txt_ortho.setVisibility(View.VISIBLE);
+				bar_hi.setVisibility(View.VISIBLE);
+				bar_lo.setVisibility(View.VISIBLE);
 				mGLView.mRenderer.mOrthoPlane=arg2;
 				bar_hi.setMax(mGLView.mRenderer.myOrthoLimits[2*arg2+1]);
 				bar_hi.setProgress((int) mGLView.mRenderer.myOrtho[2*arg2+1]);				
@@ -419,6 +423,7 @@ public class HelloOpenGLES20 extends Activity {
 				// TODO Auto-generated method stub
 				
 			}});
+    	bar_lo.setVisibility(View.GONE);
     	
     
     	bar_hi=(SeekBar) l.findViewById(R.id.bar_plane_high);
@@ -447,6 +452,7 @@ public class HelloOpenGLES20 extends Activity {
 			// TODO Auto-generated method stub
 			
 		}});
+    	bar_hi.setVisibility(View.GONE);
 	
 	return l;
 }
