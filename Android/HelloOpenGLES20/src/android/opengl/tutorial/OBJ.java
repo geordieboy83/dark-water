@@ -15,7 +15,9 @@ import android.content.Context;
 public class OBJ {
 	
 	protected float[] myVertices, myNormals, myTextures, myMaterial;
-
+	protected short[] myIndices;
+	protected Vector min=new Vector(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE),
+			max=new Vector(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
 		
 	protected long load(int obj, Context context, ArrayList<Vector> v, ArrayList<Vector> vn, ArrayList<Vector> vt, ArrayList<Face> f){
 		long now=System.currentTimeMillis();
@@ -127,6 +129,10 @@ public class OBJ {
 			
 			
 		}
+		
+		myIndices=new short[f.size()*3];
+		for(int i=0; i<myIndices.length; i++) myIndices[i]=(short)i;
+		
 
 	}
 	
@@ -140,6 +146,26 @@ public class OBJ {
 		System.out.println("Model: "+vertices.size()+" v, "+normals.size()+" vn, "+ textures.size()+" vt, "+ faces.size()+" f, "+loadtime+" ms.");
 		System.out.println("Model: "+myVertices.length+" v*3, "+myNormals.length+" vn*3, "+ (myTextures==null?0:myTextures.length)+" vt*2, "+
 				myVertices.length/9+" = "+myNormals.length/9+" = "+(myTextures==null?0:myTextures.length/6)+" f.");
+		
+		for(int i=0; i<myVertices.length; i+=3){
+			Vector vv=new Vector(myVertices[i], myVertices[i+1], myVertices[i+2]);
+			min.set_coords(
+					(vv.x<min.x?vv.x:min.x),
+					(vv.y<min.y?vv.y:min.y),
+					(vv.z<min.z?vv.z:min.z));
+			max.set_coords(
+					(vv.x>max.x?vv.x:max.x),
+					(vv.y>max.y?vv.y:max.y),
+					(vv.z>max.z?vv.z:max.z));
+		}
+		
+		System.out.println("Model: "+
+				String.format("%.2f",min.x)+" to "+
+				String.format("%.2f",max.x)+"x, "+
+				String.format("%.2f",min.y)+" to "+
+				String.format("%.2f",max.y)+"y, "+
+				String.format("%.2f",min.z)+" to "+
+				String.format("%.2f",max.z)+"z.");
 		
 		vertices.clear(); normals.clear(); textures.clear(); faces.clear();
 		Runtime.getRuntime().gc();

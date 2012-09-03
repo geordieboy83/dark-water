@@ -31,6 +31,8 @@ public class Model {
 	protected static final int DATA_NORMALS=4;
 	protected static final int DATA_INDICES=5;
 	
+	protected Vector min=new Vector(), max=new Vector();
+	
 	
 //	protected int myVBO[]=new int[1];
 //	protected int myIBO[]=new int[1];	
@@ -117,15 +119,22 @@ public class Model {
 	    setMode(
 	    		(myCBO!=null?Models.COLOURS:Models.NONE)|
 	    		(!myTBOs.isEmpty()?Models.TEXTURE:Models.NONE)|
-	    		Models.NORMALS);	
+	    		Models.NORMALS);
+	    if(obj.myIndices!=null)addTypedBufferObject(new IBO(obj.myIndices));
+	    min=Vector.clone(obj.min);
+	    max=Vector.clone(obj.max);
 	}
 	
 	public Model(PHIL obj){
 		this();
 		addTypedBufferObject(new VBO(obj.myVertices));
+//		this.make(obj.myVertices, DATA_VERTEX);
 		addBufferObject(new BufferObject(obj.myNormals, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
-		addTypedBufferObject(new IBO(obj.myIndices));
-	    setMode(Models.NORMALS);	
+//		this.make(obj.myNormals, DATA_NORMALS);
+		if(obj.myIndices!=null)addTypedBufferObject(new IBO(obj.myIndices));
+	    setMode(Models.NORMALS);
+	    min=Vector.clone(obj.min);
+	    max=Vector.clone(obj.max);
 	}
 	
 	

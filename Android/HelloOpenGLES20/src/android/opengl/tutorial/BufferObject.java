@@ -102,11 +102,16 @@ public class BufferObject {
 			GLES20.glVertexAttribPointer(shaders.getAttribute(myAttribute), myPerVertexElements, GLES20.GL_FLOAT, false, 0, 0);
 		}
 		else {			
-			myData.position(0);
-        	GLES20.glVertexAttribPointer(shaders.getColour(), myPerVertexElements, GLES20.GL_FLOAT, false,
-        			myPerVertexElements*BYTES_PER_FLOAT, myData);        
-        
+			myData.position(0);	        
         	GLES20.glEnableVertexAttribArray(shaders.getAttribute(myAttribute));
+        	if(myData instanceof FloatBuffer){
+        		GLES20.glVertexAttribPointer(shaders.getColour(), myPerVertexElements, GLES20.GL_FLOAT, false,
+        			myPerVertexElements*BYTES_PER_FLOAT, myData);        
+        	}
+        	else{
+        		GLES20.glVertexAttribPointer(shaders.getColour(), myPerVertexElements, GLES20.GL_SHORT, false,
+            			myPerVertexElements*BYTES_PER_SHORT, myData);
+        	}
 		}
 	}
 	
