@@ -95,7 +95,7 @@ public class HelloOpenGLES20 extends Activity {
 				
 				int oldMode=mGLView.getMode();
 				int newMode=Models.NONE;
-				newMode=(newMode|(isChecked?Models.COLOURS:Models.NONE)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
+				newMode=(newMode|(oldMode&Models.WIREFRAME)|(isChecked?Models.COLOURS:Models.NONE)|(oldMode&Models.TEXTURE)|(oldMode&Models.NORMALS));
 				mGLView.setMode(newMode);
 				
 				
@@ -116,7 +116,7 @@ public class HelloOpenGLES20 extends Activity {
 				
 				int oldMode=mGLView.getMode();
 				int newMode=Models.NONE;
-				newMode=(newMode|(oldMode&Models.COLOURS)|(isChecked?Models.TEXTURE:Models.NONE)|(oldMode&Models.NORMALS));
+				newMode=(newMode|(oldMode&Models.WIREFRAME)|(oldMode&Models.COLOURS)|(isChecked?Models.TEXTURE:Models.NONE)|(oldMode&Models.NORMALS));
 				mGLView.setMode(newMode);
 				
 //				mGLView.setMode(mGLView.getMode()|
@@ -134,6 +134,7 @@ public class HelloOpenGLES20 extends Activity {
 				btn_colours.setChecked(true);
 				btn_textures.setChecked(true);
 				btn_lights.setChecked(true);
+//				btn_wireframe.setChecked(true);
 				
 //				int oldMode=mGLView.getMode();
 //				mGLView.setMode((byte) ((mGLView.getMode()&Models.WIREFRAME)|Models.COLOURS|Models.TEXTURE|Models.NORMALS));
@@ -169,7 +170,7 @@ public class HelloOpenGLES20 extends Activity {
 				
 				int oldMode=mGLView.getMode();
 				int newMode=Models.NONE;
-				newMode=(newMode|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(isChecked?Models.NORMALS:Models.NONE));
+				newMode=(newMode|(oldMode&Models.WIREFRAME)|(oldMode&Models.COLOURS)|(oldMode&Models.TEXTURE)|(isChecked?Models.NORMALS:Models.NONE));
 				mGLView.setMode(newMode);
 				
 				
