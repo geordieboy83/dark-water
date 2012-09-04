@@ -40,7 +40,10 @@ public class OBJ {
 				
 				if(nextLine.startsWith("vn")){
 //					vn.add(readFloatData(nextLine));
-					vn.add(new Vector(nextLine));
+					Vector normal=new Vector(nextLine);
+					if(normal.magnitude>1) normal.unit();
+					vn.add(normal);
+//					vn.add(new Vector(nextLine));
 				}
 				else if(nextLine.startsWith("vt")){
 //					vt.add(readFloatData(nextLine));

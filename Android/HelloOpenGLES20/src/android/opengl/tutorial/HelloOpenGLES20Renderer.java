@@ -170,19 +170,26 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     	
 //    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_boat,myContext)));
-    	myModels.add(new Model(new OBJ(R.raw.model_just_grid,myContext)));
-//    	myModels.add(new Model(new OBJ(R.raw.model_volcano,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_just_grid,myContext)));
+    	myModels.add(new Model(new OBJ(R.raw.model_volcano,myContext)));    	
+//    	myModels.add(new Model(new OBJ(R.raw.model_stone,myContext)));
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
 //    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
     	
-//    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
+    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
+//    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.radiance),0);
     	
-    	myOrtho[0]=myModels.get(0).min.x*VIEW_FACTOR*ratio;
-    	myOrtho[1]=myModels.get(0).max.x*VIEW_FACTOR*ratio;
-    	myOrtho[2]=myModels.get(0).min.y*VIEW_FACTOR;
-    	myOrtho[3]=myModels.get(0).max.y*VIEW_FACTOR;
-    	myOrtho[4]=myModels.get(0).min.z*VIEW_FACTOR;
-    	myOrtho[5]=myModels.get(0).max.z*VIEW_FACTOR;
+    	float min=Math.min(Math.min(myOrtho[0]=myModels.get(0).min.x, myOrtho[0]=myModels.get(0).min.y), myOrtho[0]=myModels.get(0).min.z);
+    	float max=Math.max(Math.max(myOrtho[0]=myModels.get(0).max.x, myOrtho[0]=myModels.get(0).max.y), myOrtho[0]=myModels.get(0).max.z);
+    	
+    	
+    	myOrtho[0]=min*VIEW_FACTOR*ratio;
+    	myOrtho[1]=max*VIEW_FACTOR*ratio;
+    	myOrtho[2]=min*VIEW_FACTOR;
+    	myOrtho[3]=max*VIEW_FACTOR;
+    	myOrtho[4]=min*VIEW_FACTOR;
+    	myOrtho[5]=max*VIEW_FACTOR;
     	
     	
 //      OBJ ship=new OBJ(R.raw.model_just_boat, myContext);

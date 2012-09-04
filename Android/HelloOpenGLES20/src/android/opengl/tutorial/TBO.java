@@ -16,7 +16,7 @@ public class TBO extends BufferObject {
 	
 	
 	public TBO(float[] data) {
-		super(data,Shaders.ATTR_TEX, Model.COORDINATES_PER_VERTEX);
+		super(data,Shaders.ATTR_TEX, Model.TEXTURE_COORDINATES_PER_VERTEX);
 		myTexture=-1;
 		mySampler2D=Shaders.UNI_TEX;
 		// TODO Auto-generated constructor stub
