@@ -118,7 +118,7 @@ public class Model {
 	    addBufferObject(new BufferObject(obj.myNormals, Shaders.ATTR_NOR, Model.COORDINATES_PER_NORMAL), Model.DATA_NORMALS);
 	    setMode(
 	    		(myCBO!=null?Models.COLOURS:Models.NONE)|
-	    		(!myTBOs.isEmpty()?Models.TEXTURE:Models.NONE)|
+	    		(hasTextures?Models.TEXTURE:Models.NONE)|
 	    		Models.NORMALS);
 	    if(obj.myIndices!=null)addTypedBufferObject(new IBO(obj.myIndices));
 	    min=Vector.clone(obj.min);
