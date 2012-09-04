@@ -164,24 +164,66 @@ public class HelloOpenGLES20Renderer implements GLSurfaceView.Renderer {
     	for(Model m: myModels) if(m!=null) m.destroy();
     	myModels.clear();
     	
-    	GLES20.glEnable(GLES20.GL_CULL_FACE);
-    	GLES20.glCullFace(GLES20.GL_BACK);
+//    	GLES20.glEnable(GLES20.GL_CULL_FACE);
+//    	GLES20.glCullFace(GLES20.GL_BACK);
     	GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     	
+    	
+        long now=System.currentTimeMillis();
+        
+        System.out.println(
+     			"On Begin Model: "+
+     			"Maximum Memory: "+ (int) (Runtime.getRuntime().maxMemory()/(1024*1024))+" MB, "+
+				"Allocated Memory: "+ (int) (Runtime.getRuntime().totalMemory()/(1024*1024))+" MB, "+
+				"Used Memory: "+ (int) ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024))+" MB");
+ 	
+    	
+    	Model mdl;
 //    	myModels.add(new Model(new OBJ(R.raw.model_missile,myContext)));
-//    	myModels.add(new Model(new OBJ(R.raw.model_just_boat,myContext)));
-//    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
+
+//    	mdl=new Model(new OBJ(R.raw.model_just_boat,myContext));
+//    	mdl.addTypedBufferObject(new CBO(mdl.myNBO.myBufferElements,0,0,1,1));
+//    	myModels.add(mdl);
+//    	
+//    	mdl=new Model(new OBJ(R.raw.model_just_sail,myContext));
+//    	mdl.addTypedBufferObject(new CBO(mdl.myNBO.myBufferElements,1,1,1,1));
+//    	myModels.add(mdl);
+
+
+//    	mdl=new Model(new OBJ(R.raw.model_just_wrap,myContext));
+//    	mdl.addTypedBufferObject(new CBO(mdl.myNBO.myBufferElements,1,0,0,1));
+//    	myModels.add(mdl);
+//    	
+//    	mdl=new Model(new OBJ(R.raw.model_just_box,myContext));
+//    	mdl.addTypedBufferObject(new CBO(mdl.myNBO.myBufferElements,1,1,1,1));
+//    	myModels.add(mdl);   	
+    	
 //    	myModels.add(new Model(new OBJ(R.raw.model_just_grid,myContext)));
-    	myModels.add(new Model(new OBJ(R.raw.model_volcano,myContext)));    	
+//    	myModels.add(new Model(new OBJ(R.raw.model_just_handle,myContext)));
+//    	myModels.add(new Model(new OBJ(R.raw.model_volcano,myContext)));    	
 //    	myModels.add(new Model(new OBJ(R.raw.model_stone,myContext)));
-//    	myModels.add(new Model(new OBJ(R.raw.model_just_sail,myContext)));
-//    	myModels.add(new Model(new PHIL(R.raw.model_teapot,myContext)));
     	
-    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
-//    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.radiance),0);
+    	mdl=new Model(new PHIL(R.raw.model_teapot,myContext));
+    	mdl.addTypedBufferObject(new CBO(mdl.myNBO.myBufferElements,0,0,1,0));
+    	myModels.add(mdl);   	
     	
-    	float min=Math.min(Math.min(myOrtho[0]=myModels.get(0).min.x, myOrtho[0]=myModels.get(0).min.y), myOrtho[0]=myModels.get(0).min.z);
-    	float max=Math.max(Math.max(myOrtho[0]=myModels.get(0).max.x, myOrtho[0]=myModels.get(0).max.y), myOrtho[0]=myModels.get(0).max.z);
+    	
+        System.out.println(
+     			"On End Model: "+
+     			"Maximum Memory: "+ (int) (Runtime.getRuntime().maxMemory()/(1024*1024))+" MB, "+
+				"Allocated Memory: "+ (int) (Runtime.getRuntime().totalMemory()/(1024*1024))+" MB, "+
+				"Used Memory: "+ (int) ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024))+" MB. "+
+				"Loading took "+(System.currentTimeMillis()-now)+" ms.");
+
+    	
+//    	myModels.get(0).setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
+    	float min=Float.POSITIVE_INFINITY, max=Float.NEGATIVE_INFINITY;
+    	for(Model m: myModels){
+//    		m.setTexture(Textures.loadTexture(myContext, R.drawable.volcano),0);
+    		min=Math.min(min,Math.min(Math.min(m.min.x, m.min.y), m.min.z));
+    		max=Math.max(max,Math.max(Math.max(m.max.x, m.max.y), m.max.z));
+    		
+    	}
     	
     	
     	myOrtho[0]=min*VIEW_FACTOR*ratio;

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -132,6 +133,13 @@ public class OBJ {
 			
 			
 		}
+	
+		
+		HashSet<Short> myShorts=new HashSet<Short>();
+		for(int i=0; i<f.size()*3; i++) myShorts.add((short)i);
+		int numberofbits= (int) (Math.floor(Math.log(f.size()*3) / Math.log(2))+1);		
+		System.out.println(f.size()*3+" indices ("+numberofbits+"), "+Short.MAX_VALUE+" available ("+Short.SIZE+"), "+myShorts.size()+" in set.");
+		
 		
 		myIndices=new short[f.size()*3];
 		for(int i=0; i<myIndices.length; i++) myIndices[i]=(short)i;
