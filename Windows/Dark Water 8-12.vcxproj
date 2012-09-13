@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A9A5B51E-380F-4F2D-8F5D-57492E612371}</ProjectGuid>
+    <RootNamespace>DarkWater812</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExecutablePath>$(ProgramFiles)\Windows Kits\8.0\bin\x86;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\AL;$(ProgramFiles)\Windows Kits\8.0\Include\um;$(ProgramFiles)\Windows Kits\8.0\Include\shared;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(ProjectDir)\lib\debug;$(ProgramFiles)\Windows Kits\8.0\lib\win8\um\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <ExcludePath>$(ProgramFiles)\Windows Kits\8.0\Include\um;$(ProgramFiles)\Windows Kits\8.0\Include\shared;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);$(MSBuildToolsPath32);$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib;</ExcludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ExecutablePath>$(ProgramFiles)\Windows Kits\8.0\bin\x86;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\AL;$(ProgramFiles)\Windows Kits\8.0\Include\um;$(ProgramFiles)\Windows Kits\8.0\Include\shared;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(ProjectDir)\lib\release;$(ProgramFiles)\Windows Kits\8.0\lib\win8\um\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <ExcludePath>$(ProgramFiles)\Windows Kits\8.0\Include\um;$(ProgramFiles)\Windows Kits\8.0\Include\shared;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);$(MSBuildToolsPath32);$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib;</ExcludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>alut.lib;openal32.lib;ftgl_D.lib;opengl32.lib;glu32.lib;glfw_2012.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:libcmtd.lib %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>alut.lib;openal32.lib;glew32.lib;ftgl.lib;opengl32.lib;glu32.lib;glfw_2012.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:libcmt.lib %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="glfw_mini_01\Boulder.cpp" />
+    <ClCompile Include="glfw_mini_01\Box.cpp" />
+    <ClCompile Include="glfw_mini_01\Entity.cpp" />
+    <ClCompile Include="glfw_mini_01\Globals.cpp" />
+    <ClCompile Include="glfw_mini_01\GLPolygon.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Button.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.ButtonArray.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Console.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Credits.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.FontSystem.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Globals.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Layout.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.List.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Menu.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Screens.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.Slider.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\GUI.TextEffect.cpp" />
+    <ClCompile Include="glfw_mini_01\GUI\SoundManager.cpp" />
+    <ClCompile Include="glfw_mini_01\Island.cpp" />
+    <ClCompile Include="glfw_mini_01\main.cpp" />
+    <ClCompile Include="glfw_mini_01\MovingEntity.cpp" />
+    <ClCompile Include="glfw_mini_01\Player.cpp" />
+    <ClCompile Include="glfw_mini_01\Polygon.cpp" />
+    <ClCompile Include="glfw_mini_01\Projectile.cpp" />
+    <ClCompile Include="glfw_mini_01\Snipershot.cpp" />
+    <ClCompile Include="glfw_mini_01\UI.cpp" />
+    <ClCompile Include="glfw_mini_01\Universe.cpp" />
+    <ClCompile Include="glfw_mini_01\Vector.cpp" />
+    <ClCompile Include="glfw_mini_01\Vertex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="glfw_mini_01\Boulder.h" />
+    <ClInclude Include="glfw_mini_01\Box.h" />
+    <ClInclude Include="glfw_mini_01\Entity.h" />
+    <ClInclude Include="glfw_mini_01\Globals.h" />
+    <ClInclude Include="glfw_mini_01\GLPolygon.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Button.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.ButtonArray.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Console.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Credits.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.FontSystem.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Globals.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Layout.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.List.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Menu.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Screens.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.Slider.h" />
+    <ClInclude Include="glfw_mini_01\GUI\GUI.TextEffect.h" />
+    <ClInclude Include="glfw_mini_01\GUI\SoundManager.h" />
+    <ClInclude Include="glfw_mini_01\Island.h" />
+    <ClInclude Include="glfw_mini_01\MovingEntity.h" />
+    <ClInclude Include="glfw_mini_01\Player.h" />
+    <ClInclude Include="glfw_mini_01\Polygon.h" />
+    <ClInclude Include="glfw_mini_01\Projectile.h" />
+    <ClInclude Include="glfw_mini_01\Snipershot.h" />
+    <ClInclude Include="glfw_mini_01\UI.h" />
+    <ClInclude Include="glfw_mini_01\Universe.h" />
+    <ClInclude Include="glfw_mini_01\Vector.h" />
+    <ClInclude Include="glfw_mini_01\Vertex.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
